@@ -1,0 +1,1619 @@
+'\" t
+.\"     Title: gitty-config
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.26
+.\"      Date: 2026-05-19
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "GITTY\-CONFIG" "5" "2026-05-19" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+gitty-config \- Configuration file format for gitty configuration files.
+.SH "SYNOPSIS"
+.sp
+.nf
+$XDG_CONFIG_HOME/gitty/
+.fi
+.br
+.SH "DESCRIPTION"
+.sp
+If \f(CR$XDG_CONFIG_HOME\fP is either not set or empty, \f(CR$HOME/.config/\fP is used instead.
+.SH "LIST"
+.sp
+Configuration file format a list of Git repos with tags.
+.SS "SYNOPSIS"
+.sp
+.nf
+$XDG_CONFIG_HOME/gitty/list.json
+.fi
+.br
+.SS "LIST JSON SCHEMA"
+.sp
+.if n .RS 4
+.nf
+.fam C
+[
+   {
+      "path" : <string>,
+      "tags" : [ <string>, ... ]
+   },
+]
+.fam
+.fi
+.if n .RE
+.sp
+\fBpath\fP
+.RS 4
+Path to a Git repo.
+.RE
+.sp
+\fBtags\fP
+.RS 4
+A list of tags for list filtering.
+.RE
+.SS "EXAMPLES"
+.sp
+.B Example repo list
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+[
+   {
+      "path" : "/Users/someuser/Developer/DevNotes/",
+      "tags" : [ "notes", "work" ]
+   },
+   {
+      "path" : "/Users/someuser/Developer/Tinkering/",
+      "tags" : [ "personal", "experimental" ]
+   },
+]
+.fam
+.fi
+.if n .RE
+.SH "ALIASES"
+.sp
+Configuration file format for a list of aliases.
+.SS "SYNOPSIS"
+.sp
+.nf
+$XDG_CONFIG_HOME/gitty/aliases.json
+.fi
+.br
+.SS "ALIASES JSON5 SCHEMA"
+.sp
+.if n .RS 4
+.nf
+.fam C
+[
+   {
+      name\&    : <string>,
+      args\&    : [ <string>, ... ],
+      details : <string>,
+      flags\&   : [ <string>, ... ],
+      status\&  : [ <string>, ... ],
+      delay\&   : <integer>,
+      sort\&    : <string>
+   },
+   ...
+]
+.fam
+.fi
+.if n .RE
+.sp
+\fBname\fP
+.RS 4
+Alias name.
+.sp
+.if n .RS 4
+.nf
+.fam C
+name : \*(Aqmyalias\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBargs\fP
+.RS 4
+Array of command arguments.
+.sp
+.B Command string only
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+args : [ \*(Aqgit status \-sb\*(Aq ]
+.fam
+.fi
+.if n .RE
+.sp
+.B Command string and positional arguments
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+args : [ \*(Aqecho "Hello $1"\*(Aq, \*(Aq_\*(Aq, \*(AqWorld\*(Aq ]
+.fam
+.fi
+.if n .RE
+.sp
+First element (required)
+.RS 4
+Command string. Single quotes are required to prevent shell from expanding variables like \f(CR$1\fP.
+.RE
+.sp
+Second element (optional)
+.RS 4
+Zeroth argument (\f(CR$0\fP). Conventionally \f(CR_\fP or the name of the command.
+.RE
+.sp
+Remaining elements (optional)
+.RS 4
+Positional arguments (\f(CR$1\fP, \f(CR$2\fP, etc.) passed to the command.
+.RE
+.RE
+.sp
+\fBdetails\fP
+.RS 4
+Description of an alias.
+.sp
+.if n .RS 4
+.nf
+.fam C
+details : \*(AqMy awesome alias to do stuff\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBflags\fP
+.RS 4
+Array of run subcommand flags.
+.sp
+.if n .RS 4
+.nf
+.fam C
+flags : [ \*(Aqquiet\*(Aq, \*(Aqparallel\*(Aq ]
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBcompact\fP, \fBparallel\fP, \fBquiet\fP
+.RE
+.sp
+\fBstatus\fP
+.RS 4
+Array of run subcommand status logical expressions. To learn more about logical expressions see \fBgitty(1)\fP
+.sp
+.if n .RS 4
+.nf
+.fam C
+status : [ \*(Aq!deleted & added\*(Aq, \*(Aqlocked\*(Aq ]
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBadded\fP, \fBclean\fP, \fBcopied\fP, \fBdeleted\fP, \fBdetached\fP, \fBignored\fP, \fBinitial\-commit\fP, \fBlocked\fP, \fBmodified\fP, \fBneeds\-pull\fP, \fBneeds\-push\fP, \fBneeds\-upstream\fP, \fBrenamed\fP, \fBsubmodule\fP, \fBsub\-commit\-change\fP, \fBsub\-modified\fP, \fBsub\-untracked\fP, \fBtype\-change\fP, \fBunmerged\fP, \fBuntracked\fP
+.RE
+.sp
+\fBdelay\fP
+.RS 4
+Delay between sequential commands in milliseconds.
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+delay : 100
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBsort\fP
+.RS 4
+Sort the output.
+.sp
+.if n .RS 4
+.nf
+.fam C
+sort : \*(Aqunsorted\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBaz\fP, \fBza\fP, \fBunsorted\fP
+.RE
+.SS "EXAMPLES"
+.sp
+.B Aliases schema with \*(Aqfetch\*(Aq alias
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+[
+   {
+      name\&    : \*(Aqfetch\*(Aq,
+      args\&    : [ \*(Aqgit fetch\*(Aq ],
+      details : \*(AqFetch git changes\*(Aq,
+      flags\&   : [ \*(Aqparallel\*(Aq, \*(Aqquiet\*(Aq ],
+      status\&  : [],
+      delay\&   : 0,
+      sort\&    : \*(Aqaz\*(Aq
+   },
+]
+.fam
+.fi
+.if n .RE
+.SH "LAYOUT"
+.sp
+Configuration file format for layout.
+.SS "SYNOPSIS"
+.sp
+.nf
+$XDG_CONFIG_HOME/gitty/layouts/
+.fi
+.br
+.SS "DESCRIPTION"
+.sp
+All layouts can be deleted or renamed except for the \fBbase\fP layout. If gitty can\(cqt find the \fBbase\fP layout, a new one will be generated.
+.SS "LAYOUT JSON5 SCHEMA"
+.sp
+.if n .RS 4
+.nf
+.fam C
+{
+   outputStyle\&    : <string>,
+   executionMode\&  : <string>,
+   countMode\&      : <string>,
+   maxCount\&       : <integer>,
+   maxCountStyle\&  : { <stylings> },
+   aZSort\&         : <bool>,
+   sortOrder\&      : [ <string>, ... ],
+   truncationMode : <string>,
+   components\&     : [ <components>, ... ],
+   symbols\&        : {
+      added\&         : <string>,
+      clean\&         : <string>,
+      copied\&        : <string>,
+      deleted\&       : <string>,
+      detached\&      : <string>,
+      dirty\&         : <string>,
+      ignored\&       : <string>,
+      initialCommit : <string>,
+      locked\&        : <string>,
+      modified\&      : <string>,
+      noUpstream\&    : <string>,
+      pull\&          : <string>,
+      push\&          : <string>,
+      renamed\&       : <string>,
+      separator\&     : <string>,
+      stashes\&       : <string>,
+      typeChange\&    : <string>,
+      truncator\&     : <string>,
+      unmerged\&      : <string>,
+      untracked\&     : <string>,
+      submodule\&     : {
+         prefix\&       : <string>,
+         commit\&       : <string>,
+         modified\&     : <string>,
+         untracked\&    : <string>,
+         suffix\&       : <string>,
+      },
+   },
+}
+.fam
+.fi
+.if n .RE
+.SS "OPTIONS"
+.sp
+\fBoutputStyle\fP
+.RS 4
+Layout output style.
+.sp
+.if n .RS 4
+.nf
+.fam C
+outputStyle : \*(Aqcolumnar\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBcolumnar\fP, \fBlinear\fP
+.RE
+.sp
+\fBexecutionMode\fP
+.RS 4
+Determines in what order to run status and custom components
+.sp
+.if n .RS 4
+.nf
+.fam C
+executionMode : \*(Aqparallel\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES:
+.sp
+\fBparallel\fP \- run status in parallel alongside sequentially executed custom components
+.br
+\fBstatusThenCustom\fP \- run status then custom components sequentially
+.br
+\fBcustomThenStatus\fP \- run custom components sequentially then status
+.sp
+NOTE:
+When any of the custom components uses \fBstatusInput\fP parameter, \fBexecutionMode\fP is switched to \fBstatusThenCustom\fP automatically.
+.RE
+.sp
+\fBcountMode\fP
+.RS 4
+Count position for components with count.
+.sp
+.if n .RS 4
+.nf
+.fam C
+countMode : \*(Aqleading\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBleading\fP, \fBtrailing\fP
+.RE
+.sp
+\fBmaxCount\fP
+.RS 4
+Maximum count number for components with count.
+.sp
+.if n .RS 4
+.nf
+.fam C
+maxCount : 99
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBmaxCountStyle\fP
+.RS 4
+Use styles and colors when count is exceeded \fBmaxCount\fP value.
+.sp
+.if n .RS 4
+.nf
+.fam C
+maxCountStyle : {
+   fg : \*(Aqmagenta\*(Aq,
+   bg : \*(Aqyellow\*(Aq,
+   styles : [ \*(Aqunderline\*(Aq, \*(Aqbold\*(Aq ]
+}
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: See \fBCOLORS & STYLES\fP section.
+.RE
+.sp
+\fBaZSort\fP
+.RS 4
+Global sort direction for all components. Alphanumeric components (e.g. \fBrepo\fP, \fBhead\fP) sort A to Z. Presence\-based components (e.g. \fBmodified\fP, \fBadded\fP) sort from present to absent status.
+.sp
+.if n .RS 4
+.nf
+.fam C
+aZSort : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBsortOrder\fP
+.RS 4
+Defines the sort precedence for status components. Components are evaluated from left to right, with earlier entries taking higher priority.
+.sp
+A \fB!\fP prefix negates the status, meaning the sort is based on the absence of that condition.
+.sp
+.if n .RS 4
+.nf
+.fam C
+sortOrder : [\*(Aqclean\*(Aq, \*(Aq!added\*(Aq, \*(Aqcustom: pwd\*(Aq, \*(Aqrepo\*(Aq]
+
+In this example, components are sorted using the following rules, in order:
+
+1. clean\&        sort repos from clean to dirty.
+2. !added\&       sort repos without added files before repos with added files.
+3. custom: pwd\&  sort alphanumerically by the output of the \*(Aqpwd\*(Aq custom component.
+4. repo\&         sort alphanumerically by repo name.
+.fam
+.fi
+.if n .RE
+.sp
+VALUES:
+.sp
+.if n .RS 4
+.nf
+.fam C
+  ASCENDING\&     | DESCENDING
+ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+  custom: id\&    |
+  head\&          |
+  oid\&           |
+  repo\&          |
+  upstream\&      |
+                |
+  added\&         | !added
+  clean\&         | !clean
+  copied\&        | !copied
+  deleted\&       | !deleted
+  detached\&      | !detached
+  ignored\&       | !ignored
+  initialCommit | !initialCommit
+  locked\&        | !locked
+  modified\&      | !modified
+  noUpstream\&    | !noUpstream
+  pull\&          | !pull
+  push\&          | !push
+  renamed\&       | !renamed
+  stashes\&       | !stashes
+  submodules\&    | !submodules
+  typeChange\&    | !typeChange
+  unmerged\&      | !unmerged
+  untracked\&     | !untracked
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fBtruncationMode\fP
+.RS 4
+Controls how dynamic component output is truncated when it exceeds the available width.
+.sp
+Applies to the following components: \fBcustom\fP, \fBhead\fP, \fBrepo\fP, \fBupstream\fP
+.sp
+Truncated output is shortened using the specified \fBtruncator\fP symbol.
+.sp
+.if n .RS 4
+.nf
+.fam C
+truncationMode : \*(Aqtail\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBhead\fP, \fBmiddle\fP, \fBtail\fP
+.RE
+.sp
+\fBsymbols\fP
+.RS 4
+Select symbols for status components. All fields are required. (see \fBsymbols\fP in \fBLAYOUT JSON5 SCHEMA\fP)
+.RE
+.sp
+\fBcomponents\fP
+.RS 4
+Select which components and in what order to show in the status. All component fields are optional except for the \fBcommand\fP field in \fBcustom\fP component.
+.sp
+.if n .RS 4
+.nf
+.fam C
+components : [
+   { added\&  : {} },
+   { custom : { command : \*(Aqpwd\*(Aq } },
+]
+.fam
+.fi
+.if n .RE
+.sp
+Styling\-related fields like text style, foreground color, and background color are consolidated under \fI<stylings>\fP to avoid redundancy.
+.sp
+\fI<stylings>\fP
+.RS 4
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : <string>
+bg : <string>
+styles : [<string>, ...]
+.fam
+.fi
+.if n .RE
+.sp
+USAGE:
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqmagenta\*(Aq
+bg : \*(Aqyellow\*(Aq
+styles : [ \*(Aqunderline\*(Aq, \*(Aqbold\*(Aq ]
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: See \fBCOLORS & STYLES\fP section.
+.RE
+.sp
+\fBadded\fP
+.RS 4
+Shows that repo has added files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+added : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBcleanOrDirty\fP
+.RS 4
+Shows whether repo is in clean or dirty state.
+.sp
+.if n .RS 4
+.nf
+.fam C
+cleanOrDirty : {
+   showDirty\&   : <bool>,
+   cleanFg\&     : <string>,
+   cleanBg\&     : <string>,
+   cleanStyles : [<string>, ...],
+   dirtyFg\&     : <string>,
+   dirtyBg\&     : <string>,
+   dirtyStyles : [<string>, ...],
+}
+.fam
+.fi
+.if n .RE
+.sp
+showDirty
+.RS 4
+Show \fBdirty\fP symbol when status is dirty, if \fBfalse\fP whitespace is used.
+.sp
+.if n .RS 4
+.nf
+.fam C
+showDirty : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+cleanFg
+.RS 4
+Foreground color for \fBclean\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+cleanFg : \*(Aqred\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+cleanBg
+.RS 4
+Background color for \fBclean\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+cleanBg : \*(Aqext 130\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+cleanStyles
+.RS 4
+Text styles for \fBclean\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+cleanStyles : [ \*(Aqbold\*(Aq, \*(Aqunderline\*(Aq ]
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+dirtyFg
+.RS 4
+Foreground color for \fBdirty\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+dirtyFg : \*(Aqrgb 200 12 10\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+dirtyBg
+.RS 4
+Background color for \fBdirty\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+dirtyBg : \*(Aqhsb 300 0.3 0.8\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+dirtyStyles
+.RS 4
+Text styles for \fBdirty\fP symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+dirtyStyles : [ \*(Aqfaint\*(Aq ]
+.fam
+.fi
+.if n .RE
+.RE
+.RE
+.sp
+\fBcopied\fP
+.RS 4
+Shows that repo had copied files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+copied : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBcustom\fP
+.RS 4
+Runs a custom command and renders its output as a component.
+.sp
+.if n .RS 4
+.nf
+.fam C
+custom : {
+   command\&        : <string>,
+   sortID\&         : <string>,
+   statusInput\&    : <bool>,
+   width\&          : <integer>,
+   truncationMode : <string>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+command
+.RS 4
+Command with arguments. Field is required.
+.sp
+.if n .RS 4
+.nf
+.fam C
+command : \*(Aqgit fetch\*(Aq,
+.fam
+.fi
+.if n .RE
+.sp
+To show default output when there is none use:
+.sp
+.if n .RS 4
+.nf
+.fam C
+command : \*(AqsomeCommand | grep . || echo "default output"\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+sortID
+.RS 4
+An identifier that uniquely names this component so it can be referenced in \fBsortOrder\fP.
+.sp
+.if n .RS 4
+.nf
+.fam C
+sortID : \*(Aqfetch\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+statusInput
+.RS 4
+Pass status output to the custom component via standard input. This switches \fBexecutionMode\fP to \fBstatusThenCustom\fP.
+.sp
+.if n .RS 4
+.nf
+.fam C
+statusInput : false
+.fam
+.fi
+.if n .RE
+.sp
+Status output is expected to match the output of:
+.sp
+.if n .RS 4
+.nf
+.fam C
+git status \-\-branch \-\-show\-stash \-\-porcelain=v2 \-\-ignored=no
+.fam
+.fi
+.if n .RE
+.sp
+Or when \fBignored\fP component is used:
+.sp
+.if n .RS 4
+.nf
+.fam C
+git status \-\-branch \-\-show\-stash \-\-porcelain=v2 \-\-ignored=traditional
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+width
+.RS 4
+Column width.
+.br
+If specified, output will be truncated or expanded to the width.
+.br
+If not specified or set to \fBnull\fP, output will take as much space as it needs.
+.sp
+.if n .RS 4
+.nf
+.fam C
+width : 20
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+truncationMode
+.RS 4
+Truncation mode. Overrides global \fBtruncationMode\fP
+.sp
+.if n .RS 4
+.nf
+.fam C
+truncationMode : \*(Aqtail\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBhead\fP, \fBmiddle\fP, \fBtail\fP
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBdeleted\fP
+.RS 4
+Shows that repo has removed files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+deleted : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBdetached\fP
+.RS 4
+Shows the repo is in a detached HEAD state.
+.sp
+.if n .RS 4
+.nf
+.fam C
+detached : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBhead\fP
+.RS 4
+Shows repo HEAD.
+.sp
+.if n .RS 4
+.nf
+.fam C
+head : {
+   width\&          : <integer>,
+   truncationMode : <string>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+width
+.RS 4
+Column width.
+.br
+If specified, output will be truncated or expanded to the width.
+.br
+If not specified or set to \fBnull\fP, output will take as much space as it needs.
+.sp
+.if n .RS 4
+.nf
+.fam C
+width : 20
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+truncationMode
+.RS 4
+Truncation mode. Overrides global \fBtruncationMode\fP
+.sp
+.if n .RS 4
+.nf
+.fam C
+truncationMode : \*(Aqtail\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBhead\fP, \fBmiddle\fP, \fBtail\fP
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBignored\fP
+.RS 4
+Shows that repo has ignored files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+ignored : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBinitialCommit\fP
+.RS 4
+Shows that repo has no prior commits.
+.sp
+.if n .RS 4
+.nf
+.fam C
+initialCommit : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBlocked\fP
+.RS 4
+Shows that repo is in lock state.
+.sp
+.if n .RS 4
+.nf
+.fam C
+locked : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBmodified\fP
+.RS 4
+Shows that repo has modified files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+modified : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBnoUpstream\fP
+.RS 4
+Shows that the current branch has no upstream tracking branch.
+.sp
+.if n .RS 4
+.nf
+.fam C
+noUpstream : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBoid\fP
+.RS 4
+Shows commit hash.
+.sp
+.if n .RS 4
+.nf
+.fam C
+oid : {
+   length : <integer>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+length
+.RS 4
+Commit hash length.
+.sp
+.if n .RS 4
+.nf
+.fam C
+length : 10
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBinteger\fP from \fB4\fP to \fB40\fP
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBpull\fP
+.RS 4
+Shows that repo has a number of incoming changes.
+.sp
+.if n .RS 4
+.nf
+.fam C
+pull : {
+   hideCount : <bool>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+hideCount
+.RS 4
+Do not show pull count, only symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+hideCount : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBpush\fP
+.RS 4
+Shows that repo has a number of outgoing changes.
+.sp
+.if n .RS 4
+.nf
+.fam C
+push : {
+   hideCount : <bool>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+hideCount
+.RS 4
+Do not show push count, only symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+hideCount : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBrenamed\fP
+.RS 4
+Shows that repo has renamed files.
+.sp
+.if n .RS 4
+.nf
+.fam C
+renamed : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBrepo\fP
+.RS 4
+Shows repo name.
+.sp
+.if n .RS 4
+.nf
+.fam C
+repo : {
+   width\&          : <integer>,
+   truncationMode : <string>,
+   fullPath\&       : <bool>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+width
+.RS 4
+Column width.
+.br
+If specified, output will be truncated or expanded to the width.
+.br
+If not specified or set to \fBnull\fP, output will take as much space as it needs.
+.sp
+.if n .RS 4
+.nf
+.fam C
+width : 10
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+truncationMode
+.RS 4
+Truncation mode. Overrides global \fBtruncationMode\fP
+.sp
+.if n .RS 4
+.nf
+.fam C
+truncationMode : \*(Aqtail\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBhead\fP, \fBmiddle\fP, \fBtail\fP
+.RE
+.sp
+fullPath
+.RS 4
+Show full path or just repo name.
+.sp
+.if n .RS 4
+.nf
+.fam C
+fullPath : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBseparator\fP
+.RS 4
+Shows separator symbol between components.
+.sp
+.if n .RS 4
+.nf
+.fam C
+separator : {
+   symbol : <string>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+symbol
+.RS 4
+Symbol for current separator. If not specified global separator symbol is used. (see \fBsymbols\fP in \fBLAYOUT JSON5 SCHEMA\fP)
+.sp
+.if n .RS 4
+.nf
+.fam C
+symbol : \*(Aq\-\*(Aq
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBstashes\fP
+.RS 4
+Shows that repo has a number of stashed changes.
+.sp
+.if n .RS 4
+.nf
+.fam C
+stashes : {
+   hideCount : <bool>,
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+hideCount
+.RS 4
+Do not show stashes count, only symbol
+.sp
+.if n .RS 4
+.nf
+.fam C
+hideCount : true
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBsubmodules\fP
+.RS 4
+Shows submodule status.
+.sp
+.if n .RS 4
+.nf
+.fam C
+submodules : {
+   components : [
+      { commit\&    : { <stylings> } },
+      { modified\&  : { <stylings> } },
+      { untracked : { <stylings> } }
+   ],
+   <stylings>
+}
+.fam
+.fi
+.if n .RE
+.sp
+components
+.RS 4
+A list of submodule components
+.RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBtypeChange\fP
+.RS 4
+Shows that repo has file type changes (e.g., file to symlink).
+.sp
+.if n .RS 4
+.nf
+.fam C
+typeChange : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBunmerged\fP
+.RS 4
+Shows that repo has files with unresolved merge conflicts.
+.sp
+.if n .RS 4
+.nf
+.fam C
+unmerged : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBuntracked\fP
+.RS 4
+Shows that repo has files not tracked by version control.
+.sp
+.if n .RS 4
+.nf
+.fam C
+untracked : { <stylings> }
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP
+.RS 4
+.RE
+.RE
+.sp
+\fBupstream\fP
+.RS 4
+Shows upstream branch for the current branch.
+.sp
+.if n .RS 4
+.nf
+.fam C
+upstream : {
+   <stylings>,
+   width\&          : <integer>
+   truncationMode : <string>,
+}
+.fam
+.fi
+.if n .RE
+.sp
+\fI<stylings>\fP, width
+.RS 4
+Column width.
+.br
+If specified, output will be truncated or expanded to the width.
+.br
+If not specified or set to \fBnull\fP, output will take as much space as it needs.
+.sp
+.if n .RS 4
+.nf
+.fam C
+width : 20
+.fam
+.fi
+.if n .RE
+.RE
+.sp
+truncationMode
+.RS 4
+Truncation mode. Overrides global \fBtruncationMode\fP
+.sp
+.if n .RS 4
+.nf
+.fam C
+truncationMode : \*(Aqtail\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBhead\fP, \fBmiddle\fP, \fBtail\fP
+.RE
+.RE
+.RE
+.SS "COLORS & STYLES"
+.sp
+\fBfg\fP|\fBbg\fP
+.RS 4
+Foreground and background colors.
+.sp
+Basic
+.RS 4
+Named terminal colors.
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqred\*(Aq
+bg : \*(AqbrightWhite\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBblack\fP, \fBred\fP, \fBgreen\fP, \fByellow\fP, \fBblue\fP, \fBmagenta\fP, \fBcyan\fP, \fBwhite\fP, \fBbrightBlack\fP, \fBbrightRed\fP, \fBbrightGreen\fP, \fBbrightYellow\fP, \fBbrightBlue\fP, \fBbrightMagenta\fP, \fBbrightCyan\fP, \fBbrightWhite\fP
+.RE
+.sp
+Extended
+.RS 4
+256\-color terminal palette.
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqext 110\*(Aq
+bg : \*(Aqext 255\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBinteger\fP from \fB0\fP to \fB255\fP
+.RE
+.sp
+Hex
+.RS 4
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqhex #a96896\*(Aq
+bg : \*(Aqhex #a96\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: Supported hex formats: \fB#FFF\fP, \fB#FFFFFF\fP, \fBFFF\fP, \fBFFFFFF\fP
+.RE
+.sp
+RGB
+.RS 4
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqrgb 10 110 255\*(Aq
+bg : \*(Aqrgb 1 1 0\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBinteger\fP from \fB0\fP to \fB255\fP
+.RE
+.sp
+HSB
+.RS 4
+.sp
+.if n .RS 4
+.nf
+.fam C
+fg : \*(Aqhsb 300 0.3 0.9\*(Aq
+bg : \*(Aqhsb 360 1 1\*(Aq
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBdouble\fP
+.sp
+hue: from \fB0\fP to \fB360\fP
+.br
+saturation: from \fB0\fP to \fB1\fP
+.br
+brightness: from \fB0\fP to \fB1\fP
+.RE
+.RE
+.sp
+\fBstyles\fP
+.RS 4
+Text formatting styles applied to components. Some styles might not be supported in all terminals.
+.sp
+.if n .RS 4
+.nf
+.fam C
+styles : [\*(Aqbold\*(Aq, \*(Aqblink\*(Aq]
+.fam
+.fi
+.if n .RE
+.sp
+VALUES: \fBblink\fP, \fBbold\fP, \fBdoubleUnderline\fP, \fBerase\fP, \fBfaint\fP, \fBfastBlink\fP, \fBfraktur\fP, \fBitalic\fP, \fBreverse\fP, \fBstrikethrough\fP, \fBunderline\fP
+.RE
+.SS "EXAMPLES"
+.sp
+.B Layout schema with all options and components
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+{
+   outputStyle\&    : \*(Aqcolumnar\*(Aq,
+   executionMode\&  : \*(Aqparallel\*(Aq,
+   countMode\&      : \*(Aqleading\*(Aq,
+   maxCount\&       : 99,
+   maxCountStyle\&  : { fg : \*(Aqmagenta\*(Aq, bg : \*(Aqgreen\*(Aq, styles : [ \*(Aqunderline\*(Aq, \*(Aqbold\*(Aq ] },
+   aZSort\&         : true,
+   sortOrder\&      : [ \*(Aqclean\*(Aq, \*(Aqrepo\*(Aq ],
+   truncationMode : \*(Aqtail\*(Aq,
+   components\&     : [
+      { added\&       : { fg : \*(Aqext 214\*(Aq, bg : null, styles : null } },
+      { copied\&      : { fg : null, bg : \*(Aqred\*(Aq, styles : [] } },
+      { custom\&      : {
+            command\&        : \*(Aqgit fetch > /dev/null 2>&1\*(Aq,
+            sortID\&         : \*(Aqfetch\*(Aq,
+            statusInput\&    : false,
+            width\&          : 20,
+            truncationMode : \*(Aqhead\*(Aq,
+            fg\&             : null,
+            bg\&             : null,
+            styles\&         : []
+         }
+      },
+      { deleted\&     : { fg : null, bg : null, styles : [] } },
+      { detached\&    : { fg : null, bg : null, styles : [\*(Aqbold\*(Aq] } },
+      { head\&        : {
+            width\&          : 10,
+            truncationMode : \*(Aqmiddle\*(Aq,
+            fg\&             : \*(AqbrightGreen\*(Aq,
+            bg\&             : null,
+            styles\&         : [\*(Aqbold\*(Aq]
+         }
+      },
+      { ignored\&     : { fg : \*(Aqrgb 200 112 3\*(Aq, bg : null, styles : null } },
+      { locked\&      : { fg : \*(Aqhsb 300 0.4 0.2\*(Aq, bg : null, styles : null } },
+      { modified\&    : { fg : \*(Aqhex #FFF\*(Aq, bg : null, styles : null } },
+      { initialCommit : { fg : \*(Aqext 33\*(Aq, bg : null, styles : null } },
+      { noUpstream\&  : { fg : \*(Aqred\*(Aq, bg : null, styles : null } },
+      { oid\&         : { length : 10, fg : null, bg : null, styles : null } },
+      { cleanOrDirty\&  : {
+            showDirty\&   : true,
+            cleanFg\&     : null,
+            cleanBg\&     : null,
+            cleanStyles : [],
+            dirtyFg\&     : null,
+            dirtyBg\&     : null,
+            dirtyStyles : null
+         }
+      },
+      { pull\&        : { hideCount : false , fg : null, bg : null, styles : null } },
+      { push\&        : { hideCount : true , fg : null, bg : null, styles : null } },
+      { renamed\&     : { fg : null, bg : null, styles : null } },
+      { repo\&        : {
+            width\&          : 10,
+            truncationMode : null,
+            fullPath\&       : true,
+            fg\&             : null,
+            bg\&             : null,
+            styles\&         : null
+         }
+      },
+      { separator\&   : { symbol : \*(Aq\-\-\*(Aq, fg : null, bg : null, styles : null } },
+      { stashes\&     : { hideCount : null , fg : null, bg : null, styles : null } },
+      { submodules\&  : {
+            fg\&         : null,
+            bg\&         : \*(Aqyellow\*(Aq,
+            styles\&     : [\*(Aqblink\*(Aq, \*(Aqunderline\*(Aq],
+            components : [
+               { untracked : { fg : null, bg : null, styles : null } },
+               { modified\&  : { fg : null, bg : null, styles : null } },
+               { commit\&    : { fg : null, bg : null, styles : null } },
+            ]
+         }
+      },
+      { typeChange\&  : { fg : null, bg : null, styles : null } },
+      { unmerged\&    : { fg : null, bg : null, styles : null } },
+      { untracked\&   : { fg : null, bg : null, styles : null } },
+      { upstream\&    : {
+            width\&          : 20,
+            truncationMode : \*(Aqhead\*(Aq,
+            fg\&             : null,
+            bg\&             : null,
+            styles\&         : null
+         }
+      },
+   ],
+   symbols\&        : {
+      added\&         : \*(AqA\*(Aq,
+      clean\&         : \*(Aq✓\*(Aq,
+      copied\&        : \*(AqC\*(Aq,
+      deleted\&       : \*(AqD\*(Aq,
+      detached\&      : \*(Aq⍜\*(Aq,
+      dirty\&         : \*(Aq*\*(Aq,
+      ignored\&       : \*(Aq!\*(Aq,
+      initialCommit : \*(AqI\*(Aq,
+      locked\&        : \*(AqL\*(Aq,
+      modified\&      : \*(AqM\*(Aq,
+      noUpstream\&    : \*(Aq⇞\*(Aq,
+      pull\&          : \*(Aq↓\*(Aq,
+      push\&          : \*(Aq↑\*(Aq,
+      renamed\&       : \*(AqR\*(Aq,
+      separator\&     : \*(Aq \*(Aq,
+      stashes\&       : \*(Aq#\*(Aq,
+      typeChange\&    : \*(AqT\*(Aq,
+      truncator\&     : \*(Aq…\*(Aq,
+      unmerged\&      : \*(AqU\*(Aq,
+      untracked\&     : \*(Aq?\*(Aq,
+      submodule\&     : {
+         prefix\&       : \*(Aq<\*(Aq,
+         commit\&       : \*(AqC\*(Aq,
+         modified\&     : \*(AqM\*(Aq,
+         untracked\&    : \*(Aq?\*(Aq,
+         suffix\&       : \*(Aq>\*(Aq,
+      },
+   },
+}
+.fam
+.fi
+.if n .RE
+.SH "AUTHOR"
+.sp
+Andrii Sem
+.SH "SEE ALSO"
+.sp
+\fBgitty(1)\fP

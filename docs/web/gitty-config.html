@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<title>gitty-config(5)</title>
+<link rel="stylesheet" href="./gitty-style.css">
+<script src="toggle.js"></script>
+</head>
+<body class="manpage toc2 toc-left">
+<div id="header">
+<h1>gitty-config(5) Manual Page</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_synopsis">SYNOPSIS</a></li>
+<li><a href="#_description">DESCRIPTION</a></li>
+<li><a href="#_list">LIST</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_2">SYNOPSIS</a></li>
+<li><a href="#_list_json_schema">LIST JSON SCHEMA</a></li>
+<li><a href="#_examples">EXAMPLES</a></li>
+</ul>
+</li>
+<li><a href="#_aliases">ALIASES</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_3">SYNOPSIS</a></li>
+<li><a href="#_aliases_json5_schema">ALIASES JSON5 SCHEMA</a></li>
+<li><a href="#_examples_2">EXAMPLES</a></li>
+</ul>
+</li>
+<li><a href="#_layout">LAYOUT</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_4">SYNOPSIS</a></li>
+<li><a href="#_description_2">DESCRIPTION</a></li>
+<li><a href="#layout-schema">LAYOUT JSON5 SCHEMA</a></li>
+<li><a href="#_options">OPTIONS</a></li>
+<li><a href="#colors-and-styles">COLORS &amp; STYLES</a></li>
+<li><a href="#_examples_3">EXAMPLES</a></li>
+</ul>
+</li>
+<li><a href="#_author">AUTHOR</a></li>
+<li><a href="#_see_also">SEE ALSO</a></li>
+</ul>
+</div>
+<h2 id="_name">NAME</h2>
+<div class="sectionbody">
+<p>gitty-config - Configuration file format for gitty configuration files.</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content">$XDG_CONFIG_HOME/gitty/</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If <code>$XDG_CONFIG_HOME</code> is either not set or empty, <code>$HOME/.config/</code> is used instead.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list"><a class="anchor" href="#_list"></a>LIST</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Configuration file format a list of Git repos with tags.</p>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_2"><a class="anchor" href="#_synopsis_2"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content">$XDG_CONFIG_HOME/gitty/list.json</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_list_json_schema"><a class="anchor" href="#_list_json_schema"></a>LIST JSON SCHEMA</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">[
+   {
+      "path" : &lt;string&gt;,
+      "tags" : [ &lt;string&gt;, ... ]
+   },
+]</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>path</strong></dt>
+<dd>
+<p>Path to a Git repo.</p>
+</dd>
+<dt class="hdlist1"><strong>tags</strong></dt>
+<dd>
+<p>A list of tags for list filtering.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>EXAMPLES</h3>
+<div class="listingblock">
+<div class="title">Example repo list</div>
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">[
+   {
+      "path" : "/Users/someuser/Developer/DevNotes/",
+      "tags" : [ "notes", "work" ]
+   },
+   {
+      "path" : "/Users/someuser/Developer/Tinkering/",
+      "tags" : [ "personal", "experimental" ]
+   },
+]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aliases"><a class="anchor" href="#_aliases"></a>ALIASES</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Configuration file format for a list of aliases.</p>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_3"><a class="anchor" href="#_synopsis_3"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content">$XDG_CONFIG_HOME/gitty/aliases.json</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aliases_json5_schema"><a class="anchor" href="#_aliases_json5_schema"></a>ALIASES JSON5 SCHEMA</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">[
+   {
+      name    : &lt;string&gt;,
+      args    : [ &lt;string&gt;, ... ],
+      details : &lt;string&gt;,
+      flags   : [ &lt;string&gt;, ... ],
+      status  : [ &lt;string&gt;, ... ],
+      delay   : &lt;integer&gt;,
+      sort    : &lt;string&gt;
+   },
+   ...
+]</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>name</strong></dt>
+<dd>
+<p>Alias name.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">name : 'myalias'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>args</strong></dt>
+<dd>
+<p>Array of command arguments.</p>
+<div class="listingblock">
+<div class="title">Command string only</div>
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">args : [ 'git status -sb' ]</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Command string and positional arguments</div>
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">args : [ 'echo "Hello $1"', '_', 'World' ]</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">First element (required)</dt>
+<dd>
+<p>Command string. Single quotes are required to prevent shell from expanding variables like <code>$1</code>.</p>
+</dd>
+<dt class="hdlist1">Second element (optional)</dt>
+<dd>
+<p>Zeroth argument (<code>$0</code>). Conventionally <code>_</code> or the name of the command.</p>
+</dd>
+<dt class="hdlist1">Remaining elements (optional)</dt>
+<dd>
+<p>Positional arguments (<code>$1</code>, <code>$2</code>, etc.) passed to the command.</p>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>details</strong></dt>
+<dd>
+<p>Description of an alias.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">details : 'My awesome alias to do stuff'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>flags</strong></dt>
+<dd>
+<p>Array of run subcommand flags.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">flags : [ 'quiet', 'parallel' ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>compact</strong>, <strong>parallel</strong>, <strong>quiet</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>status</strong></dt>
+<dd>
+<p>Array of run subcommand status logical expressions. To learn more about logical expressions see <strong><a href="gitty.html">gitty(1)</a></strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">status : [ '!deleted &amp; added', 'locked' ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>added</strong>, <strong>clean</strong>, <strong>copied</strong>, <strong>deleted</strong>, <strong>detached</strong>, <strong>ignored</strong>, <strong>initial-commit</strong>, <strong>locked</strong>, <strong>modified</strong>, <strong>needs-pull</strong>, <strong>needs-push</strong>, <strong>needs-upstream</strong>, <strong>renamed</strong>, <strong>submodule</strong>, <strong>sub-commit-change</strong>, <strong>sub-modified</strong>, <strong>sub-untracked</strong>, <strong>type-change</strong>, <strong>unmerged</strong>, <strong>untracked</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>delay</strong></dt>
+<dd>
+<p>Delay between sequential commands in milliseconds.<br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">delay : 100</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>sort</strong></dt>
+<dd>
+<p>Sort the output.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">sort : 'unsorted'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>az</strong>, <strong>za</strong>, <strong>unsorted</strong></p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples_2"><a class="anchor" href="#_examples_2"></a>EXAMPLES</h3>
+<div class="listingblock">
+<div class="title">Aliases schema with 'fetch' alias</div>
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">[
+   {
+      name    : 'fetch',
+      args    : [ 'git fetch' ],
+      details : 'Fetch git changes',
+      flags   : [ 'parallel', 'quiet' ],
+      status  : [],
+      delay   : 0,
+      sort    : 'az'
+   },
+]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_layout"><a class="anchor" href="#_layout"></a>LAYOUT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Configuration file format for layout.</p>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_4"><a class="anchor" href="#_synopsis_4"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content">$XDG_CONFIG_HOME/gitty/layouts/</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_description_2"><a class="anchor" href="#_description_2"></a>DESCRIPTION</h3>
+<div class="paragraph">
+<p>All layouts can be deleted or renamed except for the <strong>base</strong> layout. If gitty can&#8217;t find the <strong>base</strong> layout, a new one will be generated.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="layout-schema"><a class="anchor" href="#layout-schema"></a>LAYOUT JSON5 SCHEMA</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">{
+   outputStyle    : &lt;string&gt;,
+   executionMode  : &lt;string&gt;,
+   countMode      : &lt;string&gt;,
+   maxCount       : &lt;integer&gt;,
+   maxCountStyle  : { &lt;stylings&gt; },
+   aZSort         : &lt;bool&gt;,
+   sortOrder      : [ &lt;string&gt;, ... ],
+   truncationMode : &lt;string&gt;,
+   components     : [ &lt;components&gt;, ... ],
+   symbols        : {
+      added         : &lt;string&gt;,
+      clean         : &lt;string&gt;,
+      copied        : &lt;string&gt;,
+      deleted       : &lt;string&gt;,
+      detached      : &lt;string&gt;,
+      dirty         : &lt;string&gt;,
+      ignored       : &lt;string&gt;,
+      initialCommit : &lt;string&gt;,
+      locked        : &lt;string&gt;,
+      modified      : &lt;string&gt;,
+      noUpstream    : &lt;string&gt;,
+      pull          : &lt;string&gt;,
+      push          : &lt;string&gt;,
+      renamed       : &lt;string&gt;,
+      separator     : &lt;string&gt;,
+      stashes       : &lt;string&gt;,
+      typeChange    : &lt;string&gt;,
+      truncator     : &lt;string&gt;,
+      unmerged      : &lt;string&gt;,
+      untracked     : &lt;string&gt;,
+      submodule     : {
+         prefix       : &lt;string&gt;,
+         commit       : &lt;string&gt;,
+         modified     : &lt;string&gt;,
+         untracked    : &lt;string&gt;,
+         suffix       : &lt;string&gt;,
+      },
+   },
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_options"><a class="anchor" href="#_options"></a>OPTIONS</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>outputStyle</strong></dt>
+<dd>
+<p>Layout output style.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">outputStyle : 'columnar'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>columnar</strong>, <strong>linear</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>executionMode</strong></dt>
+<dd>
+<p>Determines in what order to run status and custom components</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">executionMode : 'parallel'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES:</p>
+</div>
+<div class="paragraph">
+<p><strong>parallel</strong> - run status in parallel alongside sequentially executed custom components<br>
+<strong>statusThenCustom</strong> - run status then custom components sequentially<br>
+<strong>customThenStatus</strong> - run custom components sequentially then status</p>
+</div>
+<div class="paragraph">
+<p>NOTE:
+When any of the custom components uses <strong>statusInput</strong> parameter, <strong>executionMode</strong> is switched to <strong>statusThenCustom</strong> automatically.</p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>countMode</strong></dt>
+<dd>
+<p>Count position for components with count.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">countMode : 'leading'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>leading</strong>, <strong>trailing</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>maxCount</strong></dt>
+<dd>
+<p>Maximum count number for components with count.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">maxCount : 99</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>maxCountStyle</strong></dt>
+<dd>
+<p>Use styles and colors when count is exceeded <strong>maxCount</strong> value.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">maxCountStyle : {
+   fg : 'magenta',
+   bg : 'yellow',
+   styles : [ 'underline', 'bold' ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: See <a href="#colors-and-styles"><strong>COLORS &amp; STYLES</strong></a> section.</p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>aZSort</strong></dt>
+<dd>
+<p>Global sort direction for all components. Alphanumeric components (e.g. <strong>repo</strong>, <strong>head</strong>) sort A to Z. Presence-based components (e.g. <strong>modified</strong>, <strong>added</strong>) sort from present to absent status.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">aZSort : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>sortOrder</strong></dt>
+<dd>
+<p>Defines the sort precedence for status components. Components are evaluated from left to right, with earlier entries taking higher priority.</p>
+<div class="paragraph">
+<p>A <strong>!</strong> prefix negates the status, meaning the sort is based on the absence of that condition.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sortOrder : ['clean', '!added', 'custom: pwd', 'repo']
+
+In this example, components are sorted using the following rules, in order:
+
+1. clean        sort repos from clean to dirty.
+2. !added       sort repos without added files before repos with added files.
+3. custom: pwd  sort alphanumerically by the output of the 'pwd' custom component.
+4. repo         sort alphanumerically by repo name.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>  ASCENDING     | DESCENDING
+ -----------------------------
+  custom: id    |
+  head          |
+  oid           |
+  repo          |
+  upstream      |
+                |
+  added         | !added
+  clean         | !clean
+  copied        | !copied
+  deleted       | !deleted
+  detached      | !detached
+  ignored       | !ignored
+  initialCommit | !initialCommit
+  locked        | !locked
+  modified      | !modified
+  noUpstream    | !noUpstream
+  pull          | !pull
+  push          | !push
+  renamed       | !renamed
+  stashes       | !stashes
+  submodules    | !submodules
+  typeChange    | !typeChange
+  unmerged      | !unmerged
+  untracked     | !untracked</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><strong>truncationMode</strong></dt>
+<dd>
+<p>Controls how dynamic component output is truncated when it exceeds the available width.</p>
+<div class="paragraph">
+<p>Applies to the following components: <strong>custom</strong>, <strong>head</strong>, <strong>repo</strong>, <strong>upstream</strong></p>
+</div>
+<div class="paragraph">
+<p>Truncated output is shortened using the specified <strong>truncator</strong> symbol.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">truncationMode : 'tail'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>head</strong>, <strong>middle</strong>, <strong>tail</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>symbols</strong></dt>
+<dd>
+<p>Select symbols for status components. All fields are required. (see <strong>symbols</strong> in <a href="#layout-schema"><strong>LAYOUT JSON5 SCHEMA</strong></a>)</p>
+</dd>
+<dt class="hdlist1"><strong>components</strong></dt>
+<dd>
+<p>Select which components and in what order to show in the status. All component fields are optional except for the <strong>command</strong> field in <strong>custom</strong> component.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">components : [
+   { added  : {} },
+   { custom : { command : 'pwd' } },
+]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Styling-related fields like text style, foreground color, and background color are consolidated under <em>&lt;stylings&gt;</em> to avoid redundancy.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>fg : &lt;string&gt;
+bg : &lt;string&gt;
+styles : [&lt;string&gt;, ...]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>USAGE:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>fg : 'magenta'
+bg : 'yellow'
+styles : [ 'underline', 'bold' ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: See <a href="#colors-and-styles"><strong>COLORS &amp; STYLES</strong></a> section.</p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>added</strong></dt>
+<dd>
+<p>Shows that repo has added files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>added : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>cleanOrDirty</strong></dt>
+<dd>
+<p>Shows whether repo is in clean or dirty state.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>cleanOrDirty : {
+   showDirty   : &lt;bool&gt;,
+   cleanFg     : &lt;string&gt;,
+   cleanBg     : &lt;string&gt;,
+   cleanStyles : [&lt;string&gt;, ...],
+   dirtyFg     : &lt;string&gt;,
+   dirtyBg     : &lt;string&gt;,
+   dirtyStyles : [&lt;string&gt;, ...],
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">showDirty</dt>
+<dd>
+<p>Show <strong>dirty</strong> symbol when status is dirty, if <strong>false</strong> whitespace is used.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">showDirty : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">cleanFg</dt>
+<dd>
+<p>Foreground color for <strong>clean</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">cleanFg : 'red'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">cleanBg</dt>
+<dd>
+<p>Background color for <strong>clean</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">cleanBg : 'ext 130'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">cleanStyles</dt>
+<dd>
+<p>Text styles for <strong>clean</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">cleanStyles : [ 'bold', 'underline' ]</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">dirtyFg</dt>
+<dd>
+<p>Foreground color for <strong>dirty</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">dirtyFg : 'rgb 200 12 10'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">dirtyBg</dt>
+<dd>
+<p>Background color for <strong>dirty</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">dirtyBg : 'hsb 300 0.3 0.8'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">dirtyStyles</dt>
+<dd>
+<p>Text styles for <strong>dirty</strong> symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">dirtyStyles : [ 'faint' ]</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>copied</strong></dt>
+<dd>
+<p>Shows that repo had copied files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>copied : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>custom</strong></dt>
+<dd>
+<p>Runs a custom command and renders its output as a component.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">custom : {
+   command        : &lt;string&gt;,
+   sortID         : &lt;string&gt;,
+   statusInput    : &lt;bool&gt;,
+   width          : &lt;integer&gt;,
+   truncationMode : &lt;string&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">command</dt>
+<dd>
+<p>Command with arguments. Field is required.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">command : 'git fetch',</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To show default output when there is none use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">command : 'someCommand | grep . || echo "default output"'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">sortID</dt>
+<dd>
+<p>An identifier that uniquely names this component so it can be referenced in <strong>sortOrder</strong>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">sortID : 'fetch'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">statusInput</dt>
+<dd>
+<p>Pass status output to the custom component via standard input. This switches <strong>executionMode</strong> to <strong>statusThenCustom</strong>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">statusInput : false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Status output is expected to match the output of:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">git status --branch --show-stash --porcelain=v2 --ignored=no</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or when <strong>ignored</strong> component is used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">git status --branch --show-stash --porcelain=v2 --ignored=traditional</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">width</dt>
+<dd>
+<p>Column width.<br>
+If specified, output will be truncated or expanded to the width.<br>
+If not specified or set to <strong>null</strong>, output will take as much space as it needs.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">width : 20</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">truncationMode</dt>
+<dd>
+<p>Truncation mode. Overrides global <strong>truncationMode</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">truncationMode : 'tail'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>head</strong>, <strong>middle</strong>, <strong>tail</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>deleted</strong></dt>
+<dd>
+<p>Shows that repo has removed files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>deleted : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>detached</strong></dt>
+<dd>
+<p>Shows the repo is in a detached HEAD state.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>detached : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>head</strong></dt>
+<dd>
+<p>Shows repo HEAD.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>head : {
+   width          : &lt;integer&gt;,
+   truncationMode : &lt;string&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">width</dt>
+<dd>
+<p>Column width.<br>
+If specified, output will be truncated or expanded to the width.<br>
+If not specified or set to <strong>null</strong>, output will take as much space as it needs.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">width : 20</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">truncationMode</dt>
+<dd>
+<p>Truncation mode. Overrides global <strong>truncationMode</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">truncationMode : 'tail'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>head</strong>, <strong>middle</strong>, <strong>tail</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>ignored</strong></dt>
+<dd>
+<p>Shows that repo has ignored files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>ignored : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>initialCommit</strong></dt>
+<dd>
+<p>Shows that repo has no prior commits.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>initialCommit : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>locked</strong></dt>
+<dd>
+<p>Shows that repo is in lock state.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>locked : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>modified</strong></dt>
+<dd>
+<p>Shows that repo has modified files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>modified : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>noUpstream</strong></dt>
+<dd>
+<p>Shows that the current branch has no upstream tracking branch.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>noUpstream : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>oid</strong></dt>
+<dd>
+<p>Shows commit hash.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>oid : {
+   length : &lt;integer&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">length</dt>
+<dd>
+<p>Commit hash length.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">length : 10</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>integer</strong> from <strong>4</strong> to <strong>40</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>pull</strong></dt>
+<dd>
+<p>Shows that repo has a number of incoming changes.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>pull : {
+   hideCount : &lt;bool&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">hideCount</dt>
+<dd>
+<p>Do not show pull count, only symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">hideCount : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>push</strong></dt>
+<dd>
+<p>Shows that repo has a number of outgoing changes.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>push : {
+   hideCount : &lt;bool&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">hideCount</dt>
+<dd>
+<p>Do not show push count, only symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">hideCount : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>renamed</strong></dt>
+<dd>
+<p>Shows that repo has renamed files.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>renamed : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>repo</strong></dt>
+<dd>
+<p>Shows repo name.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>repo : {
+   width          : &lt;integer&gt;,
+   truncationMode : &lt;string&gt;,
+   fullPath       : &lt;bool&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">width</dt>
+<dd>
+<p>Column width.<br>
+If specified, output will be truncated or expanded to the width.<br>
+If not specified or set to <strong>null</strong>, output will take as much space as it needs.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">width : 10</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">truncationMode</dt>
+<dd>
+<p>Truncation mode. Overrides global <strong>truncationMode</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">truncationMode : 'tail'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>head</strong>, <strong>middle</strong>, <strong>tail</strong></p>
+</div>
+</dd>
+<dt class="hdlist1">fullPath</dt>
+<dd>
+<p>Show full path or just repo name.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fullPath : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>separator</strong></dt>
+<dd>
+<p>Shows separator symbol between components.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>separator : {
+   symbol : &lt;string&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">symbol</dt>
+<dd>
+<p>Symbol for current separator. If not specified global separator symbol is used. (see <strong>symbols</strong> in <a href="#layout-schema"><strong>LAYOUT JSON5 SCHEMA</strong></a>)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">symbol : '-'</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>stashes</strong></dt>
+<dd>
+<p>Shows that repo has a number of stashed changes.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>stashes : {
+   hideCount : &lt;bool&gt;,
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">hideCount</dt>
+<dd>
+<p>Do not show stashes count, only symbol</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">hideCount : true</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>submodules</strong></dt>
+<dd>
+<p>Shows submodule status.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">submodules : {
+   components : [
+      { commit    : { &lt;stylings&gt; } },
+      { modified  : { &lt;stylings&gt; } },
+      { untracked : { &lt;stylings&gt; } }
+   ],
+   &lt;stylings&gt;
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">components</dt>
+<dd>
+<p>A list of submodule components</p>
+</dd>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>typeChange</strong></dt>
+<dd>
+<p>Shows that repo has file type changes (e.g., file to symlink).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>typeChange : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>unmerged</strong></dt>
+<dd>
+<p>Shows that repo has files with unresolved merge conflicts.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>unmerged : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>untracked</strong></dt>
+<dd>
+<p>Shows that repo has files not tracked by version control.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>untracked : { &lt;stylings&gt; }</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>upstream</strong></dt>
+<dd>
+<p>Shows upstream branch for the current branch.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>upstream : {
+   &lt;stylings&gt;,
+   width          : &lt;integer&gt;
+   truncationMode : &lt;string&gt;,
+}</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;stylings&gt;</em></dt>
+<dt class="hdlist1">width</dt>
+<dd>
+<p>Column width.<br>
+If specified, output will be truncated or expanded to the width.<br>
+If not specified or set to <strong>null</strong>, output will take as much space as it needs.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">width : 20</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">truncationMode</dt>
+<dd>
+<p>Truncation mode. Overrides global <strong>truncationMode</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">truncationMode : 'tail'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>head</strong>, <strong>middle</strong>, <strong>tail</strong></p>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="colors-and-styles"><a class="anchor" href="#colors-and-styles"></a>COLORS &amp; STYLES</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>fg</strong>|<strong>bg</strong></dt>
+<dd>
+<p>Foreground and background colors.</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Basic</dt>
+<dd>
+<p>Named terminal colors.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fg : 'red'
+bg : 'brightWhite'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>black</strong>, <strong>red</strong>, <strong>green</strong>, <strong>yellow</strong>, <strong>blue</strong>, <strong>magenta</strong>, <strong>cyan</strong>, <strong>white</strong>, <strong>brightBlack</strong>, <strong>brightRed</strong>, <strong>brightGreen</strong>, <strong>brightYellow</strong>, <strong>brightBlue</strong>, <strong>brightMagenta</strong>, <strong>brightCyan</strong>, <strong>brightWhite</strong></p>
+</div>
+</dd>
+<dt class="hdlist1">Extended</dt>
+<dd>
+<p>256-color terminal palette.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fg : 'ext 110'
+bg : 'ext 255'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>integer</strong> from <strong>0</strong> to <strong>255</strong></p>
+</div>
+</dd>
+<dt class="hdlist1">Hex</dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fg : 'hex #a96896'
+bg : 'hex #a96'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: Supported hex formats: <strong>#FFF</strong>, <strong>#FFFFFF</strong>, <strong>FFF</strong>, <strong>FFFFFF</strong></p>
+</div>
+</dd>
+<dt class="hdlist1">RGB</dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fg : 'rgb 10 110 255'
+bg : 'rgb 1 1 0'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>integer</strong> from <strong>0</strong> to <strong>255</strong></p>
+</div>
+</dd>
+<dt class="hdlist1">HSB</dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">fg : 'hsb 300 0.3 0.9'
+bg : 'hsb 360 1 1'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>double</strong></p>
+</div>
+<div class="paragraph">
+<p>hue: from <strong>0</strong> to <strong>360</strong><br>
+saturation: from <strong>0</strong> to <strong>1</strong><br>
+brightness: from <strong>0</strong> to <strong>1</strong></p>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1"><strong>styles</strong></dt>
+<dd>
+<p>Text formatting styles applied to components. Some styles might not be supported in all terminals.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">styles : ['bold', 'blink']</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>VALUES: <strong>blink</strong>, <strong>bold</strong>, <strong>doubleUnderline</strong>, <strong>erase</strong>, <strong>faint</strong>, <strong>fastBlink</strong>, <strong>fraktur</strong>, <strong>italic</strong>, <strong>reverse</strong>, <strong>strikethrough</strong>, <strong>underline</strong></p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples_3"><a class="anchor" href="#_examples_3"></a>EXAMPLES</h3>
+<div class="listingblock">
+<div class="title">Layout schema with all options and components</div>
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">{
+   outputStyle    : 'columnar',
+   executionMode  : 'parallel',
+   countMode      : 'leading',
+   maxCount       : 99,
+   maxCountStyle  : { fg : 'magenta', bg : 'green', styles : [ 'underline', 'bold' ] },
+   aZSort         : true,
+   sortOrder      : [ 'clean', 'repo' ],
+   truncationMode : 'tail',
+   components     : [
+      { added       : { fg : 'ext 214', bg : null, styles : null } },
+      { copied      : { fg : null, bg : 'red', styles : [] } },
+      { custom      : {
+            command        : 'git fetch &gt; /dev/null 2&gt;&amp;1',
+            sortID         : 'fetch',
+            statusInput    : false,
+            width          : 20,
+            truncationMode : 'head',
+            fg             : null,
+            bg             : null,
+            styles         : []
+         }
+      },
+      { deleted     : { fg : null, bg : null, styles : [] } },
+      { detached    : { fg : null, bg : null, styles : ['bold'] } },
+      { head        : {
+            width          : 10,
+            truncationMode : 'middle',
+            fg             : 'brightGreen',
+            bg             : null,
+            styles         : ['bold']
+         }
+      },
+      { ignored     : { fg : 'rgb 200 112 3', bg : null, styles : null } },
+      { locked      : { fg : 'hsb 300 0.4 0.2', bg : null, styles : null } },
+      { modified    : { fg : 'hex #FFF', bg : null, styles : null } },
+      { initialCommit : { fg : 'ext 33', bg : null, styles : null } },
+      { noUpstream  : { fg : 'red', bg : null, styles : null } },
+      { oid         : { length : 10, fg : null, bg : null, styles : null } },
+      { cleanOrDirty  : {
+            showDirty   : true,
+            cleanFg     : null,
+            cleanBg     : null,
+            cleanStyles : [],
+            dirtyFg     : null,
+            dirtyBg     : null,
+            dirtyStyles : null
+         }
+      },
+      { pull        : { hideCount : false , fg : null, bg : null, styles : null } },
+      { push        : { hideCount : true , fg : null, bg : null, styles : null } },
+      { renamed     : { fg : null, bg : null, styles : null } },
+      { repo        : {
+            width          : 10,
+            truncationMode : null,
+            fullPath       : true,
+            fg             : null,
+            bg             : null,
+            styles         : null
+         }
+      },
+      { separator   : { symbol : '--', fg : null, bg : null, styles : null } },
+      { stashes     : { hideCount : null , fg : null, bg : null, styles : null } },
+      { submodules  : {
+            fg         : null,
+            bg         : 'yellow',
+            styles     : ['blink', 'underline'],
+            components : [
+               { untracked : { fg : null, bg : null, styles : null } },
+               { modified  : { fg : null, bg : null, styles : null } },
+               { commit    : { fg : null, bg : null, styles : null } },
+            ]
+         }
+      },
+      { typeChange  : { fg : null, bg : null, styles : null } },
+      { unmerged    : { fg : null, bg : null, styles : null } },
+      { untracked   : { fg : null, bg : null, styles : null } },
+      { upstream    : {
+            width          : 20,
+            truncationMode : 'head',
+            fg             : null,
+            bg             : null,
+            styles         : null
+         }
+      },
+   ],
+   symbols        : {
+      added         : 'A',
+      clean         : '✓',
+      copied        : 'C',
+      deleted       : 'D',
+      detached      : '⍜',
+      dirty         : '*',
+      ignored       : '!',
+      initialCommit : 'I',
+      locked        : 'L',
+      modified      : 'M',
+      noUpstream    : '⇞',
+      pull          : '↓',
+      push          : '↑',
+      renamed       : 'R',
+      separator     : ' ',
+      stashes       : '#',
+      typeChange    : 'T',
+      truncator     : '…',
+      unmerged      : 'U',
+      untracked     : '?',
+      submodule     : {
+         prefix       : '&lt;',
+         commit       : 'C',
+         modified     : 'M',
+         untracked    : '?',
+         suffix       : '&gt;',
+      },
+   },
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author"><a class="anchor" href="#_author"></a>AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Andrii Sem</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong><a href="gitty.html">gitty(1)</a></strong></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated May 19, 2026
+</div>
+</div>
+</body>
+</html>

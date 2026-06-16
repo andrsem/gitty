@@ -1,0 +1,33 @@
+version = 1
+
+[[annotations]]
+path = [
+   "*/gitty-tests.xctestplan",
+   "**/Resources/*",
+   "**/TestResources/**",
+   "docs/**"
+]
+SPDX-FileCopyrightText = "© 2025 Andrii Sem"
+SPDX-License-Identifier = "MIT"
+
+
+[[annotations]]
+path = [
+   ".gitignore",
+   ".github/**",
+   ".gitattributes",
+   ".swift-format",
+   ".editorconfig",
+   ".swiftpm/xcode/xcshareddata/**",
+   ".swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata",
+   "Package.resolved",
+   "Makefile"
+]
+SPDX-FileCopyrightText = "© 2025 Andrii Sem"
+SPDX-License-Identifier = "CC0-1.0"
+
+
+[[annotations]]
+path = "images/*"
+SPDX-FileCopyrightText = "© 2025 Andrii Sem"
+SPDX-License-Identifier = "CC-BY-4.0"

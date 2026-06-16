@@ -1,0 +1,70 @@
+// This file uses JSON5 format https://json5.org
+// Layout documentation can be found at https://andrsem.github.io/gitty/web/gitty-config.html or by using 'man gitty-config'
+
+{
+   outputStyle    : 'linear',
+   executionMode  : 'parallel',
+   countMode      : 'trailing',
+   maxCount       : 9,
+   maxCountStyle  : { fg: 'red' },
+   aZSort         : true,
+   sortOrder      : [ 'clean', 'repo' ],
+   truncationMode : 'tail',
+   components     : [
+      { cleanOrDirty : { showDirty: true, cleanFg : 'green', cleanStyles : ['bold'], dirtyFg : 'red' } },
+      { separator    : {} },
+      { repo         : {} },
+      { separator    : {} },
+      { pull         : { hideCount: true, fg : 'blue'  } },
+      { push         : { hideCount: true, fg : 'yellow'  } },
+      { noUpstream   : { fg : 'magenta' } },
+      { separator    : {} },
+      { stashes      : {} },
+      { submodules   : { fg : 'red', styles : ['italic'] } },
+
+    //  Optional custom components. Uncomment to use
+
+    //  Git fetch without output.
+    //  To fetch before status, set 'executionMode' to 'customThenStatus'.
+    //  { custom       : { command: 'git fetch > /dev/null 2>&1' } },
+
+    //  Shows the latest commit message.
+    //  { custom       : { command : 'git --no-pager log -1 --pretty="%s (%cr)"' } },
+
+    //  Shows the count of modified (M) files.
+    //  { custom       : {
+    //        statusInput : true,
+    //        command: "awk '$1~/^[12u]$/ && $2~/M/ { c++ } END { if(c) print c }'"
+    //     }
+    //  },
+   ],
+   symbols        : {
+      added          : 'A',
+      clean          : '✓',
+      copied         : 'C',
+      deleted        : 'D',
+      detached       : '⍜',
+      dirty          : '*',
+      ignored        : '!',
+      initialCommit  : 'I',
+      locked         : 'L',
+      modified       : 'M',
+      noUpstream     : '⇞',
+      pull           : '↓',
+      push           : '↑',
+      renamed        : 'R',
+      separator      : ' ',
+      stashes        : '#',
+      typeChange     : 'T',
+      truncator      : '…',
+      unmerged       : 'U',
+      untracked      : '?',
+      submodule      : {
+         prefix        : '<',
+         commit        : 'C',
+         modified      : 'M',
+         untracked     : '?',
+         suffix        : '>',
+      },
+   },
+}

@@ -1,0 +1,68 @@
+// This file uses JSON5 format https://json5.org
+// Layout documentation can be found at https://andrsem.github.io/gitty/web/gitty-config.html or by using 'man gitty-config'
+
+{
+   outputStyle    : 'columnar',
+   executionMode  : 'parallel',
+   countMode      : 'trailing',
+   maxCount       : 99,
+   maxCountStyle  : { styles : [ 'underline', 'bold' ], fg : 'magenta' },
+   aZSort         : true,
+   sortOrder      : [ 'clean', 'repo' ],
+   truncationMode : 'tail',
+   components     : [
+      { cleanOrDirty : { cleanFg : 'green', cleanStyles : ['bold'] } },
+      { modified     : { fg : 'red' } },
+      { added        : { fg : 'ext 214' } },
+      { deleted      : { fg : 'red' } },
+      { renamed      : { fg : 'red' } },
+      { untracked    : { fg : 'red' } },
+      { separator    : {} },
+      { repo         : { width: 18 } },
+      { separator    : {} },
+      { pull         : { fg : 'blue' } },
+      { push         : { fg : 'yellow' } },
+      { noUpstream   : { fg : 'magenta' } },
+      { head         : { width: 10, styles : ['bold'] } },
+      { separator    : {} },
+      { stashes      : {} },
+
+    //  Optional custom components. Uncomment to use
+
+    //  Git fetch without output.
+    //  To fetch before status, set 'executionMode' to 'customThenStatus'.
+    //  { custom      : { command: 'git fetch > /dev/null 2>&1' } },
+
+    //  Shows the latest commit message.
+    //  { custom      : { command : 'git --no-pager log -1 --pretty="%s (%cr)"' } },
+   ],
+   symbols        : {
+      added          : 'A',
+      clean          : '✓',
+      copied         : 'C',
+      deleted        : 'D',
+      detached       : '⍜',
+      dirty          : '*',
+      ignored        : '!',
+      initialCommit  : 'I',
+      locked         : 'L',
+      modified       : 'M',
+      noUpstream     : '⇞',
+      pull           : '↓',
+      push           : '↑',
+      renamed        : 'R',
+      separator      : ' ',
+      stashes        : '#',
+      typeChange     : 'T',
+      truncator      : '…',
+      unmerged       : 'U',
+      untracked      : '?',
+      submodule      : {
+         prefix        : '<',
+         commit        : 'C',
+         modified      : 'M',
+         untracked     : '?',
+         suffix        : '>',
+      },
+   },
+}

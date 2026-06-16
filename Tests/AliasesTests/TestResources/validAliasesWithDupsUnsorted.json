@@ -1,0 +1,29 @@
+[
+   {
+      name    : 'pull',
+      args    : [ 'git pull' ],
+      details : 'Pull git changes',
+      flags   : [ 'parallel', 'quiet' ],
+      status  : [ 'needs-pull' ],
+      delay   : 0,
+      sort    : 'az'
+   },
+   {
+      name    : 'pull',
+      args    : [ 'git pull' ],
+      details : 'Pull git changes',
+      flags   : [ 'parallel', 'quiet' ],
+      status  : [ 'needs-pull' ],
+      delay   : 0,
+      sort    : 'az'
+   },
+   {
+      name    : 'fetch',
+      args    : [ 'git fetch' ],
+      details : 'Fetch git changes',
+      flags   : [ 'parallel', 'quiet' ],
+      status  : [],
+      delay   : 0,
+      sort    : 'az'
+   },
+]

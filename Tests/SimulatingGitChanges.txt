@@ -1,0 +1,109 @@
+// SPDX-FileCopyrightText: © 2025 Andrii Sem
+// SPDX-License-Identifier: MIT
+
+---------------------------
+Simulating ordinary change
+
+
+git init ordinary-repo
+cd ordinary-repo
+echo "line 1" > file.txt
+git add file.txt
+echo
+git status --porcelain=v2
+
+
+Expected output:
+
+1 A. N... 000000 100644 100644 0000000000000000000000000000000000000000 89b24ecec50c07aef0d6640a2a9f6dc354a33125 file.txt
+
+
+
+
+--------------------------
+Simulating unmerged change
+
+
+git init unmerged-repo
+cd unmerged-repo
+echo "line 1" > file.txt
+git add file.txt
+git commit -m "initial commit"
+git checkout -b feature
+echo "feature change" > file.txt
+git commit -am "feature edit"
+git checkout main
+echo "main change" > file.txt
+git commit -am "main edit"
+git merge feature
+echo
+git status --porcelain=v2
+
+
+Expected output:
+
+u UU N... 100644 100644 100644 100644 89b24ecec50c07aef0d6640a2a9f6dc354a33125 065e9d1c71aa492e9588ac906ff84e1b552aa388 8647c5d0268eabfbfb6bc65b30678570c2df4583 file.txt
+
+
+
+
+-----------------------------------
+Simulating renamed or copied change
+
+
+git init rename-repo
+cd rename-repo
+echo "content" > file.txt
+git add file.txt
+git commit -m "initial"
+git mv file.txt renamed.txt
+echo
+git status --porcelain=v2
+
+
+Expected output:
+2 R. N... 100644 100644 100644 d95f3ad14dee633a758d2e331151e950dd13e4ed d95f3ad14dee633a758d2e331151e950dd13e4ed R100 renamed.txt   file.txt
+
+
+
+
+------------------------------
+Simulating untracked change
+
+
+git init untracked-repo
+cd untracked-repo
+echo "hello" > tracked.txt
+git add tracked.txt
+git commit -m "initial commit"
+echo "untracked stuff" > untracked.txt
+echo
+git status --porcelain=v2
+
+
+Expected output:
+
+? untracked.txt
+
+
+
+
+------------------------------
+Simulating ignored change
+
+
+git init ignored-repo
+cd ignored-repo
+echo "hello" > tracked.txt
+echo "ignored.txt" > .gitignore
+git add .
+git commit -m "initial commit"
+echo "this should be ignored" > ignored.txt
+echo
+git status --porcelain=v2 --ignored
+
+
+Expected output:
+
+! ignored.txt
+

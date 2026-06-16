@@ -1,0 +1,912 @@
+'\" t
+.\"     Title: gitty
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.26
+.\"      Date: 2026-05-19
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "GITTY" "1" "2026-05-19" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+gitty \- Customizable status line tool for multiple Git repos
+.SH "SYNOPSIS"
+.sp
+.nf
+\fBgitty\fP \fI<subcommand>\fP
+\fBgitty\fP [\fB\-\-config\-path\fP] [\fB\-\-regex\-reference\fP]
+.fi
+.br
+.SH "DESCRIPTION"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Manage the list of Git repos (see \fBLIST SUBCOMMAND\fP section).
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Show the status of managed Git repos (see \fBSTATUS SUBCOMMAND\fP section).
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Execute aliases or shell commands on managed repos (see \fBRUN SUBCOMMAND\fP section).
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Choose status filters to decide when to execute aliases or shell commands.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Create aliases for frequently used commands (see \fBALIASES\fP section in \fBgitty\-config(5)\fP).
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Filter repos by tags or by path pattern.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Create new layouts. Choose and style status components, or create custom ones (see \fBLAYOUT\fP section in \fBgitty\-config(5)\fP).
+.RE
+.SH "GLOBAL OPTIONS"
+.sp
+\fB\-\-config\-path\fP
+.RS 4
+Print path to the configuration directory.
+.RE
+.sp
+\fB\-\-regex\-reference\fP
+.RS 4
+Print a quick reference for regex path matching.
+.sp
+.B Display the regex reference in a pager
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+gitty \-\-regex\-reference | less
+.fam
+.fi
+.if n .RE
+.RE
+.SH "LOGICAL EXPRESSIONS"
+.sp
+Tags used in all subcommands and statuses used in run subcommand can be selected using logical expressions.
+.sp
+.B \fBOperators\fP
+.br
+.sp
+.nf
+\fB|\fP\&   OR
+\fB&\fP\&   AND
+\fB!\fP\&   NOT
+\fB( )\fP grouping
+.fi
+.br
+.sp
+.B \fBExamples\fP
+.br
+.sp
+.nf
+gitty status \-\-tags \*(Aqbackend & macOS\*(Aq
+gitty list \-\-tags \*(Aqbackend | !deprecated\*(Aq
+gitty run \-\-tags \*(Aqbackend & (!ux|macOS)\*(Aq
+gitty run \*(Aqpwd\*(Aq \-\-status \*(Aqadded & !modified\*(Aq
+.fi
+.br
+.SH "SUBCOMMANDS"
+.sp
+.nf
+\fBstatus\fP\&   Show the status of managed Git repos. (default)
+\fBlist\fP\&     Manage the list of Git repos.
+\fBrun\fP\&      Execute aliases or shell commands on managed repos.
+.fi
+.br
+.SH "STATUS SUBCOMMAND"
+.sp
+\fBstatus\fP, \fBs\fP
+.RS 4
+Show the status of managed Git repos.
+.RE
+.SS "SYNOPSIS"
+.sp
+.nf
+\fBgitty status\fP [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-tags\fP \fI<expr>\fP.\|.\|.] [\fB\-\-layout\fP \fI<name>\fP]
+\fBgitty status\fP [\fB\-\-scan\fP \fI<path>\fP.\|.\|.] [\fB\-\-depth\fP \fI<integer>\fP] [\fB\-\-layout\fP \fI<name>\fP]
+.fi
+.br
+.SS "DESCRIPTION"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+By default, status only checks local changes. To include remote changes, enable \f(CRfetch\fP custom component. (see \fBIMPROVING STATUS ACCURACY\fP)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fBstatus\fP is the default subcommand.
+.sp
+.B Equivalent Commands
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+gitty
+gitty s
+gitty status
+.fam
+.fi
+.if n .RE
+.RE
+.SS "OPTIONS"
+.sp
+\fB\-i, \-\-include\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by including paths matching regexes.
+.RE
+.sp
+\fB\-e, \-\-exclude\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by excluding paths matching regexes.
+.RE
+.sp
+\fB\-F, \-\-fixed\-string\fP
+.RS 4
+Treat the pattern as a literal string instead of a regex.
+.RE
+.sp
+\fB\-t, \-\-tags\fP \fI<expr>\fP.\|.\|.
+.RS 4
+Filter repos by tags using logical expressions. Use \fBnone\fP for untagged repos.
+.RE
+.sp
+\fB\-s, \-\-scan\fP \fI<path>\fP.\|.\|.
+.RS 4
+Find and show status for repos starting at paths.
+.RE
+.sp
+\fB\-d, \-\-depth\fP \fI<integer>\fP
+.RS 4
+Scan depth.
+.sp
+VALUES: \fB0\fP = infinity, \fB1+\fP = n levels
+.br
+DEFAULT: \fB3\fP
+.RE
+.sp
+\fB\-l, \-\-layout\fP \fI<name>\fP
+.RS 4
+Select status layout.
+.sp
+VALUES: \fBbase\fP, \fBmini\fP (or any custom layout name)
+.br
+DEFAULT: \fBbase\fP
+.RE
+.SS "EXAMPLES"
+.sp
+\fBgitty\fP
+.RS 4
+Show status for all managed repos
+.RE
+.sp
+\fBgitty \-\-include\fP \*(Aq2026\*(Aq
+.RS 4
+Show status for repos with paths containing \f(CR2026\fP
+.RE
+.sp
+\fBgitty \-\-tags\fP work personal
+.RS 4
+Show status for repos with tags \f(CRwork\fP or \f(CRpersonal\fP
+.RE
+.sp
+\fBgitty \-\-tags\fP \*(Aq!backend\*(Aq
+.RS 4
+Show status for repos excluding \f(CRbackend\fP tag
+.RE
+.sp
+\fBgitty \-\-tags\fP none
+.RS 4
+Show status for repos without any tags
+.RE
+.sp
+\fBgitty \-\-scan\fP ~/projects ~/other
+.RS 4
+Find and show status for repos starting at paths
+.RE
+.sp
+\fBgitty \-\-layout\fP mini
+.RS 4
+Use the \f(CRmini\fP layout for more compact output
+.RE
+.SS "IMPROVING STATUS ACCURACY"
+.sp
+For the most accurate status, consider using the \f(CRfetch\fP custom component to check for upstream changes (this will impact status performance). To fetch before status, set \fBexecutionMode\fP to \fBcustomThenStatus\fP.
+.sp
+.B Example: Partial layout using a fetch component
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+{
+   executionMode : \*(AqcustomThenStatus\*(Aq,
+   ...
+   components\&    : [
+      { custom : { command: \*(Aqgit fetch > /dev/null 2>&1\*(Aq } },
+   ]
+   ...
+}
+.fam
+.fi
+.if n .RE
+.SS "STATUS PERFORMANCE"
+.sp
+Performance is limited by the execution time of the following command on the slowest repo:
+.sp
+.if n .RS 4
+.nf
+.fam C
+git status \-\-branch \-\-show\-stash \-\-porcelain=v2
+.fam
+.fi
+.if n .RE
+.sp
+\fBIMPROVING STATUS PERFORMANCE\fP
+.RS 4
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Set \fBexecutionMode\fP to \fBparallel\fP. (see \fBLAYOUT\fP section in \fBgitty\-config(5)\fP)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Avoid many custom components with long\-running commands.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+For strategies to improve performance in large worktrees, see \c
+.URL "https://git\-scm.com/docs/git\-status#_untracked_files_and_performance" "git status documentation" "."
+.RE
+.RE
+.sp
+See \fBgitty\-config(5)\fP for more on layout configuration.
+.SH "LIST SUBCOMMAND"
+.sp
+\fBlist\fP, \fBl\fP
+.RS 4
+Manage the list of Git repos.
+.RE
+.SS "SYNOPSIS"
+.sp
+.nf
+\fBgitty list\fP [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-tags\fP \fI<expr>\fP.\|.\|.] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-scan\fP \fI<path>\fP.\|.\|.] [\fB\-\-depth\fP \fI<integer>\fP]
+\fBgitty list\fP [\fB\-\-scan\-add\fP \fI<path>\fP.\|.\|.] [\fB\-\-depth\fP \fI<integer>\fP] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-add\fP \fI<path>\fP.\|.\|.] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-remove\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-add\-tags\fP \fI<tags>\fP.\|.\|.] [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-remove\-tags\fP \fI<tags>\fP.\|.\|.] [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-verbose\fP]
+\fBgitty list\fP [\fB\-\-retag\fP \fI<old>\fP \fI<new>\fP] [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-verbose\fP]
+.fi
+.br
+.SS "DESCRIPTION"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Repos with duplicate or invalid paths, as well as duplicate tags are ignored and automatically cleaned up.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fBnone\fP is a reserved tag to represent untagged repos.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Tag actions are performed on matched repos when \fB\-\-include\fP or \fB\-\-exclude\fP options are used, or on all repos when omitted.
+.RE
+.SS "OPTIONS"
+.sp
+\fB\-i, \-\-include\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by including paths matching regexes.
+.RE
+.sp
+\fB\-e, \-\-exclude\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by excluding paths matching regexes.
+.RE
+.sp
+\fB\-F, \-\-fixed\-string\fP
+.RS 4
+Treat the pattern as a literal string instead of a regex.
+.RE
+.sp
+\fB\-t, \-\-tags\fP \fI<expr>\fP.\|.\|.
+.RS 4
+Filter repos by tags using logical expressions. Use \fBnone\fP for untagged repos.
+.RE
+.sp
+\fB\-s, \-\-scan\fP \fI<path>\fP.\|.\|.
+.RS 4
+Find and print Git repo paths starting at paths.
+.RE
+.sp
+\fB\-A, \-\-scan\-add\fP \fI<path>\fP.\|.\|.
+.RS 4
+Find and add Git repos to the list starting at paths.
+.RE
+.sp
+\fB\-d, \-\-depth\fP \fI<integer>\fP
+.RS 4
+Scan depth.
+.sp
+VALUES: \fB0\fP = infinity, \fB1+\fP = n levels
+.br
+DEFAULT: \fB3\fP
+.RE
+.sp
+\fB\-a, \-\-add\fP \fI<path>\fP.\|.\|.
+.RS 4
+Add new Git repos to the list.
+.RE
+.sp
+\fB\-r, \-\-remove\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Remove repos from the list matching the path regexes.
+.RE
+.sp
+\fB\-\-add\-tags\fP \fI<tags>\fP.\|.\|.
+.RS 4
+Add one or more new tags.
+.RE
+.sp
+\fB\-\-remove\-tags\fP \fI<tags>\fP.\|.\|.
+.RS 4
+Remove one or more tags.
+.RE
+.sp
+\fB\-\-retag\fP \fI<old>\fP \fI<new>\fP
+.RS 4
+Rename tag from \fB\fI<old>\fP\fP to \fB\fI<new>\fP\fP.
+.RE
+.sp
+\fB\-v, \-\-verbose\fP
+.RS 4
+Print the list verbosely.
+.RE
+.SS "EXAMPLES"
+.sp
+\fBgitty list\fP
+.RS 4
+List all repos
+.RE
+.sp
+\fBgitty list \-\-verbose\fP
+.RS 4
+List all repos with full paths
+.RE
+.sp
+\fBgitty list \-\-include\fP \*(Aq2026\*(Aq
+.RS 4
+Filter repos by \f(CR2026\fP path pattern
+.RE
+.sp
+\fBgitty list \-\-tags\fP work personal
+.RS 4
+Filter repos by \f(CRwork\fP or \f(CRpersonal\fP tags
+.RE
+.sp
+\fBgitty list \-\-add\fP ~/projects/myrepo  ~/projects/oldrepo
+.RS 4
+Add repos to the list
+.RE
+.sp
+\fBgitty list \-\-remove\fP "^$HOME/Developer/Tinkering/$"
+.RS 4
+Remove repo with exact path regex at \f(CR~/Developer/Tinkering/\fP
+.RE
+.sp
+\fBgitty list \-\-remove\fP \*(Aqold\*(Aq \*(Aq2024\*(Aq
+.RS 4
+Remove repos matching the path patterns
+.RE
+.sp
+\fBgitty list \-\-scan\fP ~/projects ~/other
+.RS 4
+Scan for repos starting at paths
+.RE
+.sp
+\fBgitty list \-\-scan\-add\fP ~/projects \fB\-\-depth\fP 2
+.RS 4
+Scan at 2 levels deep and automatically add found repos to the list
+.RE
+.sp
+\fBgitty list \-\-add\-tags\fP production critical
+.RS 4
+Add tags to all repos
+.RE
+.sp
+\fBgitty list \-\-add\-tags\fP archived \fB\-\-include\fP \*(Aq(?i)myREpO\*(Aq
+.RS 4
+Add tags to repos matching the case\-insensitive path pattern
+.RE
+.sp
+\fBgitty list \-\-remove\-tags\fP tag1 tag2
+.RS 4
+Remove tags
+.RE
+.sp
+\fBgitty list \-\-retag\fP old\-name new\-name
+.RS 4
+Rename a tag
+.RE
+.SH "RUN SUBCOMMAND"
+.sp
+\fBrun\fP, \fBr\fP
+.RS 4
+Execute aliases or shell commands on managed repos.
+.RE
+.SS "SYNOPSIS"
+.sp
+.nf
+\fBgitty run\fP [\fB\-\-aliases\fP] [\fB\-\-compact\fP]
+\fBgitty run\fP \fI<alias>\fP|\fI<command>\fP [\fB\-\-include\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-exclude\fP \fI<pattern>\fP.\|.\|.] [\fB\-\-fixed\-string\fP] [\fB\-\-tags\fP \fI<expr>\fP.\|.\|.] [\fB\-\-status\fP \fI<expr>\fP.\|.\|.] [\fB\-\-delay\fP \fI<ms>\fP] [\fB\-\-sort\fP \fI<direction>\fP] [\fB\-\-compact\fP] [\fB\-\-parallel\fP] [\fB\-\-quiet\fP]
+.fi
+.br
+.SS "DESCRIPTION"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Using \fB\-\-status\fP always triggers a full status check on every matched repo before executing. See \fBRUN PERFORMANCE\fP.
+.RE
+.SS "ARGUMENTS"
+.sp
+\fI<alias>\fP|\fI<command>\fP
+.RS 4
+The alias name or shell command to execute.
+.RE
+.SS "ALIAS SYNTAX"
+.sp
+Aliases are defined in \f(CRaliases.json\fP. You can pass additional arguments to an alias at runtime.
+.sp
+\fBgitty run\fP \*(Aq\fI<alias>\fP [\fI<args>\fP.\|.\|.]\*(Aq [\fIoptions\fP.\|.\|.]
+.RS 4
+.sp
+.B Example: \*(Aqmyls\*(Aq alias with arguments: \*(Aq\fBls \-a\fP\*(Aq becomes: \*(Aq\fBls \-a \-l ~\fP\*(Aq
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+gitty run \*(Aqmyls \-l ~\*(Aq \-\-compact
+.fam
+.fi
+.if n .RE
+.sp
+\fI<alias>\fP
+.RS 4
+Alias name (required, quoted)
+.RE
+.sp
+\fI<args>\fP.\|.\|.
+.RS 4
+Additional alias arguments. Appended after the alias arguments.
+.RE
+.sp
+\fI<options>\fP.\|.\|.
+.RS 4
+Gitty flags and options (e.g., \fB\-\-compact\fP, \fB\-\-parallel\fP).
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fB\-\-compact\fP, \fB\-\-parallel\fP, and \fB\-\-quiet\fP flags combine with alias configuration flags.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+\fB\-\-delay\fP and \fB\-\-sort\fP options override their corresponding alias configuration values.
+.RE
+.RE
+.RE
+.SS "COMMAND SYNTAX"
+.sp
+You can execute arbitrary shell commands. Use single quotes to protect variables from shell expansion.
+.sp
+\fBgitty run\fP \*(Aq\fI<command>\fP\*(Aq [\fI<name>\fP [\fI<args>\fP.\|.\|.]] [\fI<options>\fP.\|.\|.]
+.RS 4
+.sp
+.B Example: Using positional arguments
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+gitty run \*(Aqecho "hello $1"\*(Aq _ "world" \-\-parallel
+.fam
+.fi
+.if n .RE
+.sp
+\fI<command>\fP
+.RS 4
+Command string. Single quotes are required to prevent shell from expanding variables like \f(CR$1\fP.
+.RE
+.sp
+\fI<name>\fP
+.RS 4
+Zeroth argument (\f(CR$0\fP). Conventionally \f(CR_\fP or the name of the command.
+.RE
+.sp
+\fI<args>\fP.\|.\|.
+.RS 4
+Positional arguments (\f(CR$1\fP, \f(CR$2\fP, etc.) passed to the command.
+.RE
+.sp
+\fI<options>\fP.\|.\|.
+.RS 4
+Gitty flags and options (e.g., \fB\-\-compact\fP, \fB\-\-parallel\fP).
+.RE
+.RE
+.SS "OPTIONS"
+.sp
+\fB\-a, \-\-aliases\fP
+.RS 4
+Print available aliases.
+.RE
+.sp
+\fB\-i, \-\-include\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by including paths matching regexes.
+.RE
+.sp
+\fB\-e, \-\-exclude\fP \fI<pattern>\fP.\|.\|.
+.RS 4
+Filter repos by excluding paths matching regexes.
+.RE
+.sp
+\fB\-F, \-\-fixed\-string\fP
+.RS 4
+Treat the pattern as a literal string instead of a regex.
+.RE
+.sp
+\fB\-t, \-\-tags\fP \fI<expr>\fP.\|.\|.
+.RS 4
+Filter repos by tags using logical expressions. Use \fBnone\fP for untagged repos.
+.RE
+.sp
+\fB\-s, \-\-status\fP \fI<expr>\fP
+.RS 4
+Filter repos by status using logical expressions.
+.sp
+VALUES: \fBadded\fP, \fBclean\fP, \fBcopied\fP, \fBdeleted\fP, \fBdetached\fP, \fBignored\fP, \fBinitial\-commit\fP, \fBlocked\fP, \fBmodified\fP, \fBneeds\-pull\fP, \fBneeds\-push\fP, \fBneeds\-upstream\fP, \fBrenamed\fP, \fBsubmodule\fP, \fBsub\-commit\-change\fP, \fBsub\-modified\fP, \fBsub\-untracked\fP, \fBtype\-change\fP, \fBunmerged\fP, \fBuntracked\fP
+.RE
+.sp
+\fB\-d, \-\-delay\fP \fI<ms>\fP
+.RS 4
+Delay between sequential commands in milliseconds.
+.sp
+DEFAULT: \fB0\fP
+.RE
+.sp
+\fB\-S, \-\-sort\fP \fI<direction>\fP
+.RS 4
+Sort the output.
+.sp
+VALUES: \fBaz\fP, \fBza\fP, \fBunsorted\fP
+.br
+DEFAULT: \fBaz\fP
+.RE
+.sp
+\fB\-c, \-\-compact\fP
+.RS 4
+Print output compactly.
+.RE
+.sp
+\fB\-p, \-\-parallel\fP
+.RS 4
+Execute commands in parallel.
+.RE
+.sp
+\fB\-q, \-\-quiet\fP
+.RS 4
+Skip gitty confirmation prompt.
+.RE
+.SS "EXAMPLES"
+.sp
+\fBgitty run\fP \*(Aq\fIgit pull\fP\*(Aq
+.RS 4
+Run \f(CRgit pull\fP on all managed repos.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIgit fetch\fP\*(Aq \fB\-\-tags\fP \fIwork\fP
+.RS 4
+Run on repos with specific tags.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIgit status\fP\*(Aq \fB\-\-parallel\fP
+.RS 4
+Execute in parallel.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIgit fetch\fP\*(Aq \fB\-\-quiet\fP
+.RS 4
+Run command without confirmation prompt.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIgit push\fP\*(Aq \fB\-\-status\fP \fIneeds\-push\fP
+.RS 4
+Run on repos needing push.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIfetch\fP\*(Aq
+.RS 4
+Run pre\-configured \f(CRfetch\fP alias on all managed repos.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIpull\fP\*(Aq \fB\-\-tags\fP \fInone\fP
+.RS 4
+Run pre\-configured \f(CRpull\fP alias on repos without tags.
+.RE
+.sp
+\fBgitty run\fP \*(Aq\fIfetch\fP\*(Aq \fB\-\-include\fP \*(Aq\fI2026\fP\*(Aq
+.RS 4
+Run pre\-configured \f(CRfetch\fP alias on repos matching \f(CR2026\fP pattern.
+.RE
+.SS "RUN PERFORMANCE"
+.sp
+By default, the run subcommand executes commands on a list of repos sequentially.
+.sp
+\fBIMPROVING RUN PERFORMANCE\fP
+.RS 4
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Use \fB\-\-parallel\fP flag to run commands in parallel.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Use \fB\-\-sort unsorted\fP option. (this mostly improves perceived performance as the output is printed as it becomes available)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.  sp -1
+.  IP \(bu 2.3
+.\}
+Avoid status filters. Using them triggers a status check first.
+.RE
+.RE
+.SH "CONFIGURATION"
+.sp
+To get path to the configuration directory use:
+.sp
+.if n .RS 4
+.nf
+.fam C
+gitty \-\-config\-path
+.fam
+.fi
+.if n .RE
+.sp
+The configuration documentation can be found in \fBgitty\-config(5)\fP.
+.SH "FILES"
+.sp
+\fB$XDG_CONFIG_HOME/gitty/list.json\fP
+.RS 4
+List of Git repos.
+.RE
+.sp
+\fB$XDG_CONFIG_HOME/gitty/aliases.json\fP
+.RS 4
+Aliases configuration file.
+.RE
+.sp
+\fB$XDG_CONFIG_HOME/gitty/layouts/\fP
+.RS 4
+Directory containing gitty layouts.
+.RE
+.sp
+\fB$XDG_CONFIG_HOME/gitty/layouts/base.json\fP
+.RS 4
+Base layout. Required, will be regenerated when deleted.
+.RE
+.SH "ENVIRONMENT"
+.sp
+\fB$XDG_CONFIG_HOME\fP
+.RS 4
+Directory for user\-specific configurations. Defaults to \fB$HOME/.config\fP if unset.
+.RE
+.sp
+\fBGITTY_OUTPUT_SIZE_KB\fP
+.RS 4
+stdout buffer size. Default: \fB2048 KB (2 MB)\fP
+.RE
+.sp
+\fBGITTY_ERROR_SIZE_KB\fP
+.RS 4
+stderr buffer size. Default: \fB128 KB\fP
+.RE
+.sp
+\fBGITTY_MAX_TASKS_LIMIT\fP
+.RS 4
+Max number of concurrent tasks. If unset, the limit is dynamically calculated based on the process\(cqs available file descriptors to prevent \f(CREMFILE\fP (Too many open files) errors.
+.sp
+.B Default Calculation Formula
+.br
+.sp
+.if n .RS 4
+.nf
+.fam C
+(availableFileDescriptors \- reserve) / fileDescriptorsPerTask
+.fam
+.fi
+.if n .RE
+.sp
+On macOS, where the default soft limit is often \fB256\fP (\f(CRulimit \-n\fP), max tasks limit is 20:
+.sp
+.if n .RS 4
+.nf
+.fam C
+(256 \- 176) / 4 = 20
+.fam
+.fi
+.if n .RE
+.RE
+.SH "AUTHOR"
+.sp
+Andrii Sem
+.SH "SEE ALSO"
+.sp
+\fBgitty\-config(5)\fP

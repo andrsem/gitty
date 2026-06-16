@@ -1,0 +1,1114 @@
+= gitty-config(5)
+:doctype: manpage
+:see-gitty: xref:gitty.adoc[gitty(1)]
+
+== NAME
+
+gitty-config - Configuration file format for gitty configuration files.
+
+
+== SYNOPSIS
+[verse]
+$XDG_CONFIG_HOME/gitty/
+
+
+== DESCRIPTION
+
+If `$XDG_CONFIG_HOME` is either not set or empty, `$HOME/.config/` is used instead.
+
+
+== LIST
+Configuration file format a list of Git repos with tags.
+
+=== SYNOPSIS
+[verse]
+$XDG_CONFIG_HOME/gitty/list.json
+
+
+=== LIST JSON SCHEMA
+
+```json
+[
+   {
+      "path" : <string>,
+      "tags" : [ <string>, ... ]
+   },
+]
+```
+
+*path*::
+Path to a Git repo.
+
+*tags*::
+A list of tags for list filtering.
+
+
+=== EXAMPLES
+.Example repo list
+```json
+[
+   {
+      "path" : "/Users/someuser/Developer/DevNotes/",
+      "tags" : [ "notes", "work" ]
+   },
+   {
+      "path" : "/Users/someuser/Developer/Tinkering/",
+      "tags" : [ "personal", "experimental" ]
+   },
+]
+```
+
+
+== ALIASES
+Configuration file format for a list of aliases.
+
+=== SYNOPSIS
+[verse]
+$XDG_CONFIG_HOME/gitty/aliases.json
+
+
+=== ALIASES JSON5 SCHEMA
+
+```json5
+[
+   {
+      name    : <string>,
+      args    : [ <string>, ... ],
+      details : <string>,
+      flags   : [ <string>, ... ],
+      status  : [ <string>, ... ],
+      delay   : <integer>,
+      sort    : <string>
+   },
+   ...
+]
+```
+
+*name*::
+Alias name.
++
+```json5
+name : 'myalias'
+```
+
+*args*::
+Array of command arguments.
++
+.Command string only
+```json5
+args : [ 'git status -sb' ]
+```
++
+.Command string and positional arguments
+```json5
+args : [ 'echo "Hello $1"', '_', 'World' ]
+```
+
+First element (required):::
+Command string. Single quotes are required to prevent shell from expanding variables like `$1`.
+Second element (optional):::
+Zeroth argument (`$0`). Conventionally `_` or the name of the command.
+Remaining elements (optional):::
+Positional arguments (`$1`, `$2`, etc.) passed to the command.
+
+
+*details*::
+Description of an alias.
++
+```json5
+details : 'My awesome alias to do stuff'
+```
+
+
+*flags*::
+Array of run subcommand flags.
++
+```json5
+flags : [ 'quiet', 'parallel' ]
+```
++
+VALUES: *compact*, *parallel*, *quiet*
+
+
+*status*::
+Array of run subcommand status logical expressions. To learn more about logical expressions see *{see-gitty}*
++
+```json5
+status : [ '!deleted & added', 'locked' ]
+```
++
+VALUES: *added*, *clean*, *copied*, *deleted*, *detached*, *ignored*, *initial-commit*, *locked*, *modified*, *needs-pull*, *needs-push*, *needs-upstream*, *renamed*, *submodule*, *sub-commit-change*, *sub-modified*, *sub-untracked*, *type-change*, *unmerged*, *untracked*
+
+
+*delay*::
+Delay between sequential commands in milliseconds. +
++
+```json5
+delay : 100
+```
+
+
+*sort*::
+Sort the output.
++
+```json5
+sort : 'unsorted'
+```
++
+VALUES: *az*, *za*, *unsorted*
+
+
+=== EXAMPLES
+
+.Aliases schema with 'fetch' alias
+```json5
+[
+   {
+      name    : 'fetch',
+      args    : [ 'git fetch' ],
+      details : 'Fetch git changes',
+      flags   : [ 'parallel', 'quiet' ],
+      status  : [],
+      delay   : 0,
+      sort    : 'az'
+   },
+]
+```
+
+
+== LAYOUT
+Configuration file format for layout.
+
+=== SYNOPSIS
+[verse]
+$XDG_CONFIG_HOME/gitty/layouts/
+
+
+=== DESCRIPTION
+
+All layouts can be deleted or renamed except for the *base* layout. If gitty can't find the *base* layout, a new one will be generated.
+
+
+[[layout-schema, *LAYOUT JSON5 SCHEMA*]]
+=== LAYOUT JSON5 SCHEMA
+
+```json5
+{
+   outputStyle    : <string>,
+   executionMode  : <string>,
+   countMode      : <string>,
+   maxCount       : <integer>,
+   maxCountStyle  : { <stylings> },
+   aZSort         : <bool>,
+   sortOrder      : [ <string>, ... ],
+   truncationMode : <string>,
+   components     : [ <components>, ... ],
+   symbols        : {
+      added         : <string>,
+      clean         : <string>,
+      copied        : <string>,
+      deleted       : <string>,
+      detached      : <string>,
+      dirty         : <string>,
+      ignored       : <string>,
+      initialCommit : <string>,
+      locked        : <string>,
+      modified      : <string>,
+      noUpstream    : <string>,
+      pull          : <string>,
+      push          : <string>,
+      renamed       : <string>,
+      separator     : <string>,
+      stashes       : <string>,
+      typeChange    : <string>,
+      truncator     : <string>,
+      unmerged      : <string>,
+      untracked     : <string>,
+      submodule     : {
+         prefix       : <string>,
+         commit       : <string>,
+         modified     : <string>,
+         untracked    : <string>,
+         suffix       : <string>,
+      },
+   },
+}
+```
+
+
+=== OPTIONS
+
+*outputStyle*::
+Layout output style.
++
+```json5
+outputStyle : 'columnar'
+```
++
+VALUES: *columnar*, *linear*
+
+
+
+*executionMode*::
+Determines in what order to run status and custom components
++
+```json5
+executionMode : 'parallel'
+```
++
+VALUES: 
++
+*parallel* - run status in parallel alongside sequentially executed custom components +
+*statusThenCustom* - run status then custom components sequentially +
+*customThenStatus* - run custom components sequentially then status
++
+NOTE:
+When any of the custom components uses *statusInput* parameter, *executionMode* is switched to *statusThenCustom* automatically.
+
+
+
+*countMode*::
+Count position for components with count.
++
+```json5
+countMode : 'leading'
+```
++
+VALUES: *leading*, *trailing*
+
+
+
+*maxCount*::
+Maximum count number for components with count.
++
+```json5
+maxCount : 99
+```
+
+
+*maxCountStyle*::
+Use styles and colors when count is exceeded *maxCount* value.
++
+```json5
+maxCountStyle : {
+   fg : 'magenta',
+   bg : 'yellow',
+   styles : [ 'underline', 'bold' ]
+}
+```
++
+VALUES: See <<colors-and-styles>> section.
+
+
+
+*aZSort*::
+Global sort direction for all components. Alphanumeric components (e.g. *repo*, *head*) sort A to Z. Presence-based components (e.g. *modified*, *added*) sort from present to absent status.
++
+```json5
+aZSort : true
+```
+
+
+
+*sortOrder*::
+Defines the sort precedence for status components. Components are evaluated from left to right, with earlier entries taking higher priority.
++
+A *!* prefix negates the status, meaning the sort is based on the absence of that condition.
++
+```
+sortOrder : ['clean', '!added', 'custom: pwd', 'repo']
+
+In this example, components are sorted using the following rules, in order:
+
+1. clean        sort repos from clean to dirty.
+2. !added       sort repos without added files before repos with added files.
+3. custom: pwd  sort alphanumerically by the output of the 'pwd' custom component.
+4. repo         sort alphanumerically by repo name.
+```
++
+VALUES:
++
+```
+  ASCENDING     | DESCENDING
+ -----------------------------
+  custom: id    |
+  head          |
+  oid           |
+  repo          |
+  upstream      |
+                |
+  added         | !added
+  clean         | !clean
+  copied        | !copied
+  deleted       | !deleted
+  detached      | !detached
+  ignored       | !ignored
+  initialCommit | !initialCommit
+  locked        | !locked
+  modified      | !modified
+  noUpstream    | !noUpstream
+  pull          | !pull
+  push          | !push
+  renamed       | !renamed
+  stashes       | !stashes
+  submodules    | !submodules
+  typeChange    | !typeChange
+  unmerged      | !unmerged
+  untracked     | !untracked
+```
+
+
+
+*truncationMode*::
+Controls how dynamic component output is truncated when it exceeds the available width.
++
+Applies to the following components: *custom*, *head*, *repo*, *upstream*
++
+Truncated output is shortened using the specified *truncator* symbol. 
++
+```json5
+truncationMode : 'tail'
+```
++
+VALUES: *head*, *middle*, *tail*
+
+
+
+*symbols*::
+Select symbols for status components. All fields are required. (see *symbols* in <<layout-schema>>)
+
+
+
+*components*::
+Select which components and in what order to show in the status. All component fields are optional except for the *command* field in *custom* component.
++
+```json5
+components : [
+   { added  : {} },
+   { custom : { command : 'pwd' } },
+]
+```
++
+Styling-related fields like text style, foreground color, and background color are consolidated under _<stylings>_ to avoid redundancy.
+
+_<stylings>_:::
++
+```
+fg : <string>
+bg : <string>
+styles : [<string>, ...]
+```
++
+USAGE:
++
+```
+fg : 'magenta'
+bg : 'yellow'
+styles : [ 'underline', 'bold' ]
+```
++
+VALUES: See <<colors-and-styles>> section.
+
+*added*:::
+Shows that repo has added files.
++
+```
+added : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*cleanOrDirty*:::
+Shows whether repo is in clean or dirty state.
++
+```
+cleanOrDirty : {
+   showDirty   : <bool>,
+   cleanFg     : <string>,
+   cleanBg     : <string>,
+   cleanStyles : [<string>, ...],
+   dirtyFg     : <string>,
+   dirtyBg     : <string>,
+   dirtyStyles : [<string>, ...],
+}
+```
+
+showDirty::::
+Show *dirty* symbol when status is dirty, if *false* whitespace is used.
++
+```json5
+showDirty : true
+```
+
+
+cleanFg::::
+Foreground color for *clean* symbol
++
+```json5
+cleanFg : 'red'
+```
+
+
+cleanBg::::
+Background color for *clean* symbol
++
+```json5
+cleanBg : 'ext 130'
+```
+
+
+cleanStyles::::
+Text styles for *clean* symbol
++
+```json5
+cleanStyles : [ 'bold', 'underline' ]
+```
+
+
+dirtyFg::::
+Foreground color for *dirty* symbol
++
+```json5
+dirtyFg : 'rgb 200 12 10'
+```
+
+
+dirtyBg::::
+Background color for *dirty* symbol
++
+```json5
+dirtyBg : 'hsb 300 0.3 0.8'
+```
+
+
+dirtyStyles::::
+Text styles for *dirty* symbol
++
+```json5
+dirtyStyles : [ 'faint' ]
+```
+
+
+
+*copied*:::
+Shows that repo had copied files.
++
+```
+copied : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*custom*:::
+Runs a custom command and renders its output as a component.
++
+```json5
+custom : {
+   command        : <string>,
+   sortID         : <string>,
+   statusInput    : <bool>,
+   width          : <integer>,
+   truncationMode : <string>,
+   <stylings>
+}
+```
+
+command::::
+Command with arguments. Field is required.
++
+```json5
+command : 'git fetch',
+```
++
+To show default output when there is none use:
++
+```sh
+command : 'someCommand | grep . || echo "default output"'
+```
+
+
+sortID::::
+An identifier that uniquely names this component so it can be referenced in *sortOrder*.
++
+```json5
+sortID : 'fetch'
+```
+
+
+statusInput::::
+Pass status output to the custom component via standard input. This switches *executionMode* to *statusThenCustom*.
++
+```json5
+statusInput : false
+```
++
+Status output is expected to match the output of:
++
+```sh
+git status --branch --show-stash --porcelain=v2 --ignored=no
+```
++
+Or when *ignored* component is used:
++
+```sh
+git status --branch --show-stash --porcelain=v2 --ignored=traditional
+```
+
+width::::
+Column width. +
+If specified, output will be truncated or expanded to the width. +
+If not specified or set to *null*, output will take as much space as it needs.
++
+```json5
+width : 20
+```
+
+truncationMode::::
+Truncation mode. Overrides global *truncationMode*
++
+```json5
+truncationMode : 'tail'
+```
++
+VALUES: *head*, *middle*, *tail*
+
+_<stylings>_::::
+
+
+
+*deleted*:::
+Shows that repo has removed files.
++
+```
+deleted : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*detached*:::
+Shows the repo is in a detached HEAD state.
++
+```
+detached : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*head*:::
+Shows repo HEAD.
++
+```
+head : {
+   width          : <integer>,
+   truncationMode : <string>,
+   <stylings>
+}
+```
+width::::
+Column width. +
+If specified, output will be truncated or expanded to the width. +
+If not specified or set to *null*, output will take as much space as it needs.
++
+```json5
+width : 20
+```
+
+truncationMode::::
+Truncation mode. Overrides global *truncationMode*
++
+```json5
+truncationMode : 'tail'
+```
++
+VALUES: *head*, *middle*, *tail*
+_<stylings>_::::
+
+
+
+*ignored*:::
+Shows that repo has ignored files.
++
+```
+ignored : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*initialCommit*:::
+Shows that repo has no prior commits.
++
+```
+initialCommit : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*locked*:::
+Shows that repo is in lock state.
++
+```
+locked : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*modified*:::
+Shows that repo has modified files.
++
+```
+modified : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*noUpstream*:::
+Shows that the current branch has no upstream tracking branch.
++
+```
+noUpstream : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*oid*:::
+Shows commit hash.
++
+```
+oid : {
+   length : <integer>,
+   <stylings>
+}
+```
+length::::
+Commit hash length.
++
+```json5
+length : 10
+```
++
+VALUES: *integer* from *4* to *40*
+
+_<stylings>_::::
+
+
+
+*pull*:::
+Shows that repo has a number of incoming changes.
++
+```
+pull : {
+   hideCount : <bool>,
+   <stylings>
+}
+```
+hideCount::::
+Do not show pull count, only symbol
++
+```json5
+hideCount : true
+```
+
+_<stylings>_::::
+
+
+
+*push*:::
+Shows that repo has a number of outgoing changes.
++
+```
+push : {
+   hideCount : <bool>,
+   <stylings>
+}
+```
+hideCount::::
+Do not show push count, only symbol
++
+```json5
+hideCount : true
+```
+
+_<stylings>_::::
+
+
+
+*renamed*:::
+Shows that repo has renamed files.
++
+```
+renamed : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*repo*:::
+Shows repo name.
++
+```
+repo : {
+   width          : <integer>,
+   truncationMode : <string>,
+   fullPath       : <bool>,
+   <stylings>
+}
+```
+width::::
+Column width. +
+If specified, output will be truncated or expanded to the width. +
+If not specified or set to *null*, output will take as much space as it needs.
++
+```json5
+width : 10
+```
+
+truncationMode::::
+Truncation mode. Overrides global *truncationMode*
++
+```json5
+truncationMode : 'tail'
+```
++
+VALUES: *head*, *middle*, *tail*
+
+fullPath::::
+Show full path or just repo name.
++
+```json5
+fullPath : true
+```
+
+_<stylings>_::::
+
+
+
+*separator*:::
+Shows separator symbol between components.
++
+```
+separator : {
+   symbol : <string>,
+   <stylings>
+}
+```
+symbol::::
+Symbol for current separator. If not specified global separator symbol is used. (see *symbols* in <<layout-schema>>)
++
+```json5
+symbol : '-'
+```
+
+_<stylings>_::::
+
+
+
+*stashes*:::
+Shows that repo has a number of stashed changes.
++
+```
+stashes : {
+   hideCount : <bool>,
+   <stylings>
+}
+```
+hideCount::::
+Do not show stashes count, only symbol
++
+```json5
+hideCount : true
+```
+
+_<stylings>_::::
+
+
+
+*submodules*:::
+Shows submodule status.
++
+```json5
+submodules : {
+   components : [
+      { commit    : { <stylings> } },
+      { modified  : { <stylings> } },
+      { untracked : { <stylings> } }
+   ],
+   <stylings>
+}
+```
+components::::
+A list of submodule components
+
+_<stylings>_::::
+
+
+
+*typeChange*:::
+Shows that repo has file type changes (e.g., file to symlink).
++
+```
+typeChange : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*unmerged*:::
+Shows that repo has files with unresolved merge conflicts.
++
+```
+unmerged : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*untracked*:::
+Shows that repo has files not tracked by version control.
++
+```
+untracked : { <stylings> }
+```
+_<stylings>_::::
+
+
+
+*upstream*:::
+Shows upstream branch for the current branch.
++
+```
+upstream : {
+   <stylings>,
+   width          : <integer>
+   truncationMode : <string>,
+}
+```
+_<stylings>_::::
+
+width::::
+Column width. +
+If specified, output will be truncated or expanded to the width. +
+If not specified or set to *null*, output will take as much space as it needs.
++
+```json5
+width : 20
+```
+
+truncationMode::::
+Truncation mode. Overrides global *truncationMode*
++
+```json5
+truncationMode : 'tail'
+```
++
+VALUES: *head*, *middle*, *tail*
+
+
+
+[[colors-and-styles, *COLORS & STYLES*]]
+=== COLORS & STYLES
+
+*fg*|*bg*::
+Foreground and background colors.
+
+Basic:::
+Named terminal colors.
++
+```json5
+fg : 'red'
+bg : 'brightWhite'
+```
++
+VALUES: *black*, *red*, *green*, *yellow*, *blue*, *magenta*, *cyan*, *white*, *brightBlack*, *brightRed*, *brightGreen*, *brightYellow*, *brightBlue*, *brightMagenta*, *brightCyan*, *brightWhite*
+
+
+Extended:::
+256-color terminal palette.
++
+```json5
+fg : 'ext 110'
+bg : 'ext 255'
+```
++
+VALUES: *integer* from *0* to *255*
+
+
+Hex:::
++
+```json5
+fg : 'hex #a96896'
+bg : 'hex #a96'
+```
++
+VALUES: Supported hex formats: *#FFF*, *#FFFFFF*, *FFF*, *FFFFFF*
+
+
+RGB:::
++
+```json5
+fg : 'rgb 10 110 255'
+bg : 'rgb 1 1 0'
+```
++
+VALUES: *integer* from *0* to *255*
+
+
+HSB:::
++
+```json5
+fg : 'hsb 300 0.3 0.9'
+bg : 'hsb 360 1 1'
+```
++
+VALUES: *double*
++
+hue: from *0* to *360* +
+saturation: from *0* to *1* +
+brightness: from *0* to *1*
+
+*styles*::
+Text formatting styles applied to components. Some styles might not be supported in all terminals.
++
+```json5
+styles : ['bold', 'blink']
+```
++
+VALUES: *blink*, *bold*, *doubleUnderline*, *erase*, *faint*, *fastBlink*, *fraktur*, *italic*, *reverse*, *strikethrough*, *underline*
+
+
+=== EXAMPLES
+
+.Layout schema with all options and components
+```json5
+{
+   outputStyle    : 'columnar',
+   executionMode  : 'parallel',
+   countMode      : 'leading',
+   maxCount       : 99,
+   maxCountStyle  : { fg : 'magenta', bg : 'green', styles : [ 'underline', 'bold' ] },
+   aZSort         : true,
+   sortOrder      : [ 'clean', 'repo' ],
+   truncationMode : 'tail',
+   components     : [
+      { added       : { fg : 'ext 214', bg : null, styles : null } },
+      { copied      : { fg : null, bg : 'red', styles : [] } },
+      { custom      : { 
+            command        : 'git fetch > /dev/null 2>&1',
+            sortID         : 'fetch',
+            statusInput    : false,
+            width          : 20,
+            truncationMode : 'head',
+            fg             : null,
+            bg             : null,
+            styles         : []
+         } 
+      },
+      { deleted     : { fg : null, bg : null, styles : [] } },
+      { detached    : { fg : null, bg : null, styles : ['bold'] } },
+      { head        : {
+            width          : 10,
+            truncationMode : 'middle',
+            fg             : 'brightGreen',
+            bg             : null,
+            styles         : ['bold']
+         } 
+      },
+      { ignored     : { fg : 'rgb 200 112 3', bg : null, styles : null } },
+      { locked      : { fg : 'hsb 300 0.4 0.2', bg : null, styles : null } },
+      { modified    : { fg : 'hex #FFF', bg : null, styles : null } },
+      { initialCommit : { fg : 'ext 33', bg : null, styles : null } },
+      { noUpstream  : { fg : 'red', bg : null, styles : null } },
+      { oid         : { length : 10, fg : null, bg : null, styles : null } },
+      { cleanOrDirty  : {
+            showDirty   : true,
+            cleanFg     : null,
+            cleanBg     : null,
+            cleanStyles : [],
+            dirtyFg     : null,
+            dirtyBg     : null,
+            dirtyStyles : null
+         } 
+      },
+      { pull        : { hideCount : false , fg : null, bg : null, styles : null } },
+      { push        : { hideCount : true , fg : null, bg : null, styles : null } },
+      { renamed     : { fg : null, bg : null, styles : null } },
+      { repo        : { 
+            width          : 10,
+            truncationMode : null,
+            fullPath       : true,
+            fg             : null,
+            bg             : null,
+            styles         : null
+         }
+      },
+      { separator   : { symbol : '--', fg : null, bg : null, styles : null } },
+      { stashes     : { hideCount : null , fg : null, bg : null, styles : null } },
+      { submodules  : {
+            fg         : null,
+            bg         : 'yellow',
+            styles     : ['blink', 'underline'],
+            components : [
+               { untracked : { fg : null, bg : null, styles : null } },
+               { modified  : { fg : null, bg : null, styles : null } },
+               { commit    : { fg : null, bg : null, styles : null } },
+            ]
+         }
+      },
+      { typeChange  : { fg : null, bg : null, styles : null } },
+      { unmerged    : { fg : null, bg : null, styles : null } },
+      { untracked   : { fg : null, bg : null, styles : null } },
+      { upstream    : { 
+            width          : 20, 
+            truncationMode : 'head',
+            fg             : null,
+            bg             : null,
+            styles         : null 
+         }
+      },
+   ],
+   symbols        : {
+      added         : 'A',
+      clean         : '✓',
+      copied        : 'C',
+      deleted       : 'D',
+      detached      : '⍜',
+      dirty         : '*',
+      ignored       : '!',
+      initialCommit : 'I', 
+      locked        : 'L',
+      modified      : 'M',
+      noUpstream    : '⇞',
+      pull          : '↓',
+      push          : '↑',
+      renamed       : 'R',
+      separator     : ' ',
+      stashes       : '#',
+      typeChange    : 'T',
+      truncator     : '…',
+      unmerged      : 'U',
+      untracked     : '?',
+      submodule     : {
+         prefix       : '<',
+         commit       : 'C',
+         modified     : 'M',
+         untracked    : '?',
+         suffix       : '>',
+      },
+   },
+}
+```
+
+
+== AUTHOR
+Andrii Sem
+
+== SEE ALSO
+*{see-gitty}*

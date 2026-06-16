@@ -1,0 +1,78 @@
+{
+  "originHash" : "cb4f89fbd98d9addaf9d8bc1089e723a013a62e36a41dd9e73ccd0a561572f15",
+  "pins" : [
+    {
+      "identity" : "diffy",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/andrsem/diffy",
+      "state" : {
+        "revision" : "4aba86ecec32167120bef856e2345b68f5b3f90e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "sw40",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/andrsem/sw40",
+      "state" : {
+        "revision" : "669ab52d00ed70b7fbaf804750172d947083713d",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-algorithms.git",
+      "state" : {
+        "revision" : "87e50f483c54e6efd60e885f7f5aa946cee68023",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "6a52f3251125d74daf04fcbd5e6f08a75d074382",
+        "version" : "1.8.2"
+      }
+    },
+    {
+      "identity" : "swift-numerics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-numerics.git",
+      "state" : {
+        "revision" : "0c0290ff6b24942dadb83a929ffaaa1481df04a2",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "swift-subprocess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-subprocess.git",
+      "state" : {
+        "revision" : "11633673a41f509f8945f23c96c7acd4adafd679",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system",
+      "state" : {
+        "revision" : "7502b711c92a17741fa625d722b0ccbd595d8ed1",
+        "version" : "1.7.2"
+      }
+    },
+    {
+      "identity" : "tts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/andrsem/tts",
+      "state" : {
+        "revision" : "bec91d109cac471b7801a00bc7a7152a5db7e193",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

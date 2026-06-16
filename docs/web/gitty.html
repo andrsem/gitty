@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<title>gitty(1)</title>
+<link rel="stylesheet" href="./gitty-style.css">
+<script src="toggle.js"></script>
+</head>
+<body class="manpage toc2 toc-left">
+<div id="header">
+<h1>gitty(1) Manual Page</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_synopsis">SYNOPSIS</a></li>
+<li><a href="#_description">DESCRIPTION</a></li>
+<li><a href="#_global_options">GLOBAL OPTIONS</a></li>
+<li><a href="#_logical_expressions">LOGICAL EXPRESSIONS</a></li>
+<li><a href="#_subcommands">SUBCOMMANDS</a></li>
+<li><a href="#status-sub">STATUS SUBCOMMAND</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_2">SYNOPSIS</a></li>
+<li><a href="#_description_2">DESCRIPTION</a></li>
+<li><a href="#_options">OPTIONS</a></li>
+<li><a href="#_examples">EXAMPLES</a></li>
+<li><a href="#improving-status-accuracy">IMPROVING STATUS ACCURACY</a></li>
+<li><a href="#_status_performance">STATUS PERFORMANCE</a></li>
+</ul>
+</li>
+<li><a href="#list-sub">LIST SUBCOMMAND</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_3">SYNOPSIS</a></li>
+<li><a href="#_description_3">DESCRIPTION</a></li>
+<li><a href="#_options_2">OPTIONS</a></li>
+<li><a href="#_examples_2">EXAMPLES</a></li>
+</ul>
+</li>
+<li><a href="#run-sub">RUN SUBCOMMAND</a>
+<ul class="sectlevel2">
+<li><a href="#_synopsis_4">SYNOPSIS</a></li>
+<li><a href="#_description_4">DESCRIPTION</a></li>
+<li><a href="#_arguments">ARGUMENTS</a>
+<ul class="sectlevel3">
+<li><a href="#_alias_syntax">ALIAS SYNTAX</a></li>
+<li><a href="#_command_syntax">COMMAND SYNTAX</a></li>
+</ul>
+</li>
+<li><a href="#_options_3">OPTIONS</a></li>
+<li><a href="#_examples_3">EXAMPLES</a></li>
+<li><a href="#run-performance">RUN PERFORMANCE</a></li>
+</ul>
+</li>
+<li><a href="#_configuration">CONFIGURATION</a></li>
+<li><a href="#_files">FILES</a></li>
+<li><a href="#_environment">ENVIRONMENT</a></li>
+<li><a href="#_author">AUTHOR</a></li>
+<li><a href="#_see_also">SEE ALSO</a></li>
+</ul>
+</div>
+<h2 id="_name">NAME</h2>
+<div class="sectionbody">
+<p>gitty - Customizable status line tool for multiple Git repos</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><strong>gitty</strong> <em>&lt;subcommand&gt;</em>
+<strong>gitty</strong> [<strong>--config-path</strong>] [<strong>--regex-reference</strong>]</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Manage the list of Git repos (see <a href="#list-sub"><strong>LIST SUBCOMMAND</strong></a> section).</p>
+</li>
+<li>
+<p>Show the status of managed Git repos (see <a href="#status-sub"><strong>STATUS SUBCOMMAND</strong></a> section).</p>
+</li>
+<li>
+<p>Execute aliases or shell commands on managed repos (see <a href="#run-sub"><strong>RUN SUBCOMMAND</strong></a> section).</p>
+</li>
+<li>
+<p>Choose status filters to decide when to execute aliases or shell commands.</p>
+</li>
+<li>
+<p>Create aliases for frequently used commands (see <strong>ALIASES</strong> section in <strong><a href="gitty-config.html">gitty-config(5)</a></strong>).</p>
+</li>
+<li>
+<p>Filter repos by tags or by path pattern.</p>
+</li>
+<li>
+<p>Create new layouts. Choose and style status components, or create custom ones (see <strong>LAYOUT</strong> section in <strong><a href="gitty-config.html">gitty-config(5)</a></strong>).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_global_options"><a class="anchor" href="#_global_options"></a>GLOBAL OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>--config-path</strong></dt>
+<dd>
+<p>Print path to the configuration directory.</p>
+</dd>
+<dt class="hdlist1"><strong>--regex-reference</strong></dt>
+<dd>
+<p>Print a quick reference for regex path matching.</p>
+<div class="listingblock">
+<div class="title">Display the regex reference in a pager</div>
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">gitty --regex-reference | less</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logical_expressions"><a class="anchor" href="#_logical_expressions"></a>LOGICAL EXPRESSIONS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Tags used in all subcommands and statuses used in run subcommand can be selected using logical expressions.</p>
+</div>
+<div class="verseblock">
+<div class="title"><strong>Operators</strong></div>
+<pre class="content"><strong>|</strong>   OR
+<strong>&amp;</strong>   AND
+<strong>!</strong>   NOT
+<strong>( )</strong> grouping</pre>
+</div>
+<div class="verseblock">
+<div class="title"><strong>Examples</strong></div>
+<pre class="content">gitty status --tags 'backend &amp; macOS'
+gitty list --tags 'backend | !deprecated'
+gitty run --tags 'backend &amp; (!ux|macOS)'
+gitty run 'pwd' --status 'added &amp; !modified'</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subcommands"><a class="anchor" href="#_subcommands"></a>SUBCOMMANDS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><strong>status</strong>   Show the status of managed Git repos. (default)
+<strong>list</strong>     Manage the list of Git repos.
+<strong>run</strong>      Execute aliases or shell commands on managed repos.</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="status-sub"><a class="anchor" href="#status-sub"></a>STATUS SUBCOMMAND</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>status</strong>, <strong>s</strong></dt>
+<dd>
+<p>Show the status of managed Git repos.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_2"><a class="anchor" href="#_synopsis_2"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content"><strong>gitty status</strong> [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;] [<strong>--layout</strong> <em>&lt;name&gt;</em>]
+<strong>gitty status</strong> [<strong>--scan</strong> <em>&lt;path&gt;</em>&#8230;&#8203;] [<strong>--depth</strong> <em>&lt;integer&gt;</em>] [<strong>--layout</strong> <em>&lt;name&gt;</em>]</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_description_2"><a class="anchor" href="#_description_2"></a>DESCRIPTION</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>By default, status only checks local changes. To include remote changes, enable <code>fetch</code> custom component. (see <a href="#improving-status-accuracy"><strong>IMPROVING STATUS ACCURACY</strong></a>)</p>
+</li>
+<li>
+<p><strong>status</strong> is the default subcommand.</p>
+<div class="listingblock">
+<div class="title">Equivalent Commands</div>
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">gitty
+gitty s
+gitty status</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_options"><a class="anchor" href="#_options"></a>OPTIONS</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-i, --include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by including paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-e, --exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by excluding paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-F, --fixed-string</strong></dt>
+<dd>
+<p>Treat the pattern as a literal string instead of a regex.</p>
+</dd>
+<dt class="hdlist1"><strong>-t, --tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by tags using logical expressions. Use <strong>none</strong> for untagged repos.</p>
+</dd>
+<dt class="hdlist1"><strong>-s, --scan</strong> <em>&lt;path&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Find and show status for repos starting at paths.</p>
+</dd>
+<dt class="hdlist1"><strong>-d, --depth</strong> <em>&lt;integer&gt;</em></dt>
+<dd>
+<p>Scan depth.</p>
+<div class="paragraph">
+<p>VALUES: <strong>0</strong> = infinity, <strong>1+</strong> = n levels<br>
+DEFAULT: <strong>3</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-l, --layout</strong> <em>&lt;name&gt;</em></dt>
+<dd>
+<p>Select status layout.</p>
+<div class="paragraph">
+<p>VALUES: <strong>base</strong>, <strong>mini</strong> (or any custom layout name)<br>
+DEFAULT: <strong>base</strong></p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a>EXAMPLES</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>gitty</strong></dt>
+<dd>
+<p>Show status for all managed repos</p>
+</dd>
+<dt class="hdlist1"><strong>gitty --include</strong> '2026'</dt>
+<dd>
+<p>Show status for repos with paths containing <code>2026</code></p>
+</dd>
+<dt class="hdlist1"><strong>gitty --tags</strong> work personal</dt>
+<dd>
+<p>Show status for repos with tags <code>work</code> or <code>personal</code></p>
+</dd>
+<dt class="hdlist1"><strong>gitty --tags</strong> '!backend'</dt>
+<dd>
+<p>Show status for repos excluding <code>backend</code> tag</p>
+</dd>
+<dt class="hdlist1"><strong>gitty --tags</strong> none</dt>
+<dd>
+<p>Show status for repos without any tags</p>
+</dd>
+<dt class="hdlist1"><strong>gitty --scan</strong> ~/projects ~/other</dt>
+<dd>
+<p>Find and show status for repos starting at paths</p>
+</dd>
+<dt class="hdlist1"><strong>gitty --layout</strong> mini</dt>
+<dd>
+<p>Use the <code>mini</code> layout for more compact output</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="improving-status-accuracy"><a class="anchor" href="#improving-status-accuracy"></a>IMPROVING STATUS ACCURACY</h3>
+<div class="paragraph">
+<p>For the most accurate status, consider using the <code>fetch</code> custom component to check for upstream changes (this will impact status performance). To fetch before status, set <strong>executionMode</strong> to <strong>customThenStatus</strong>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example: Partial layout using a fetch component</div>
+<div class="content">
+<pre class="highlight"><code class="language-json5" data-lang="json5">{
+   executionMode : 'customThenStatus',
+   ...
+   components    : [
+      { custom : { command: 'git fetch &gt; /dev/null 2&gt;&amp;1' } },
+   ]
+   ...
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_status_performance"><a class="anchor" href="#_status_performance"></a>STATUS PERFORMANCE</h3>
+<div class="paragraph">
+<p>Performance is limited by the execution time of the following command on the slowest repo:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">git status --branch --show-stash --porcelain=v2</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>IMPROVING STATUS PERFORMANCE</strong></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Set <strong>executionMode</strong> to <strong>parallel</strong>. (see <strong>LAYOUT</strong> section in <strong><a href="gitty-config.html">gitty-config(5)</a></strong>)</p>
+</li>
+<li>
+<p>Avoid many custom components with long-running commands.</p>
+</li>
+<li>
+<p>For strategies to improve performance in large worktrees, see <a href="https://git-scm.com/docs/git-status#_untracked_files_and_performance">git status documentation</a>.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>See <strong><a href="gitty-config.html">gitty-config(5)</a></strong> for more on layout configuration.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="list-sub"><a class="anchor" href="#list-sub"></a>LIST SUBCOMMAND</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>list</strong>, <strong>l</strong></dt>
+<dd>
+<p>Manage the list of Git repos.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_3"><a class="anchor" href="#_synopsis_3"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content"><strong>gitty list</strong> [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--scan</strong> <em>&lt;path&gt;</em>&#8230;&#8203;] [<strong>--depth</strong> <em>&lt;integer&gt;</em>]
+<strong>gitty list</strong> [<strong>--scan-add</strong> <em>&lt;path&gt;</em>&#8230;&#8203;] [<strong>--depth</strong> <em>&lt;integer&gt;</em>] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--add</strong> <em>&lt;path&gt;</em>&#8230;&#8203;] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--remove</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--add-tags</strong> <em>&lt;tags&gt;</em>&#8230;&#8203;] [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--remove-tags</strong> <em>&lt;tags&gt;</em>&#8230;&#8203;] [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--verbose</strong>]
+<strong>gitty list</strong> [<strong>--retag</strong> <em>&lt;old&gt;</em> <em>&lt;new&gt;</em>] [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--verbose</strong>]</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_description_3"><a class="anchor" href="#_description_3"></a>DESCRIPTION</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Repos with duplicate or invalid paths, as well as duplicate tags are ignored and automatically cleaned up.</p>
+</li>
+<li>
+<p><strong>none</strong> is a reserved tag to represent untagged repos.</p>
+</li>
+<li>
+<p>Tag actions are performed on matched repos when <strong>--include</strong> or <strong>--exclude</strong> options are used, or on all repos when omitted.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_options_2"><a class="anchor" href="#_options_2"></a>OPTIONS</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-i, --include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by including paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-e, --exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by excluding paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-F, --fixed-string</strong></dt>
+<dd>
+<p>Treat the pattern as a literal string instead of a regex.</p>
+</dd>
+<dt class="hdlist1"><strong>-t, --tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by tags using logical expressions. Use <strong>none</strong> for untagged repos.</p>
+</dd>
+<dt class="hdlist1"><strong>-s, --scan</strong> <em>&lt;path&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Find and print Git repo paths starting at paths.</p>
+</dd>
+<dt class="hdlist1"><strong>-A, --scan-add</strong> <em>&lt;path&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Find and add Git repos to the list starting at paths.</p>
+</dd>
+<dt class="hdlist1"><strong>-d, --depth</strong> <em>&lt;integer&gt;</em></dt>
+<dd>
+<p>Scan depth.</p>
+<div class="paragraph">
+<p>VALUES: <strong>0</strong> = infinity, <strong>1+</strong> = n levels<br>
+DEFAULT: <strong>3</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-a, --add</strong> <em>&lt;path&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Add new Git repos to the list.</p>
+</dd>
+<dt class="hdlist1"><strong>-r, --remove</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Remove repos from the list matching the path regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>--add-tags</strong> <em>&lt;tags&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Add one or more new tags.</p>
+</dd>
+<dt class="hdlist1"><strong>--remove-tags</strong> <em>&lt;tags&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Remove one or more tags.</p>
+</dd>
+<dt class="hdlist1"><strong>--retag</strong> <em>&lt;old&gt;</em> <em>&lt;new&gt;</em></dt>
+<dd>
+<p>Rename tag from <strong><em>&lt;old&gt;</em></strong> to <strong><em>&lt;new&gt;</em></strong>.</p>
+</dd>
+<dt class="hdlist1"><strong>-v, --verbose</strong></dt>
+<dd>
+<p>Print the list verbosely.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples_2"><a class="anchor" href="#_examples_2"></a>EXAMPLES</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>gitty list</strong></dt>
+<dd>
+<p>List all repos</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --verbose</strong></dt>
+<dd>
+<p>List all repos with full paths</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --include</strong> '2026'</dt>
+<dd>
+<p>Filter repos by <code>2026</code> path pattern</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --tags</strong> work personal</dt>
+<dd>
+<p>Filter repos by <code>work</code> or <code>personal</code> tags</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --add</strong> ~/projects/myrepo  ~/projects/oldrepo</dt>
+<dd>
+<p>Add repos to the list</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --remove</strong> "^$HOME/Developer/Tinkering/$"</dt>
+<dd>
+<p>Remove repo with exact path regex at <code>~/Developer/Tinkering/</code></p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --remove</strong> 'old' '2024'</dt>
+<dd>
+<p>Remove repos matching the path patterns</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --scan</strong> ~/projects ~/other</dt>
+<dd>
+<p>Scan for repos starting at paths</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --scan-add</strong> ~/projects <strong>--depth</strong> 2</dt>
+<dd>
+<p>Scan at 2 levels deep and automatically add found repos to the list</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --add-tags</strong> production critical</dt>
+<dd>
+<p>Add tags to all repos</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --add-tags</strong> archived <strong>--include</strong> '(?i)myREpO'</dt>
+<dd>
+<p>Add tags to repos matching the case-insensitive path pattern</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --remove-tags</strong> tag1 tag2</dt>
+<dd>
+<p>Remove tags</p>
+</dd>
+<dt class="hdlist1"><strong>gitty list --retag</strong> old-name new-name</dt>
+<dd>
+<p>Rename a tag</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-sub"><a class="anchor" href="#run-sub"></a>RUN SUBCOMMAND</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>run</strong>, <strong>r</strong></dt>
+<dd>
+<p>Execute aliases or shell commands on managed repos.</p>
+</dd>
+</dl>
+</div>
+<div class="sect2">
+<h3 id="_synopsis_4"><a class="anchor" href="#_synopsis_4"></a>SYNOPSIS</h3>
+<div class="verseblock">
+<pre class="content"><strong>gitty run</strong> [<strong>--aliases</strong>] [<strong>--compact</strong>]
+<strong>gitty run</strong> <em>&lt;alias&gt;</em>|<em>&lt;command&gt;</em> [<strong>--include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;] [<strong>--fixed-string</strong>] [<strong>--tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;] [<strong>--status</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;] [<strong>--delay</strong> <em>&lt;ms&gt;</em>] [<strong>--sort</strong> <em>&lt;direction&gt;</em>] [<strong>--compact</strong>] [<strong>--parallel</strong>] [<strong>--quiet</strong>]</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_description_4"><a class="anchor" href="#_description_4"></a>DESCRIPTION</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Using <strong>--status</strong> always triggers a full status check on every matched repo before executing. See <a href="#run-performance"><strong>RUN PERFORMANCE</strong></a>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_arguments"><a class="anchor" href="#_arguments"></a>ARGUMENTS</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;alias&gt;</em>|<em>&lt;command&gt;</em></dt>
+<dd>
+<p>The alias name or shell command to execute.</p>
+</dd>
+</dl>
+</div>
+<div class="sect3">
+<h4 id="_alias_syntax"><a class="anchor" href="#_alias_syntax"></a>ALIAS SYNTAX</h4>
+<div class="paragraph">
+<p>Aliases are defined in <code>aliases.json</code>. You can pass additional arguments to an alias at runtime.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>&lt;alias&gt;</em> [<em>&lt;args&gt;</em>&#8230;&#8203;]' [<em>options</em>&#8230;&#8203;]</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example: 'myls' alias with arguments: '<strong>ls -a</strong>' becomes: '<strong>ls -a -l ~</strong>'</div>
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">gitty run 'myls -l ~' --compact</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;alias&gt;</em></dt>
+<dd>
+<p>Alias name (required, quoted)</p>
+</dd>
+<dt class="hdlist1"><em>&lt;args&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Additional alias arguments. Appended after the alias arguments.</p>
+</dd>
+<dt class="hdlist1"><em>&lt;options&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Gitty flags and options (e.g., <strong>--compact</strong>, <strong>--parallel</strong>).</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>--compact</strong>, <strong>--parallel</strong>, and <strong>--quiet</strong> flags combine with alias configuration flags.</p>
+</li>
+<li>
+<p><strong>--delay</strong> and <strong>--sort</strong> options override their corresponding alias configuration values.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_command_syntax"><a class="anchor" href="#_command_syntax"></a>COMMAND SYNTAX</h4>
+<div class="paragraph">
+<p>You can execute arbitrary shell commands. Use single quotes to protect variables from shell expansion.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>&lt;command&gt;</em>' [<em>&lt;name&gt;</em> [<em>&lt;args&gt;</em>&#8230;&#8203;]] [<em>&lt;options&gt;</em>&#8230;&#8203;]</dt>
+<dd>
+<div class="listingblock">
+<div class="title">Example: Using positional arguments</div>
+<div class="content">
+<pre class="highlight"><code class="language-sh" data-lang="sh">gitty run 'echo "hello $1"' _ "world" --parallel</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><em>&lt;command&gt;</em></dt>
+<dd>
+<p>Command string. Single quotes are required to prevent shell from expanding variables like <code>$1</code>.</p>
+</dd>
+<dt class="hdlist1"><em>&lt;name&gt;</em></dt>
+<dd>
+<p>Zeroth argument (<code>$0</code>). Conventionally <code>_</code> or the name of the command.</p>
+</dd>
+<dt class="hdlist1"><em>&lt;args&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Positional arguments (<code>$1</code>, <code>$2</code>, etc.) passed to the command.</p>
+</dd>
+<dt class="hdlist1"><em>&lt;options&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Gitty flags and options (e.g., <strong>--compact</strong>, <strong>--parallel</strong>).</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_options_3"><a class="anchor" href="#_options_3"></a>OPTIONS</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>-a, --aliases</strong></dt>
+<dd>
+<p>Print available aliases.</p>
+</dd>
+<dt class="hdlist1"><strong>-i, --include</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by including paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-e, --exclude</strong> <em>&lt;pattern&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by excluding paths matching regexes.</p>
+</dd>
+<dt class="hdlist1"><strong>-F, --fixed-string</strong></dt>
+<dd>
+<p>Treat the pattern as a literal string instead of a regex.</p>
+</dd>
+<dt class="hdlist1"><strong>-t, --tags</strong> <em>&lt;expr&gt;</em>&#8230;&#8203;</dt>
+<dd>
+<p>Filter repos by tags using logical expressions. Use <strong>none</strong> for untagged repos.</p>
+</dd>
+<dt class="hdlist1"><strong>-s, --status</strong> <em>&lt;expr&gt;</em></dt>
+<dd>
+<p>Filter repos by status using logical expressions.</p>
+<div class="paragraph">
+<p>VALUES: <strong>added</strong>, <strong>clean</strong>, <strong>copied</strong>, <strong>deleted</strong>, <strong>detached</strong>, <strong>ignored</strong>, <strong>initial-commit</strong>, <strong>locked</strong>, <strong>modified</strong>, <strong>needs-pull</strong>, <strong>needs-push</strong>, <strong>needs-upstream</strong>, <strong>renamed</strong>, <strong>submodule</strong>, <strong>sub-commit-change</strong>, <strong>sub-modified</strong>, <strong>sub-untracked</strong>, <strong>type-change</strong>, <strong>unmerged</strong>, <strong>untracked</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-d, --delay</strong> <em>&lt;ms&gt;</em></dt>
+<dd>
+<p>Delay between sequential commands in milliseconds.</p>
+<div class="paragraph">
+<p>DEFAULT: <strong>0</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-S, --sort</strong> <em>&lt;direction&gt;</em></dt>
+<dd>
+<p>Sort the output.</p>
+<div class="paragraph">
+<p>VALUES: <strong>az</strong>, <strong>za</strong>, <strong>unsorted</strong><br>
+DEFAULT: <strong>az</strong></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>-c, --compact</strong></dt>
+<dd>
+<p>Print output compactly.</p>
+</dd>
+<dt class="hdlist1"><strong>-p, --parallel</strong></dt>
+<dd>
+<p>Execute commands in parallel.</p>
+</dd>
+<dt class="hdlist1"><strong>-q, --quiet</strong></dt>
+<dd>
+<p>Skip gitty confirmation prompt.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples_3"><a class="anchor" href="#_examples_3"></a>EXAMPLES</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>git pull</em>'</dt>
+<dd>
+<p>Run <code>git pull</code> on all managed repos.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>git fetch</em>' <strong>--tags</strong> <em>work</em></dt>
+<dd>
+<p>Run on repos with specific tags.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>git status</em>' <strong>--parallel</strong></dt>
+<dd>
+<p>Execute in parallel.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>git fetch</em>' <strong>--quiet</strong></dt>
+<dd>
+<p>Run command without confirmation prompt.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>git push</em>' <strong>--status</strong> <em>needs-push</em></dt>
+<dd>
+<p>Run on repos needing push.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>fetch</em>'</dt>
+<dd>
+<p>Run pre-configured <code>fetch</code> alias on all managed repos.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>pull</em>' <strong>--tags</strong> <em>none</em></dt>
+<dd>
+<p>Run pre-configured <code>pull</code> alias on repos without tags.</p>
+</dd>
+<dt class="hdlist1"><strong>gitty run</strong> '<em>fetch</em>' <strong>--include</strong> '<em>2026</em>'</dt>
+<dd>
+<p>Run pre-configured <code>fetch</code> alias on repos matching <code>2026</code> pattern.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="run-performance"><a class="anchor" href="#run-performance"></a>RUN PERFORMANCE</h3>
+<div class="paragraph">
+<p>By default, the run subcommand executes commands on a list of repos sequentially.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>IMPROVING RUN PERFORMANCE</strong></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Use <strong>--parallel</strong> flag to run commands in parallel.</p>
+</li>
+<li>
+<p>Use <strong>--sort unsorted</strong> option. (this mostly improves perceived performance as the output is printed as it becomes available)</p>
+</li>
+<li>
+<p>Avoid status filters. Using them triggers a status check first.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>CONFIGURATION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To get path to the configuration directory use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>gitty --config-path</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration documentation can be found in <strong><a href="gitty-config.html">gitty-config(5)</a></strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_files"><a class="anchor" href="#_files"></a>FILES</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>$XDG_CONFIG_HOME/gitty/list.json</strong></dt>
+<dd>
+<p>List of Git repos.</p>
+</dd>
+<dt class="hdlist1"><strong>$XDG_CONFIG_HOME/gitty/aliases.json</strong></dt>
+<dd>
+<p>Aliases configuration file.</p>
+</dd>
+<dt class="hdlist1"><strong>$XDG_CONFIG_HOME/gitty/layouts/</strong></dt>
+<dd>
+<p>Directory containing gitty layouts.</p>
+</dd>
+<dt class="hdlist1"><strong>$XDG_CONFIG_HOME/gitty/layouts/base.json</strong></dt>
+<dd>
+<p>Base layout. Required, will be regenerated when deleted.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_environment"><a class="anchor" href="#_environment"></a>ENVIRONMENT</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>$XDG_CONFIG_HOME</strong></dt>
+<dd>
+<p>Directory for user-specific configurations. Defaults to <strong>$HOME/.config</strong> if unset.</p>
+</dd>
+<dt class="hdlist1"><strong>GITTY_OUTPUT_SIZE_KB</strong></dt>
+<dd>
+<p>stdout buffer size. Default: <strong>2048 KB (2 MB)</strong></p>
+</dd>
+<dt class="hdlist1"><strong>GITTY_ERROR_SIZE_KB</strong></dt>
+<dd>
+<p>stderr buffer size. Default: <strong>128 KB</strong></p>
+</dd>
+<dt class="hdlist1"><strong>GITTY_MAX_TASKS_LIMIT</strong></dt>
+<dd>
+<p>Max number of concurrent tasks. If unset, the limit is dynamically calculated based on the process&#8217;s available file descriptors to prevent <code>EMFILE</code> (Too many open files) errors.</p>
+<div class="listingblock">
+<div class="title">Default Calculation Formula</div>
+<div class="content">
+<pre class="highlight"><code>(availableFileDescriptors - reserve) / fileDescriptorsPerTask</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On macOS, where the default soft limit is often <strong>256</strong> (<code>ulimit -n</code>), max tasks limit is 20:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>(256 - 176) / 4 = 20</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author"><a class="anchor" href="#_author"></a>AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Andrii Sem</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong><a href="gitty-config.html">gitty-config(5)</a></strong></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated May 19, 2026
+</div>
+</div>
+</body>
+</html>

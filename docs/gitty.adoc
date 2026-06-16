@@ -1,0 +1,497 @@
+= gitty(1)
+:doctype: manpage
+:see-gitty-config: xref:gitty-config.adoc[gitty-config(5)]
+
+== NAME
+gitty - Customizable status line tool for multiple Git repos
+
+
+== SYNOPSIS
+[verse]
+*gitty* _<subcommand>_
+*gitty* [*--config-path*] [*--regex-reference*]
+
+
+== DESCRIPTION
+- Manage the list of Git repos (see <<list-sub>> section).
+- Show the status of managed Git repos (see <<status-sub>> section).
+- Execute aliases or shell commands on managed repos (see <<run-sub>> section).
+- Choose status filters to decide when to execute aliases or shell commands.
+- Create aliases for frequently used commands (see *ALIASES* section in *{see-gitty-config}*).
+- Filter repos by tags or by path pattern.
+- Create new layouts. Choose and style status components, or create custom ones (see *LAYOUT* section in *{see-gitty-config}*).
+
+
+== GLOBAL OPTIONS
+*--config-path*::
+Print path to the configuration directory.
+
+*--regex-reference*::
+Print a quick reference for regex path matching.
++
+.Display the regex reference in a pager
+```sh
+gitty --regex-reference | less
+```
+
+
+== LOGICAL EXPRESSIONS
+Tags used in all subcommands and statuses used in run subcommand can be selected using logical expressions.
+
+.*Operators*
+[verse]
+*|*   OR
+*&*   AND
+*!*   NOT
+*( )* grouping
+
+.*Examples*
+[verse]
+gitty status --tags 'backend & macOS'
+gitty list --tags 'backend | !deprecated'
+gitty run --tags 'backend & (!ux|macOS)'
+gitty run 'pwd' --status 'added & !modified'
+
+
+
+== SUBCOMMANDS
+[verse]
+*status*   Show the status of managed Git repos. (default)
+*list*     Manage the list of Git repos.
+*run*      Execute aliases or shell commands on managed repos.
+
+
+
+[[status-sub, *STATUS SUBCOMMAND*]]
+== STATUS SUBCOMMAND
+*status*, *s*::
+Show the status of managed Git repos.
+
+=== SYNOPSIS
+[verse]
+*gitty status* [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--tags* _<expr>_...] [*--layout* _<name>_]
+*gitty status* [*--scan* _<path>_...] [*--depth* _<integer>_] [*--layout* _<name>_]
+
+
+=== DESCRIPTION
+- By default, status only checks local changes. To include remote changes, enable `fetch` custom component. (see <<improving-status-accuracy>>)
+- *status* is the default subcommand.
++
+.Equivalent Commands
+```sh
+gitty
+gitty s
+gitty status
+```
+
+
+=== OPTIONS
+*-i, --include* _<pattern>_...::
+Filter repos by including paths matching regexes.
+
+*-e, --exclude* _<pattern>_...::
+Filter repos by excluding paths matching regexes.
+
+*-F, --fixed-string*::
+Treat the pattern as a literal string instead of a regex.
+
+*-t, --tags* _<expr>_...::
+Filter repos by tags using logical expressions. Use *none* for untagged repos.
+
+*-s, --scan* _<path>_...::
+Find and show status for repos starting at paths.
+
+*-d, --depth* _<integer>_::
+Scan depth.
++
+VALUES: *0* = infinity, *1+* = n levels +
+DEFAULT: *3*
+
+*-l, --layout* _<name>_::
+Select status layout.
++
+VALUES: *base*, *mini* (or any custom layout name) +
+DEFAULT: *base*
+
+
+=== EXAMPLES
+
+*gitty*::
+Show status for all managed repos
+
+*gitty --include* '2026'::
+Show status for repos with paths containing `2026`
+
+*gitty --tags* work personal::
+Show status for repos with tags `work` or `personal`
+
+*gitty --tags* '!backend'::
+Show status for repos excluding `backend` tag
+
+*gitty --tags* none::
+Show status for repos without any tags
+
+*gitty --scan* ~/projects ~/other::
+Find and show status for repos starting at paths
+
+*gitty --layout* mini::
+Use the `mini` layout for more compact output
+
+
+[[improving-status-accuracy, *IMPROVING STATUS ACCURACY*]]
+=== IMPROVING STATUS ACCURACY
+
+For the most accurate status, consider using the `fetch` custom component to check for upstream changes (this will impact status performance). To fetch before status, set *executionMode* to *customThenStatus*.
+
+.Example: Partial layout using a fetch component
+```json5
+{
+   executionMode : 'customThenStatus',
+   ...
+   components    : [
+      { custom : { command: 'git fetch > /dev/null 2>&1' } },
+   ]
+   ...
+}
+```
+
+
+=== STATUS PERFORMANCE
+
+Performance is limited by the execution time of the following command on the slowest repo:
+
+```sh
+git status --branch --show-stash --porcelain=v2
+```
+
+*IMPROVING STATUS PERFORMANCE*::
+
+- Set *executionMode* to *parallel*. (see *LAYOUT* section in *{see-gitty-config}*)
+- Avoid many custom components with long-running commands.
+- For strategies to improve performance in large worktrees, see link:https://git-scm.com/docs/git-status#_untracked_files_and_performance[git status documentation].
+
+See *{see-gitty-config}* for more on layout configuration.
+
+
+
+[[list-sub, *LIST SUBCOMMAND*]]
+== LIST SUBCOMMAND
+*list*, *l*::
+Manage the list of Git repos.
+
+
+=== SYNOPSIS
+[verse]
+*gitty list* [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--tags* _<expr>_...] [*--verbose*]
+*gitty list* [*--scan* _<path>_...] [*--depth* _<integer>_]
+*gitty list* [*--scan-add* _<path>_...] [*--depth* _<integer>_] [*--verbose*]
+*gitty list* [*--add* _<path>_...] [*--verbose*]
+*gitty list* [*--remove* _<pattern>_...] [*--fixed-string*] [*--verbose*]
+*gitty list* [*--add-tags* _<tags>_...] [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--verbose*]
+*gitty list* [*--remove-tags* _<tags>_...] [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--verbose*]
+*gitty list* [*--retag* _<old>_ _<new>_] [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--verbose*]
+
+
+=== DESCRIPTION
+- Repos with duplicate or invalid paths, as well as duplicate tags are ignored and automatically cleaned up.
+- *none* is a reserved tag to represent untagged repos.
+- Tag actions are performed on matched repos when *--include* or *--exclude* options are used, or on all repos when omitted.
+
+
+=== OPTIONS
+*-i, --include* _<pattern>_...::
+Filter repos by including paths matching regexes.
+
+*-e, --exclude* _<pattern>_...::
+Filter repos by excluding paths matching regexes.
+
+*-F, --fixed-string*::
+Treat the pattern as a literal string instead of a regex.
+
+*-t, --tags* _<expr>_...::
+Filter repos by tags using logical expressions. Use *none* for untagged repos.
+
+*-s, --scan* _<path>_...::
+Find and print Git repo paths starting at paths.
+
+*-A, --scan-add* _<path>_...::
+Find and add Git repos to the list starting at paths.
+
+*-d, --depth* _<integer>_::
+Scan depth.
++
+VALUES: *0* = infinity, *1+* = n levels +
+DEFAULT: *3*
+
+*-a, --add* _<path>_...::
+Add new Git repos to the list.
+
+*-r, --remove* _<pattern>_...::
+Remove repos from the list matching the path regexes.
+
+*--add-tags* _<tags>_...::
+Add one or more new tags.
+
+*--remove-tags* _<tags>_...::
+Remove one or more tags.
+
+*--retag* _<old>_ _<new>_::
+Rename tag from *_<old>_* to *_<new>_*.
+
+*-v, --verbose*::
+Print the list verbosely.
+
+
+=== EXAMPLES
+
+*gitty list*::
+List all repos
+
+*gitty list --verbose*::
+List all repos with full paths
+
+*gitty list --include* '2026'::
+Filter repos by `2026` path pattern
+
+*gitty list --tags* work personal::
+Filter repos by `work` or `personal` tags
+
+*gitty list --add* ~/projects/myrepo  ~/projects/oldrepo::
+Add repos to the list
+
+*gitty list --remove* "^$HOME/Developer/Tinkering/$"::
+Remove repo with exact path regex at `~/Developer/Tinkering/`
+
+*gitty list --remove* 'old' '2024'::
+Remove repos matching the path patterns
+
+*gitty list --scan* ~/projects ~/other::
+Scan for repos starting at paths
+
+*gitty list --scan-add* ~/projects *--depth* 2::
+Scan at 2 levels deep and automatically add found repos to the list
+
+*gitty list --add-tags* production critical::
+Add tags to all repos
+
+*gitty list --add-tags* archived *--include* '(?i)myREpO'::
+Add tags to repos matching the case-insensitive path pattern
+
+*gitty list --remove-tags* tag1 tag2::
+Remove tags
+
+*gitty list --retag* old-name new-name::
+Rename a tag
+
+
+
+[[run-sub, *RUN SUBCOMMAND*]]
+== RUN SUBCOMMAND
+*run*, *r*::
+Execute aliases or shell commands on managed repos.
+
+
+=== SYNOPSIS
+[verse]
+*gitty run* [*--aliases*] [*--compact*]
+*gitty run* _<alias>_|_<command>_ [*--include* _<pattern>_...] [*--exclude* _<pattern>_...] [*--fixed-string*] [*--tags* _<expr>_...] [*--status* _<expr>_...] [*--delay* _<ms>_] [*--sort* _<direction>_] [*--compact*] [*--parallel*] [*--quiet*]
+
+
+=== DESCRIPTION
+- Using *--status* always triggers a full status check on every matched repo before executing. See <<run-performance>>.
+
+
+=== ARGUMENTS
+_<alias>_|_<command>_::
+The alias name or shell command to execute.
+
+
+==== ALIAS SYNTAX
+Aliases are defined in `aliases.json`. You can pass additional arguments to an alias at runtime.
+
+*gitty run* '_<alias>_ [_<args>_...]' [_options_...]:::
++
+.Example: 'myls' alias with arguments: '*ls -a*' becomes: '*ls -a -l ~*'
+```sh
+gitty run 'myls -l ~' --compact
+```
++
+_<alias>_::::
+Alias name (required, quoted)
+
+_<args>_...::::
+Additional alias arguments. Appended after the alias arguments.
+
+_<options>_...::::
+Gitty flags and options (e.g., *--compact*, *--parallel*).
+- *--compact*, *--parallel*, and *--quiet* flags combine with alias configuration flags.
+- *--delay* and *--sort* options override their corresponding alias configuration values.
+
+
+==== COMMAND SYNTAX
+You can execute arbitrary shell commands. Use single quotes to protect variables from shell expansion.
+
+*gitty run* '_<command>_' [_<name>_ [_<args>_...]] [_<options>_...]:::
++
+.Example: Using positional arguments
+```sh
+gitty run 'echo "hello $1"' _ "world" --parallel
+```
++
+_<command>_::::
+Command string. Single quotes are required to prevent shell from expanding variables like `$1`.
+
+_<name>_::::
+Zeroth argument (`$0`). Conventionally `_` or the name of the command.
+
+_<args>_...::::
+Positional arguments (`$1`, `$2`, etc.) passed to the command.
+
+_<options>_...::::
+Gitty flags and options (e.g., *--compact*, *--parallel*).
+
+
+=== OPTIONS
+
+*-a, --aliases*::
+Print available aliases.
+
+*-i, --include* _<pattern>_...::
+Filter repos by including paths matching regexes.
+
+*-e, --exclude* _<pattern>_...::
+Filter repos by excluding paths matching regexes.
+
+*-F, --fixed-string*::
+Treat the pattern as a literal string instead of a regex.
+
+*-t, --tags* _<expr>_...::
+Filter repos by tags using logical expressions. Use *none* for untagged repos.
+
+*-s, --status* _<expr>_::
+Filter repos by status using logical expressions.
++
+VALUES: *added*, *clean*, *copied*, *deleted*, *detached*, *ignored*, *initial-commit*, *locked*, *modified*, *needs-pull*, *needs-push*, *needs-upstream*, *renamed*, *submodule*, *sub-commit-change*, *sub-modified*, *sub-untracked*, *type-change*, *unmerged*, *untracked*
+
+*-d, --delay* _<ms>_::
+Delay between sequential commands in milliseconds.
++
+DEFAULT: *0*
+
+*-S, --sort* _<direction>_::
+Sort the output.
++
+VALUES: *az*, *za*, *unsorted* +
+DEFAULT: *az*
+
+*-c, --compact*::
+Print output compactly.
+
+*-p, --parallel*::
+Execute commands in parallel.
+
+*-q, --quiet*::
+Skip gitty confirmation prompt.
+
+
+=== EXAMPLES
+
+*gitty run* '_git pull_'::
+Run `git pull` on all managed repos.
+
+*gitty run* '_git fetch_' *--tags* _work_::
+Run on repos with specific tags.
+
+*gitty run* '_git status_' *--parallel*::
+Execute in parallel.
+
+*gitty run* '_git fetch_' *--quiet*::
+Run command without confirmation prompt.
+
+*gitty run* '_git push_' *--status* _needs-push_::
+Run on repos needing push.
+
+*gitty run* '_fetch_'::
+Run pre-configured `fetch` alias on all managed repos.
+
+*gitty run* '_pull_' *--tags* _none_::
+Run pre-configured `pull` alias on repos without tags.
+
+*gitty run* '_fetch_' *--include* '_2026_'::
+Run pre-configured `fetch` alias on repos matching `2026` pattern.
+
+
+[[run-performance, *RUN PERFORMANCE*]]
+=== RUN PERFORMANCE
+
+By default, the run subcommand executes commands on a list of repos sequentially.
+
+*IMPROVING RUN PERFORMANCE*::
+
+- Use *--parallel* flag to run commands in parallel.
+- Use *--sort unsorted* option. (this mostly improves perceived performance as the output is printed as it becomes available)
+- Avoid status filters. Using them triggers a status check first.
+
+
+
+== CONFIGURATION
+
+To get path to the configuration directory use:
+
+```
+gitty --config-path
+```
+
+The configuration documentation can be found in *{see-gitty-config}*.
+
+
+
+== FILES
+
+*$XDG_CONFIG_HOME/gitty/list.json*::
+List of Git repos.
+
+*$XDG_CONFIG_HOME/gitty/aliases.json*::
+Aliases configuration file.
+
+*$XDG_CONFIG_HOME/gitty/layouts/*::
+Directory containing gitty layouts.
+
+*$XDG_CONFIG_HOME/gitty/layouts/base.json*::
+Base layout. Required, will be regenerated when deleted.
+
+
+
+== ENVIRONMENT
+
+*$XDG_CONFIG_HOME*::
+Directory for user-specific configurations. Defaults to *$HOME/.config* if unset.
+
+*GITTY_OUTPUT_SIZE_KB*::
+stdout buffer size. Default: *2048 KB (2 MB)*
+
+*GITTY_ERROR_SIZE_KB*::
+stderr buffer size. Default: *128 KB*
+
+*GITTY_MAX_TASKS_LIMIT*::
+Max number of concurrent tasks. If unset, the limit is dynamically calculated based on the process's available file descriptors to prevent `EMFILE` (Too many open files) errors.
++
+.Default Calculation Formula
+```
+(availableFileDescriptors - reserve) / fileDescriptorsPerTask
+```
++
+On macOS, where the default soft limit is often *256* (`ulimit -n`), max tasks limit is 20:
++
+```
+(256 - 176) / 4 = 20
+```
+
+
+== AUTHOR
+Andrii Sem
+
+
+== SEE ALSO
+
+*{see-gitty-config}*
