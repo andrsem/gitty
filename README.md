@@ -24,6 +24,11 @@ SPDX-License-Identifier: MIT
 - Filter repos by tags or by path pattern.
 - Create new layouts. Choose and style status components, or create custom ones. (see [`Layout Configuration`](https://andrsem.github.io/gitty/web/gitty-config.html#_layout))
 
+
+<a href="http://www.youtube.com/watch?v=enZeRQiuCUo" title="Getting Started with gitty">
+  <img src="./images/youtube.png" alt="Getting Started with gitty" width="400">
+</a>
+
 ## Quick Start
 
 ```sh
