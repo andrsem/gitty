@@ -176,8 +176,7 @@ private let binFromPackage =
    .path()
 
 
-@MainActor
-private let binFromDerivedData = {
+func binFromDerivedData() throws -> String? {
    try FileManager.default
       .contentsOfDirectory(
          at: URL(filePath: "~/Library/Developer/Xcode/DerivedData"),

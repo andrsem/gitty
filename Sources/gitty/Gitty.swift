@@ -31,7 +31,7 @@ struct Gitty: AsyncParsableCommand {
          gitty <subcommand>
          gitty [--config-path] [--regex-reference]
          """,
-      version: "1.0.0-preview-1",
+      version: "1.0.0-preview-2",
       subcommands: subcommands,
       defaultSubcommand: StatusSub.self
    )
