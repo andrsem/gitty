@@ -1,5 +1,7 @@
+const defaultTheme = 'dark';
+
 (function() {
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  const savedTheme = localStorage.getItem('theme') || defaultTheme;
   if (document.documentElement) {
     document.documentElement.setAttribute('data-theme', savedTheme);
   }
@@ -7,7 +9,7 @@
 
 // Create button after DOM loads
 document.addEventListener('DOMContentLoaded', function() {
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  const savedTheme = localStorage.getItem('theme') || defaultTheme;
   
   const btn = document.createElement('button');
   btn.className = 'theme-toggle';
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }  
 
   btn.onclick = function() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const current = document.documentElement.getAttribute('data-theme') || defaultTheme;
     const newTheme = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
