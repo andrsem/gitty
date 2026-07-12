@@ -103,7 +103,9 @@ private func getStatus(
 ) async throws -> String {
    let layout = try Configurator.readLayout(layout)
    let lineID = { (l1: StatusLine, l2: StatusLine) in
-      layout.aZSort == (l1.sortID < l2.sortID)
+      layout.aZSort
+         ? l1.sortID < l2.sortID
+         : l1.sortID > l2.sortID
    }
 
    return
