@@ -10,7 +10,11 @@ import Testing
 
 @Suite(.tags(.statusLineGen))
 struct `Count Statuses tests` {
-   static let countStatus = status(pullCount: 1, pushCount: 100, stashCount: 10)
+   static let countStatus = status(
+      pullCount: 1,
+      pushCount: 100,
+      stashCount: 10,
+   )
    static func layoutWithCount(
       _ outputStyle: OutputStyle,
       countMode: CountMode = .trailing,
@@ -27,7 +31,7 @@ struct `Count Statuses tests` {
             .push(hideCount: countHidden),
             .separator(symbol: "-"),
             .stashes(hideCount: countHidden),
-         ]
+         ],
       )
    }
 
@@ -37,7 +41,7 @@ struct `Count Statuses tests` {
       let line = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: Self.layoutWithCount(.columnar, countHidden: countHidden),
-         status: Self.countStatus
+         status: Self.countStatus,
       )
       .line
 
@@ -53,9 +57,9 @@ struct `Count Statuses tests` {
             Self.layoutWithCount(
                .columnar,
                countMode: .leading,
-               countHidden: countHidden
+               countHidden: countHidden,
             ),
-         status: Self.countStatus
+         status: Self.countStatus,
       )
       .line
 
@@ -68,7 +72,7 @@ struct `Count Statuses tests` {
       let line = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: Self.layoutWithCount(.columnar, maxCount: count),
-         status: Self.countStatus
+         status: Self.countStatus,
       )
       .line
 
@@ -81,7 +85,7 @@ struct `Count Statuses tests` {
       let line = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: Self.layoutWithCount(.columnar, countHidden: true),
-         status: Self.countStatus
+         status: Self.countStatus,
       )
       .line
 

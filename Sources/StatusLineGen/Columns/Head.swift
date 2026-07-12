@@ -18,13 +18,13 @@ extension StatusLineGen {
             for: .head,
             with: "head:" + status.head,
             isAZ: layout.aZSort,
-            sortOrder: layout.sortOrder
+            sortOrder: layout.sortOrder,
          )
 
       return fitToWidth(
          status.head,
          width: width ?? status.head.count,
-         mode: mode
+         mode: mode,
       )
       .styledStatus(styles, fg: fg, bg: bg, emptyStr: emptyStr)
          |> { ($0, sortID) }

@@ -20,12 +20,12 @@ struct `List Sub Add E2E`: E2EConfigurable {
          The following repo was added:
          • repoL1
          """,
-         try await gitty("l -a \(l1Repo)")
+         try await gitty("l -a \(l1Repo)"),
       )
 
       expectMatch(
          "• repoL1",
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -41,7 +41,7 @@ struct `List Sub Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -a \(l1Repo) \(l2Repo)")
+         try await gitty("l -a \(l1Repo) \(l2Repo)"),
       )
 
       expectMatch(
@@ -49,7 +49,7 @@ struct `List Sub Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -64,12 +64,12 @@ struct `List Sub Add E2E`: E2EConfigurable {
          \("Repo: ".styles(.faint))\(l1Repo)/
          \("No tags.".styles(.faint))
          """,
-         try await gitty("l -a \(l1Repo) -v")
+         try await gitty("l -a \(l1Repo) -v"),
       )
 
       expectMatch(
          "• repoL1",
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -78,7 +78,7 @@ struct `List Sub Add E2E`: E2EConfigurable {
    func `add not Git repo path to the list`() async throws {
       expectMatch(
          "Path is not a Git repo: \(l1.path())",
-         try await gitty("l -a \(l1.path())")
+         try await gitty("l -a \(l1.path())"),
       )
    }
 
@@ -88,7 +88,7 @@ struct `List Sub Add E2E`: E2EConfigurable {
       let path = l1.appending(path: "gobbledygook").path()
       expectMatch(
          "Path does not exist: \(path)",
-         try await gitty("l -a \(path)")
+         try await gitty("l -a \(path)"),
       )
    }
 }

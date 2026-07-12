@@ -6,7 +6,7 @@ package enum Sub {
    case isSubmodule(
       isCommitChanged: Bool,
       hasTrackedChanges: Bool,
-      hasUntrackedChanges: Bool
+      hasUntrackedChanges: Bool,
    )
 
 
@@ -23,7 +23,7 @@ package enum Sub {
             .isSubmodule(
                isCommitChanged: raw.contains("C"),
                hasTrackedChanges: raw.contains("M"),
-               hasUntrackedChanges: raw.contains("U")
+               hasUntrackedChanges: raw.contains("U"),
             )
          default: nil
          }

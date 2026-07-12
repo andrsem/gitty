@@ -23,7 +23,7 @@ struct `Consecutive separators tests` {
             .separator(),
             .separator(),
             .separator(),
-         ]
+         ],
       )
    }
 
@@ -33,7 +33,7 @@ struct `Consecutive separators tests` {
       let result = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: layoutWithSeparators(.linear),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       expectMatch(" " + "myURL" + " ", result.line)
@@ -56,9 +56,9 @@ struct `Consecutive separators tests` {
                .separator(symbol: "&"),
                .separator(),
                .separator(),
-            ]
+            ],
          ),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       expectMatch(
@@ -73,7 +73,7 @@ struct `Consecutive separators tests` {
       let result = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: layoutWithSeparators(.columnar),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       let separator = " "
@@ -101,9 +101,9 @@ struct `Consecutive separators tests` {
                .separator(symbol: "&"),
                .separator(),
                .separator(),
-            ]
+            ],
          ),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       expectMatch(

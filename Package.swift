@@ -63,7 +63,7 @@ let package = Package(
    dependencies: [
       .package(
          url: "https://github.com/apple/swift-algorithms.git",
-         exact: "1.2.1"
+         exact: "1.2.1",
       ),
       .package(
          url: "https://github.com/apple/swift-argument-parser",
@@ -71,19 +71,19 @@ let package = Package(
       ),
       .package(
          url: "https://github.com/swiftlang/swift-subprocess.git",
-         exact: "0.5.0"
+         exact: "0.5.0",
       ),
       .package(
          url: "https://github.com/andrsem/sw40",
-         exact: "1.0.0"
+         exact: "1.0.0",
       ),
       .package(
          url: "https://github.com/andrsem/tts",
-         exact: "1.0.0"
+         exact: "1.0.0",
       ),
       .package(
          url: "https://github.com/andrsem/diffy",
-         exact: "1.0.0"
+         exact: "1.0.0",
       ),
    ],
    targets: [
@@ -102,24 +102,24 @@ let package = Package(
             .statusLineGen,
             .tts,
          ],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .gitty.tests,
          dependencies: [.aliases, .argumentParser, .gitty, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: "E2ETests",
          dependencies: [.configurator, .diffy, .io, .shared, .sw40, .tts],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .statusLineGen,
          dependencies: [.algorithms, .layout, .shared, .status, .sw40, .tts],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .statusLineGen.tests,
@@ -132,7 +132,7 @@ let package = Package(
             .sw40,
             .tts,
          ],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
@@ -142,12 +142,12 @@ let package = Package(
          name: .configurator,
          dependencies: [.aliases, .io, .layout, .list, .status],
          resources: [.embedInCode("Resources")],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .configurator.tests,
          dependencies: [.aliases, .configurator, .list, .layout, .diffy],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
@@ -156,76 +156,76 @@ let package = Package(
       .target(
          name: .aliases,
          dependencies: [.algorithms, .shared, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .aliases.tests,
          dependencies: [.aliases, .diffy, .shared],
          resources: [.embedInCode("TestResources")],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .io,
          dependencies: [.sw40, .subprocess],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .io.tests,
          dependencies: [.io],
          resources: [.process("TestResources")],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .layout,
          dependencies: [.shared, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .layout.tests,
          dependencies: [.diffy, .layout, .shared, .sw40],
          resources: [.embedInCode("TestResources")],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .list,
          dependencies: [.algorithms, .shared, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .list.tests,
          dependencies: [.diffy, .list, .shared, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .shared,
          dependencies: [.algorithms],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .shared.tests,
          dependencies: [.shared],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
 
       .target(
          name: .status,
          dependencies: [.shared, .sw40],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
       .testTarget(
          name: .status.tests,
          dependencies: [.diffy, .status],
-         swiftSettings: settings
+         swiftSettings: settings,
       ),
 
-   ]
+   ],
 )

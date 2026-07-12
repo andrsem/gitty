@@ -17,7 +17,7 @@ struct `Styled status Tests` {
             fg: .blue,
             bg: .red,
             isVisible: false,
-            emptyStr: emptyStr
+            emptyStr: emptyStr,
          )
 
       #expect(r == emptyStr)
@@ -32,7 +32,7 @@ struct `Styled status Tests` {
             fg: .blue,
             bg: .red,
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".fg(.blue).bg(.red).styles([.bold])
       #expect(r == e)
@@ -47,7 +47,7 @@ struct `Styled status Tests` {
             fg: nil,
             bg: nil,
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".styles(style.0)
       #expect(r == e)
@@ -62,7 +62,7 @@ struct `Styled status Tests` {
             fg: color.1,
             bg: color.1,
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".fg(color.0).bg(color.0)
       #expect(r == e)
@@ -77,7 +77,7 @@ struct `Styled status Tests` {
             fg: .ext(code),
             bg: .ext(code),
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".fg(code).bg(code)
       #expect(r == e)
@@ -101,7 +101,7 @@ struct `Styled status Tests` {
             fg: .hex(hex),
             bg: .hex(hex),
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".fg(.hex(hex)).bg(.hex(hex))
       #expect(r == e)
@@ -124,7 +124,7 @@ struct `Styled status Tests` {
             fg: .rgb(rgb.0, rgb.1, rgb.2),
             bg: .rgb(rgb.0, rgb.1, rgb.2),
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a".fg(.rgb(rgb.0, rgb.1, rgb.2)).bg(.rgb(rgb.0, rgb.1, rgb.2))
       #expect(r == e)
@@ -147,7 +147,7 @@ struct `Styled status Tests` {
             fg: .hsb(hsb.0, hsb.1, hsb.2),
             bg: .hsb(hsb.0, hsb.1, hsb.2),
             isVisible: true,
-            emptyStr: ""
+            emptyStr: "",
          )
       let e = "a"
          .fg(.hsb(hsb.0, hsb.1, hsb.2))
@@ -164,7 +164,7 @@ struct `Styled status Tests` {
             fg: .green,
             bg: .brightRed,
             isVisible: isVisible,
-            emptyStr: ""
+            emptyStr: "",
          )
 
       #expect(r == "")

@@ -23,11 +23,11 @@ struct `Repo tests` {
       #expect(d2 == d3, "with different tags should be equal")
       #expect(
          slashed == notSlashed,
-         "with or without trailing slash should be equal"
+         "with or without trailing slash should be equal",
       )
       #expect(
          Repo("~", []) == Repo(URL.homeDirectory.path(), ["home"]),
-         "with or without expanded tilde should be equal"
+         "with or without expanded tilde should be equal",
       )
       #expect(Repo(".") == Repo(URL.currentDirectory().path()))
       #expect(
@@ -85,7 +85,7 @@ struct `Repo tests` {
       let a1 = a.adding(["c", "b", "a"]).tags
       #expect(
          a1 == ["a", "b", "c", "z"],
-         "Adding tags should sort them"
+         "Adding tags should sort them",
       )
 
       let a2 = a.adding([" ", "none", "hello  space"]).tags
@@ -113,16 +113,16 @@ struct `Repo tests` {
 
       let cleaned = Repo(
          "a",
-         ["b", " ", " z", "a ", "z", "hello  you", "none"]
+         ["b", " ", " z", "a ", "z", "hello  you", "none"],
       )
       .cleaningTags()
       #expect(
          cleaned.repo.tags == ["a", "b", "z"],
-         "Cleaning should also sort, and remove trailing/leading whitespace"
+         "Cleaning should also sort, and remove trailing/leading whitespace",
       )
       #expect(
          cleaned.removedTags == ["", "hello  you", "none", "z"],
-         "Cleaning should remove tags with whitespace, empty tags and reserved 'none'"
+         "Cleaning should remove tags with whitespace, empty tags and reserved 'none'",
       )
    }
 

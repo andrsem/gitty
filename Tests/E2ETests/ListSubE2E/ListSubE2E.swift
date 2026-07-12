@@ -30,7 +30,7 @@ struct `List Sub E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -45,7 +45,7 @@ struct `List Sub E2E`: E2EConfigurable {
          \("Repo: ".styles(.faint))\(l1.appending(component: "repoL1").path())/
          \("No tags.".styles(.faint))
          """,
-         try await gitty("l -v")
+         try await gitty("l -v"),
       )
    }
 
@@ -56,7 +56,7 @@ struct `List Sub E2E`: E2EConfigurable {
    func `filter list by partial path`() async throws {
       expectMatch(
          "• repoL1",
-         try await gitty("l -i '(?i)repol1'")
+         try await gitty("l -i '(?i)repol1'"),
       )
    }
 
@@ -66,7 +66,7 @@ struct `List Sub E2E`: E2EConfigurable {
       let fullPath = l1.appending(component: "repoL1").path()
       expectMatch(
          "• repoL1",
-         try await gitty("l -i \(fullPath)")
+         try await gitty("l -i \(fullPath)"),
       )
    }
 
@@ -75,7 +75,7 @@ struct `List Sub E2E`: E2EConfigurable {
    func `filter list by partial path inverted`() async throws {
       expectMatch(
          "• repoL2",
-         try await gitty("l -e '(?i)repol1'")
+         try await gitty("l -e '(?i)repol1'"),
       )
    }
 
@@ -93,7 +93,7 @@ struct `List Sub E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -i \(pattern)")
+         try await gitty("l -i \(pattern)"),
       )
    }
 
@@ -102,7 +102,7 @@ struct `List Sub E2E`: E2EConfigurable {
    func `filter list by partial path not found`() async throws {
       expectMatch(
          "No repos found for the matching path.",
-         try await gitty("l -i somePath")
+         try await gitty("l -i somePath"),
       )
    }
 
@@ -114,7 +114,7 @@ struct `List Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "• repoL1  \("cat".styles(.bold))",
-         try await gitty("l -t cat")
+         try await gitty("l -t cat"),
       )
    }
 
@@ -124,7 +124,7 @@ struct `List Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "• repoL2",
-         try await gitty("l -t '!cat'")
+         try await gitty("l -t '!cat'"),
       )
    }
 
@@ -139,7 +139,7 @@ struct `List Sub E2E`: E2EConfigurable {
          • repoL2  \("ab".styles(.bold))
          • repoOtherL4
          """,
-         try await gitty("l -t '!cat & (ab|none)'")
+         try await gitty("l -t '!cat & (ab|none)'"),
       )
    }
 
@@ -149,7 +149,7 @@ struct `List Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "• repoL2",
-         try await gitty("l -t none")
+         try await gitty("l -t none"),
       )
    }
 
@@ -178,7 +178,7 @@ struct `List Sub E2E`: E2EConfigurable {
 
       expectMatch(
          "No untagged repos.",
-         try await gitty("l -t none")
+         try await gitty("l -t none"),
       )
    }
 
@@ -214,7 +214,7 @@ struct `List Sub E2E`: E2EConfigurable {
 
            See 'gitty list --help' for more information.
          """,
-         try await gitty("l -t 'notATag | notATag2'").trimmedEscapeCodes
+         try await gitty("l -t 'notATag | notATag2'").trimmedEscapeCodes,
       )
    }
 }

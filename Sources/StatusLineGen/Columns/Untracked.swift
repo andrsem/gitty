@@ -16,7 +16,7 @@ extension StatusLineGen {
          styles: styles,
          fg: fg,
          bg: bg,
-         hasChanges: status.changedEntries.containsUntracked()
+         hasChanges: status.changedEntries.containsUntracked(),
       )
    }
 }

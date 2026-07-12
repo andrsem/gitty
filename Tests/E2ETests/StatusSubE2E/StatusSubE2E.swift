@@ -28,7 +28,7 @@ struct `Status Sub E2E`: E2EConfigurable {
            [38;5;214mA[39m  [31m?[39m repoL1                   [35m⇞[39m[1mmain      [22m    
               [31m?[39m repoL2                   [35m⇞[39m[1mmain      [22m    
          """,
-         try await gitty("s").trimmedEscapeCodes
+         try await gitty("s").trimmedEscapeCodes,
       )
    }
 
@@ -39,7 +39,7 @@ struct `Status Sub E2E`: E2EConfigurable {
    func `status for repos filtered by path not found`() async throws {
       expectMatch(
          "No repos found for the matching path.",
-         try await gitty("s -i gobbledygook")
+         try await gitty("s -i gobbledygook"),
       )
    }
 
@@ -48,7 +48,7 @@ struct `Status Sub E2E`: E2EConfigurable {
    func `status for repos filtered by path`() async throws {
       expectMatch(
          "[31m*[39m repoL1 [35m⇞[39m ",
-         try await gitty("s -i '(?i)repol1' -l mini").trimmedEscapeCodes
+         try await gitty("s -i '(?i)repol1' -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -57,7 +57,7 @@ struct `Status Sub E2E`: E2EConfigurable {
    func `status for repos filtered by path excluding`() async throws {
       expectMatch(
          "[31m*[39m repoL2 [35m⇞[39m ",
-         try await gitty("s -e '(?i)repol1' -l mini").trimmedEscapeCodes
+         try await gitty("s -e '(?i)repol1' -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -69,7 +69,7 @@ struct `Status Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "[31m*[39m repoL1 [35m⇞[39m ",
-         try await gitty("s -t cat -l mini").trimmedEscapeCodes
+         try await gitty("s -t cat -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -79,7 +79,7 @@ struct `Status Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "[31m*[39m repoL2 [35m⇞[39m ",
-         try await gitty("s -t '!cat' -l mini").trimmedEscapeCodes
+         try await gitty("s -t '!cat' -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -89,7 +89,7 @@ struct `Status Sub E2E`: E2EConfigurable {
       try await addTags()
       expectMatch(
          "[31m*[39m repoL2 [35m⇞[39m ",
-         try await gitty("s -t none -l mini").trimmedEscapeCodes
+         try await gitty("s -t none -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -102,7 +102,7 @@ struct `Status Sub E2E`: E2EConfigurable {
       try await addTags(toAll: true)
       expectMatch(
          "No untagged repos.",
-         try await gitty("s -t none -l mini").trimmedEscapeCodes
+         try await gitty("s -t none -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -119,7 +119,7 @@ struct `Status Sub E2E`: E2EConfigurable {
 
            See 'gitty list --help' for more information.
          """,
-         try await gitty("s -t cat").trimmedEscapeCodes
+         try await gitty("s -t cat").trimmedEscapeCodes,
       )
    }
 
@@ -137,7 +137,7 @@ struct `Status Sub E2E`: E2EConfigurable {
 
            See 'gitty list --help' for more information.
          """,
-         try await gitty("s -t hello").trimmedEscapeCodes
+         try await gitty("s -t hello").trimmedEscapeCodes,
       )
    }
 
@@ -158,7 +158,7 @@ struct `Status Sub E2E`: E2EConfigurable {
 
            See 'gitty list --help' for more information.
          """,
-         try await gitty("s -t 'hello|bye'").trimmedEscapeCodes
+         try await gitty("s -t 'hello|bye'").trimmedEscapeCodes,
       )
    }
 
@@ -179,7 +179,7 @@ struct `Status Sub E2E`: E2EConfigurable {
 
            See 'gitty list --help' for more information.
          """,
-         try await gitty("s -t 'hello | dog' -l mini").trimmedEscapeCodes
+         try await gitty("s -t 'hello | dog' -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -193,7 +193,7 @@ struct `Status Sub E2E`: E2EConfigurable {
          [31m*[39m repoL1 [35m⇞[39m 
          [31m*[39m repoL2 [35m⇞[39m 
          """,
-         try await gitty("s -l mini").trimmedEscapeCodes
+         try await gitty("s -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -202,7 +202,7 @@ struct `Status Sub E2E`: E2EConfigurable {
    func `status with non existing layout`() async throws {
       expectMatch(
          "Error: 'notALayout' layout doesn't exist.",
-         try await gitty("s -l notALayout").trimmedEscapeCodes
+         try await gitty("s -l notALayout").trimmedEscapeCodes,
       )
    }
 
@@ -217,7 +217,7 @@ struct `Status Sub E2E`: E2EConfigurable {
          [31m*[39m repoL2 [35m⇞[39m 
          [31m*[39m repoOtherL4 [35m⇞[39m 
          """,
-         try await gitty("s -l mini").trimmedEscapeCodes
+         try await gitty("s -l mini").trimmedEscapeCodes,
       )
    }
 
@@ -232,7 +232,7 @@ struct `Status Sub E2E`: E2EConfigurable {
 
          [31m*[39m repoL2 [35m⇞[39m 
          """,
-         try await gitty("s -l mini").trimmedEscapeCodes
+         try await gitty("s -l mini").trimmedEscapeCodes,
       )
    }
 }

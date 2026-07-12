@@ -17,7 +17,7 @@ struct `NoUpstream tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.noUpstream()]),
-         status: status(upstream: "")
+         status: status(upstream: ""),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -34,9 +34,9 @@ struct `NoUpstream tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.noUpstream()]
+            components: [.noUpstream()],
          ),
-         status: status(upstream: "")
+         status: status(upstream: ""),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

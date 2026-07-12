@@ -16,7 +16,7 @@ struct `Head Tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.head()]),
-         status: status()
+         status: status(),
       )
 
       let expected = ("main", "~head:main")
@@ -30,7 +30,7 @@ struct `Head Tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.head(width: 10)]),
-         status: status()
+         status: status(),
       )
 
       let expected =
@@ -50,7 +50,7 @@ struct `Head Tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.head(width: 7)]),
-         status: status(head: "myFeature")
+         status: status(head: "myFeature"),
       )
 
       let expected = ("myFeat…", "~head:myFeature")
@@ -67,9 +67,9 @@ struct `Head Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.head(width: 7, truncationMode: .head)]
+            components: [.head(width: 7, truncationMode: .head)],
          ),
-         status: status(head: "myFeature")
+         status: status(head: "myFeature"),
       )
 
       let expected = ("…eature", "~head:myFeature")
@@ -86,9 +86,9 @@ struct `Head Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.head(width: 7, truncationMode: .middle)]
+            components: [.head(width: 7, truncationMode: .middle)],
          ),
-         status: status(head: "myFeature")
+         status: status(head: "myFeature"),
       )
 
       let expected = ("myF…ure", "~head:myFeature")
@@ -102,7 +102,7 @@ struct `Head Tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.head(width: 0)]),
-         status: status(head: "myFeature")
+         status: status(head: "myFeature"),
       )
 
       let expected = ("…", "~head:myFeature")
@@ -118,9 +118,9 @@ struct `Head Tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.head, .added],
-            components: [.added(), .head()]
+            components: [.added(), .head()],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected =
@@ -140,9 +140,9 @@ struct `Head Tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.added, .head],
-            components: [.added(), .head()]
+            components: [.added(), .head()],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected =
@@ -161,7 +161,7 @@ struct `Head Tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.head()]),
-         status: status(head: strangeBranch)
+         status: status(head: strangeBranch),
       )
 
       let expected = (strangeBranch, "~head:\(strangeBranch)")

@@ -15,18 +15,18 @@ struct `Type change tests` {
 
    @Test(
       arguments: OutputStyle.allCases,
-      xyChangeInAllPositions(xyChange)
+      xyChangeInAllPositions(xyChange),
    )
    func `type change tests`(
       outputStyle: OutputStyle,
-      change: TrackedEntryChange
+      change: TrackedEntryChange,
    ) {
       testXYChanges(
          component: component,
          symbol: symbol,
          outputStyle: outputStyle,
          change: change,
-         sortComponent: sortComponent
+         sortComponent: sortComponent,
       )
    }
 }

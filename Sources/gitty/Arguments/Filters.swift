@@ -9,7 +9,7 @@ struct Filters: ParsableArguments {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .Shared.include,
-      completion: .directory
+      completion: .directory,
    )
    var include: [String] = []
 
@@ -17,13 +17,13 @@ struct Filters: ParsableArguments {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .Shared.exclude,
-      completion: .directory
+      completion: .directory,
    )
    var exclude: [String] = []
 
    @Flag(
       name: [.long, .customShort("F")],
-      help: .Shared.fixedString
+      help: .Shared.fixedString,
    )
    var fixedString = false
 

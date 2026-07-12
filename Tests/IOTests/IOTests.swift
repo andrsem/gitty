@@ -27,14 +27,14 @@ struct `IO tests` {
 
       let dirWithSpaces = tempDir.appending(
          component: "dir with spaces",
-         directoryHint: .isDirectory
+         directoryHint: .isDirectory,
       )
 
       try [gitDir, dirWithSpaces]
          .forEach {
             try fm.createDirectory(
                at: $0.appending(component: ".git"),
-               withIntermediateDirectories: true
+               withIntermediateDirectories: true,
             )
          }
 
@@ -44,7 +44,7 @@ struct `IO tests` {
          IO
             .directoryContains(
                ".git",
-               at: dirWithSpaces.path(percentEncoded: false)
+               at: dirWithSpaces.path(percentEncoded: false),
             )
             == true
       )
@@ -55,12 +55,12 @@ struct `IO tests` {
       let fileDotGit = tempDir.appending(component: "fileDotGit")
       fm.createFile(
          atPath: fileDotGit.appending(component: ".git").path(),
-         contents: Data()
+         contents: Data(),
       )
 
       #expect(
          IO.directoryContains(".git", at: fileDotGit.path()) == false,
-         ".git file is not a directory"
+         ".git file is not a directory",
       )
    }
 
@@ -115,7 +115,7 @@ struct `Find Directories` {
          "level2",
          ".level3hidden",
          "level4InsideHidden",
-         "level5InsideHidden"
+         "level5InsideHidden",
       )
 
    private static let someFile =
@@ -128,12 +128,12 @@ struct `Find Directories` {
 
       try fm.createDirectory(
          at: Self.dirHierarchy,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
 
       fm.createFile(
          atPath: Self.someFile.path(),
-         contents: Data()
+         contents: Data(),
       )
    }
 
@@ -213,17 +213,17 @@ struct `Find Directories` {
 
       try fm.createDirectory(
          at: symLocation.appending(component: target),
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
       try fm.createSymbolicLink(
          at: symlinkPath,
-         withDestinationURL: symLocation
+         withDestinationURL: symLocation,
       )
 
       let found = await IO.findDirectories(
          target,
          startingAt: Self.testDir,
-         upThrough: 5
+         upThrough: 5,
       )
 
       #expect(found.contains { $0.lastPathComponent == target })
@@ -238,14 +238,14 @@ struct `Find Directories` {
       try? fm.removeItem(at: cycleLink)
       try fm.createDirectory(
          at: cycleDir,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
       try fm.createSymbolicLink(at: cycleLink, withDestinationURL: cycleDir)
 
       let found = await IO.findDirectories(
          "cycle_parent",
          startingAt: Self.testDir,
-         upThrough: 0
+         upThrough: 0,
       )
 
       #expect(!found.isEmpty)
@@ -263,22 +263,22 @@ struct `Find Directories` {
       try? fm.removeItem(at: cycleChild)
       try fm.createDirectory(
          at: cycleChild,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
       try fm.createSymbolicLink(
          at: cycleParent,
-         withDestinationURL: cycleChild
+         withDestinationURL: cycleChild,
       )
 
       try fm.createSymbolicLink(
          at: cycleChild.appending(component: "back_to_parent"),
-         withDestinationURL: cycleParent
+         withDestinationURL: cycleParent,
       )
 
       let found = await IO.findDirectories(
          "cycle_child_dir",
          startingAt: Self.testDir,
-         upThrough: 0
+         upThrough: 0,
       )
 
       #expect(!found.isEmpty)
@@ -314,36 +314,36 @@ struct `Find Directories` {
 
       try fm.createDirectory(
          at: cycleTargetA,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
       try fm.createDirectory(
          at: cycleTargetB,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
       try fm.createDirectory(at: cycleOther, withIntermediateDirectories: true)
 
       try fm.createSymbolicLink(
          at: cycleTargetA.appending(component: "back_to_targetA"),
-         withDestinationURL: cycleTargetA
+         withDestinationURL: cycleTargetA,
       )
       try fm.createSymbolicLink(
          at: cycleTargetB.appending(component: "back_to_targetB"),
-         withDestinationURL: cycleTargetB
+         withDestinationURL: cycleTargetB,
       )
       try fm.createSymbolicLink(
          at: cycleOther.appending(component: "to_cycleTarget"),
-         withDestinationURL: cycleTargetA
+         withDestinationURL: cycleTargetA,
       )
       try fm.createSymbolicLink(
          at: cycleTargetA.appending(component: "to_cycleOther"),
-         withDestinationURL: cycleOther
+         withDestinationURL: cycleOther,
       )
 
       let found =
          await IO.findDirectories(
             "targetDir",
             startingAt: Self.testDir,
-            upThrough: 0
+            upThrough: 0,
          )
          .map(\.standardizedFileURL)
          .map {

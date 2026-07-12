@@ -16,7 +16,7 @@ extension StatusLineGen {
          styles: styles,
          fg: fg,
          bg: bg,
-         hasChanges: status.isDetached
+         hasChanges: status.isDetached,
       )
    }
 }

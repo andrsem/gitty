@@ -20,7 +20,7 @@ package enum IO {
             options: [
                .skipsPackageDescendants,
                .skipsSubdirectoryDescendants,
-            ]
+            ],
          )
          .filter { $0.pathExtension == pathExtension }
    }
@@ -55,7 +55,7 @@ package enum IO {
    ) throws {
       try fm.createDirectory(
          at: directory.resolvingSymlinksInPath(),
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
 
       try files.forEach {
@@ -74,13 +74,13 @@ package enum IO {
    package static func findDirectories(
       _ directoryName: String,
       startingAt url: URL,
-      upThrough depth: Int
+      upThrough depth: Int,
    ) async -> [URL] {
       await _findDirectories(
          directoryName,
          startingAt: url.resolvingSymlinksInPath(),
          upThrough: depth,
-         visited: VisitedDirectories()
+         visited: VisitedDirectories(),
       )
    }
 
@@ -100,7 +100,7 @@ package enum IO {
       _ directoryName: String,
       startingAt url: URL,
       upThrough depth: Int,
-      visited: VisitedDirectories
+      visited: VisitedDirectories,
    ) async -> [URL] {
       let url = url.resolvingSymlinksInPath()
       guard await visited.canVisit(url) else { return [] }
@@ -114,7 +114,7 @@ package enum IO {
       guard
          let urls = try? fm.contentsOfDirectory(
             at: url,
-            includingPropertiesForKeys: Array(resourceKeys)
+            includingPropertiesForKeys: Array(resourceKeys),
          )
       else { return [] }
 
@@ -143,7 +143,7 @@ package enum IO {
                      directoryName,
                      startingAt: isSym ? sub.resolvingSymlinksInPath() : sub,
                      upThrough: recursionDepth,
-                     visited: visited
+                     visited: visited,
                   )
                }
             }

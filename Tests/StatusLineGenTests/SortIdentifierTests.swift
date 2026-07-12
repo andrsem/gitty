@@ -15,31 +15,31 @@ struct `Sort Identifier Tests` {
          for: .added,
          with: "ad",
          isAZ: aZ,
-         sortOrder: order
+         sortOrder: order,
       )
       let modified = StatusLineGen.generateSortID(
          for: .modified,
          with: "mod",
          isAZ: aZ,
-         sortOrder: order
+         sortOrder: order,
       )
       let deleted = StatusLineGen.generateSortID(
          for: .deleted,
          with: "del",
          isAZ: aZ,
-         sortOrder: order
+         sortOrder: order,
       )
       let pull = StatusLineGen.generateSortID(
          for: .pull,
          with: "pl",
          isAZ: aZ,
-         sortOrder: order
+         sortOrder: order,
       )
       let push = StatusLineGen.generateSortID(
          for: .push,
          with: "ps",
          isAZ: aZ,
-         sortOrder: order
+         sortOrder: order,
       )
 
       let components = [push, added, modified, deleted, pull]
@@ -51,7 +51,7 @@ struct `Sort Identifier Tests` {
 
       #expect(
          components.last == deleted,
-         "deleted is sorted last - it is not in the sort order"
+         "deleted is sorted last - it is not in the sort order",
       )
    }
 }

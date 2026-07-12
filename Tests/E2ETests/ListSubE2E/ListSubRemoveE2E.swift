@@ -30,12 +30,12 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          The following repo was removed:
          • repoL1
          """,
-         try await gitty("l -r \(path)", input: "y").trimmedEscapeCodes
+         try await gitty("l -r \(path)", input: "y").trimmedEscapeCodes,
       )
 
       expectMatch(
          "• repoL2",
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -53,7 +53,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -r '(?i)l1' 'L2'", input: "y").trimmedEscapeCodes
+         try await gitty("l -r '(?i)l1' 'L2'", input: "y").trimmedEscapeCodes,
       )
 
       try await expectListIsEmpty(gitty, command: "l")
@@ -71,7 +71,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          The following repo was removed:
          • repoL1
          """,
-         try await gitty("l -r repoL1", input: "y").trimmedEscapeCodes
+         try await gitty("l -r repoL1", input: "y").trimmedEscapeCodes,
       )
 
       expectMatch(
@@ -83,7 +83,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          The following repo was removed:
          • repoL2
          """,
-         try await gitty("l -r L2", input: "y").trimmedEscapeCodes
+         try await gitty("l -r L2", input: "y").trimmedEscapeCodes,
       )
 
       try await expectListIsEmpty(gitty)
@@ -103,7 +103,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -r repo", input: "y").trimmedEscapeCodes
+         try await gitty("l -r repo", input: "y").trimmedEscapeCodes,
       )
 
       try await expectListIsEmpty(gitty)
@@ -129,7 +129,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          \("Repo: ".styles(.faint))\(l1.appending(component: "repoL1").path())/
          \("No tags.".styles(.faint))
          """,
-         try await gitty("l -r repo -v", input: "y")
+         try await gitty("l -r repo -v", input: "y"),
       )
 
       try await expectListIsEmpty(gitty)
@@ -151,7 +151,7 @@ struct `List Sub Remove E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -r '(?i)\(path)'", input: "y").trimmedEscapeCodes
+         try await gitty("l -r '(?i)\(path)'", input: "y").trimmedEscapeCodes,
       )
 
       try await expectListIsEmpty(gitty)
@@ -164,12 +164,12 @@ struct `List Sub Remove E2E`: E2EConfigurable {
 
       expectMatch(
          "Error: Invalid path regex: expected ')'",
-         try await gitty("l -r '(repo'").trimmedEscapeCodes
+         try await gitty("l -r '(repo'").trimmedEscapeCodes,
       )
 
       expectMatch(
          "Error: Invalid path regex: quantifier '?' must appear after expression",
-         try await gitty("l -r ?repo").trimmedEscapeCodes
+         try await gitty("l -r ?repo").trimmedEscapeCodes,
       )
    }
 }

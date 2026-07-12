@@ -16,17 +16,17 @@ func xyChangeInAllPositions(
    [
       .orcuChange(
          xy: .init(index: change, workingTree: .unmodified),
-         sub: .notSubmodule
+         sub: .notSubmodule,
       ),
 
       .orcuChange(
          xy: .init(index: .unmodified, workingTree: change),
-         sub: .notSubmodule
+         sub: .notSubmodule,
       ),
 
       .orcuChange(
          xy: .init(index: change, workingTree: change),
-         sub: .notSubmodule
+         sub: .notSubmodule,
       ),
    ]
 }
@@ -46,7 +46,7 @@ func testXYChanges(
       outputStyle: outputStyle,
       change: change,
       sortComponent: sortComponent,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 
 
@@ -54,7 +54,7 @@ func testXYChanges(
       component: component,
       symbol: symbol,
       outputStyle: outputStyle,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 
 
@@ -63,7 +63,7 @@ func testXYChanges(
       symbol: symbol,
       outputStyle: outputStyle,
       change: change,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 
    testXYWithChange(
@@ -72,7 +72,7 @@ func testXYChanges(
       outputStyle: outputStyle,
       change: change,
       sortOrder: [sortComponent],
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 }
 
@@ -81,12 +81,12 @@ private func testXYNoChanges(
    component: StatusComponent,
    symbol: String,
    outputStyle: OutputStyle,
-   sourceLocation: SourceLocation = #_sourceLocation
+   sourceLocation: SourceLocation = #_sourceLocation,
 ) {
    let statusLine = generateStatusLine(
       for: URL(filePath: "myURL"),
       layout: layout(outputStyle, components: [component]),
-      status: cleanStatus
+      status: cleanStatus,
    )
 
    let expected =
@@ -98,7 +98,7 @@ private func testXYNoChanges(
    expectMatch(
       expected,
       statusLine,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 }
 
@@ -116,7 +116,7 @@ private func testXYWithChange(
    let statusLine = generateStatusLine(
       for: URL(filePath: "myURL"),
       layout: layoutWithNoSortOrder,
-      status: statusWithChange
+      status: statusWithChange,
    )
 
    let defaultSortIDWhenNoSortOrder = "~\(symbol)"
@@ -124,18 +124,18 @@ private func testXYWithChange(
    expectMatch(
       (symbol, defaultSortIDWhenNoSortOrder),
       statusLine,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 
    let layoutWithSortOrder = layout(
       outputStyle,
       sortOrder: sortOrder,
-      components: [component]
+      components: [component],
    )
    let statusLineWithSortOrder = generateStatusLine(
       for: URL(filePath: "myURL"),
       layout: layoutWithSortOrder,
-      status: statusWithChange
+      status: statusWithChange,
    )
 
    let sortIDForSortOrder = (sortOrder.isEmpty ? "~" : "0A") + symbol
@@ -144,7 +144,7 @@ private func testXYWithChange(
    expectMatch(
       (symbol, sortIDForSortOrder),
       statusLineWithSortOrder,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 }
 
@@ -162,9 +162,9 @@ private func testXYSort(
       layout: layout(
          outputStyle,
          sortOrder: [sortComponent],
-         components: [component]
+         components: [component],
       ),
-      status: status(changedEntries: [change])
+      status: status(changedEntries: [change]),
    )
 
    let ascDescSign = sortComponent.rawValue.hasPrefix("_") ? "Z" : "A"
@@ -173,6 +173,6 @@ private func testXYSort(
    expectMatch(
       expected,
       statusLine,
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 }

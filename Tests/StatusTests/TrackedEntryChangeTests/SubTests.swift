@@ -21,7 +21,7 @@ struct `Sub tests` {
             == .isSubmodule(
                isCommitChanged: false,
                hasTrackedChanges: false,
-               hasUntrackedChanges: false
+               hasUntrackedChanges: false,
             )
       )
       #expect(
@@ -29,7 +29,7 @@ struct `Sub tests` {
             == .isSubmodule(
                isCommitChanged: true,
                hasTrackedChanges: false,
-               hasUntrackedChanges: false
+               hasUntrackedChanges: false,
             )
       )
       #expect(
@@ -37,7 +37,7 @@ struct `Sub tests` {
             == .isSubmodule(
                isCommitChanged: true,
                hasTrackedChanges: true,
-               hasUntrackedChanges: true
+               hasUntrackedChanges: true,
             )
       )
    }

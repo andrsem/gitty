@@ -23,7 +23,7 @@ package struct Symbols: Decodable, Equatable, Sendable {
       typeChange: String,
       truncator: String,
       unmerged: String,
-      untracked: String
+      untracked: String,
    ) {
       self.added = added
       self.clean = clean
@@ -78,7 +78,7 @@ package struct Symbols: Decodable, Equatable, Sendable {
          commit: String,
          modified: String,
          untracked: String,
-         suffix: String
+         suffix: String,
       ) {
          self.prefix = prefix
          self.commit = commit

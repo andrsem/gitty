@@ -14,7 +14,7 @@ import Testing
 func `validate base layout`() throws {
    let layout = try JSONDecoder.json5.decode(
       Layout.self,
-      from: Layout.initialBase
+      from: Layout.initialBase,
    )
    expectMatch(layout, defaultBase)
 }
@@ -74,5 +74,5 @@ let defaultBase = Layout(
       .head(width: 10, styles: [.bold]),
       .separator(),
       .stashes(),
-   ]
+   ],
 )

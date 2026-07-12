@@ -15,7 +15,7 @@ struct `Unmerged tests` {
 
    @Test(
       arguments: OutputStyle.allCases,
-      xyChangeInAllPositions(xyChange)
+      xyChangeInAllPositions(xyChange),
    )
    func `unmerged tests`(outputStyle: OutputStyle, change: TrackedEntryChange) {
       testXYChanges(
@@ -23,7 +23,7 @@ struct `Unmerged tests` {
          symbol: symbol,
          outputStyle: outputStyle,
          change: change,
-         sortComponent: sortComponent
+         sortComponent: sortComponent,
       )
    }
 }

@@ -16,7 +16,7 @@ struct `Oid tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.oid()]),
-         status: status()
+         status: status(),
       )
       let oid = status().oid.prefix(7)
       let expected = ("\(oid)", "~oid:\(oid)")
@@ -29,7 +29,7 @@ struct `Oid tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.oid(length: 0)]),
-         status: status()
+         status: status(),
       )
       let oid = status().oid.prefix(4)
       let expected = ("\(oid)", "~oid:\(oid)")
@@ -42,7 +42,7 @@ struct `Oid tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.oid(length: 9999)]),
-         status: status()
+         status: status(),
       )
       let oidFull = status().oid
 
@@ -58,9 +58,9 @@ struct `Oid tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.oid, .added],
-            components: [.added(), .oid(length: 7)]
+            components: [.added(), .oid(length: 7)],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected =
@@ -80,9 +80,9 @@ struct `Oid tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.added, .oid],
-            components: [.added(), .oid(length: 7)]
+            components: [.added(), .oid(length: 7)],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected =

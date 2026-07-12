@@ -33,7 +33,7 @@ struct Gitty: AsyncParsableCommand {
          """,
       version: "1.0.0-preview-3",
       subcommands: subcommands,
-      defaultSubcommand: StatusSub.self
+      defaultSubcommand: StatusSub.self,
    )
 
 

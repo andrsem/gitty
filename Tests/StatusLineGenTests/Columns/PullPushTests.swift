@@ -19,7 +19,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.push()]),
-            status: status(pushCount: 0)
+            status: status(pushCount: 0),
          )
 
       let expected =
@@ -37,7 +37,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.push()]),
-            status: status(pushCount: 1)
+            status: status(pushCount: 1),
          )
 
       let expected =
@@ -58,9 +58,9 @@ struct `Pull pull tests` {
                outputStyle,
                maxCount: 9,
                maxCountStyle: .init(fg: .red),
-               components: [.push()]
+               components: [.push()],
             ),
-            status: status(pushCount: 100)
+            status: status(pushCount: 100),
          )
 
       let expected = ("↑" + "9".fg(.red), "~↑")
@@ -74,7 +74,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.push(hideCount: true)]),
-            status: status(pushCount: 1)
+            status: status(pushCount: 1),
          )
 
       let expected = ("↑", "~↑")
@@ -90,9 +90,9 @@ struct `Pull pull tests` {
             layout: layout(
                outputStyle,
                sortOrder: [.push],
-               components: [.push()]
+               components: [.push()],
             ),
-            status: status(pushCount: 1)
+            status: status(pushCount: 1),
          )
 
       let expected =
@@ -112,9 +112,9 @@ struct `Pull pull tests` {
             layout: layout(
                outputStyle,
                sortOrder: [._push],
-               components: [.push()]
+               components: [.push()],
             ),
-            status: status(pushCount: 1)
+            status: status(pushCount: 1),
          )
 
       let expected =
@@ -134,7 +134,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.pull()]),
-            status: status(pullCount: 0)
+            status: status(pullCount: 0),
          )
 
       let expected =
@@ -152,7 +152,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.pull()]),
-            status: status(pullCount: 1)
+            status: status(pullCount: 1),
          )
 
       let expected =
@@ -173,9 +173,9 @@ struct `Pull pull tests` {
                outputStyle,
                maxCount: 9,
                maxCountStyle: .init(fg: .red),
-               components: [.pull()]
+               components: [.pull()],
             ),
-            status: status(pullCount: 100)
+            status: status(pullCount: 100),
          )
 
       let expected = ("↓" + "9".fg(.red), "~↓")
@@ -189,7 +189,7 @@ struct `Pull pull tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.pull(hideCount: true)]),
-            status: status(pullCount: 1)
+            status: status(pullCount: 1),
          )
 
       let expected = ("↓", "~↓")
@@ -205,9 +205,9 @@ struct `Pull pull tests` {
             layout: layout(
                outputStyle,
                sortOrder: [.pull],
-               components: [.pull()]
+               components: [.pull()],
             ),
-            status: status(pullCount: 1)
+            status: status(pullCount: 1),
          )
 
       let expected =
@@ -227,9 +227,9 @@ struct `Pull pull tests` {
             layout: layout(
                outputStyle,
                sortOrder: [._pull],
-               components: [.pull()]
+               components: [.pull()],
             ),
-            status: status(pullCount: 1)
+            status: status(pullCount: 1),
          )
 
       let expected =

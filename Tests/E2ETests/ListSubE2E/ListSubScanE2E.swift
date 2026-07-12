@@ -14,7 +14,7 @@ struct `List Sub Scan E2E`: E2EConfigurable {
          \(l2.appending(component: "repoL2").path())/
          \(l1.appending(component: "repoL1").path())/
          """,
-         try await gitty("l -s \(l1.path())")
+         try await gitty("l -s \(l1.path())"),
       )
 
       expectMatch(
@@ -22,7 +22,7 @@ struct `List Sub Scan E2E`: E2EConfigurable {
          No repos were found at a depth of 1 at:
          \(l1.path())
          """,
-         try await gitty("l -d 1 -s \(l1.path())")
+         try await gitty("l -d 1 -s \(l1.path())"),
       )
    }
 
@@ -34,14 +34,14 @@ struct `List Sub Scan E2E`: E2EConfigurable {
          """
          \(l1.appending(component: "repoL1").path())/
          """,
-         try await gitty("l -d \(depth) -s \(l1.path())")
+         try await gitty("l -d \(depth) -s \(l1.path())"),
       )
 
       expectMatch(
          """
          \(l2.appending(component: "repoL2").path())/
          """,
-         try await gitty("l -d \(depth) -s \(l2.path())")
+         try await gitty("l -d \(depth) -s \(l2.path())"),
       )
 
       expectMatch(
@@ -49,7 +49,7 @@ struct `List Sub Scan E2E`: E2EConfigurable {
          \(l2.appending(component: "repoL2").path())/
          \(l1.appending(component: "repoL1").path())/
          """,
-         try await gitty("l -d \(depth) -s \(l1.path()) \(l2.path())")
+         try await gitty("l -d \(depth) -s \(l1.path()) \(l2.path())"),
       )
    }
 
@@ -59,7 +59,7 @@ struct `List Sub Scan E2E`: E2EConfigurable {
       let path = l1.appending(path: "gobbledygook").path()
       expectMatch(
          "Path does not exist: \(path)",
-         try await gitty("l -d 1 -s \(path)")
+         try await gitty("l -d 1 -s \(path)"),
       )
    }
 }

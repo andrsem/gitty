@@ -33,7 +33,9 @@ struct `Removed All Tests` {
       let exp2 = (carriedOn: [1], removed: [2, 3])
       #expect(v2 == exp2)
 
-      #expect(emptyStr.removedAll { $0 == "b" } == (carriedOn: "", removed: ""))
+      #expect(
+         emptyStr.removedAll { $0 == "b" } == (carriedOn: "", removed: "")
+      )
       #expect(str.removedAll { $0 == "b" } == (carriedOn: "ac", removed: "b"))
       #expect(str.removedAll { $0 == "g" } == (carriedOn: "abc", removed: ""))
 

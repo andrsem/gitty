@@ -22,7 +22,7 @@ extension `List Tests` {
          #expect(a1.list[2].tags == ["a"])
          expectMatch(
             a1.message,
-            ListMessage.tagsAdded(["a"], excluded: [], repos: [r2, r3])
+            ListMessage.tagsAdded(["a"], excluded: [], repos: [r2, r3]),
          )
 
          let a2 = try [r1, r2].addingTags(["b", "c"], includedPaths: [])
@@ -30,7 +30,7 @@ extension `List Tests` {
          #expect(a2.list[1].tags == ["b", "c"])
          expectMatch(
             a2.message,
-            ListMessage.tagsAdded(["c"], excluded: ["b"], repos: [r1, r2])
+            ListMessage.tagsAdded(["c"], excluded: ["b"], repos: [r1, r2]),
          )
       }
 
@@ -47,7 +47,7 @@ extension `List Tests` {
          #expect(a1.list[2].tags == ["a"])
          expectMatch(
             a1.message,
-            ListMessage.tagsAdded(["a"], excluded: [], repos: [r2, r3])
+            ListMessage.tagsAdded(["a"], excluded: [], repos: [r2, r3]),
          )
       }
 
@@ -64,7 +64,7 @@ extension `List Tests` {
          #expect(a1.list[2].tags == r3.tags)
          expectMatch(
             a1.message,
-            ListMessage.tagsAdded([], excluded: ["none"], repos: [])
+            ListMessage.tagsAdded([], excluded: ["none"], repos: []),
          )
       }
 
@@ -77,7 +77,7 @@ extension `List Tests` {
          #expect(aEmpty.list[0].tags == [])
          expectMatch(
             aEmpty.message,
-            ListMessage.tagsAdded([], excluded: [""], repos: [])
+            ListMessage.tagsAdded([], excluded: [""], repos: []),
          )
 
          let spacesAround = [
@@ -92,7 +92,7 @@ extension `List Tests` {
          #expect(aWhitespace.list[0].tags == ["abc", "g"])
          expectMatch(
             aWhitespace.message,
-            ListMessage.tagsAdded(["abc", "g"], excluded: [], repos: [r3])
+            ListMessage.tagsAdded(["abc", "g"], excluded: [], repos: [r3]),
          )
 
 
@@ -116,7 +116,7 @@ extension `List Tests` {
                insideSpaces
                .map(\.trimmedWN)
                .sorted(),
-            repos: []
+            repos: [],
          )
          #expect(withWhitespace.message == e2)
       }
@@ -124,46 +124,52 @@ extension `List Tests` {
 
       @Test
       func `adding tags to concrete repo`() throws {
-         let a1 = try emptyList.addingTags([], includedPaths: ["~/CatPictures"])
+         let a1 = try emptyList.addingTags(
+            [],
+            includedPaths: ["~/CatPictures"],
+         )
          #expect(a1.list.allTags == [])
          expectMatch(a1.message, ListMessage.noReposWithPath)
 
          let a2 = try emptyList.addingTags(
             ["Abc"],
-            includedPaths: ["~/CatPictures"]
+            includedPaths: ["~/CatPictures"],
          )
          #expect(a2.list.allTags == [])
          expectMatch(a2.message, ListMessage.noReposWithPath)
 
-         let a3 = try cleanList.addingTags([], includedPaths: ["~/CatPictures"])
+         let a3 = try cleanList.addingTags(
+            [],
+            includedPaths: ["~/CatPictures"],
+         )
          #expect(a3.list.allTags == cleanList.allTags)
          expectMatch(a3.message, ListMessage.noReposWithPath)
 
          let a4 = try cleanList.addingTags(
             ["abc"],
-            includedPaths: ["~/CatPictures"]
+            includedPaths: ["~/CatPictures"],
          )
          #expect(a4.list.allTags == cleanList.allTags)
          expectMatch(a4.message, ListMessage.noReposWithPath)
 
          let a5 = try cleanList.addingTags(
             ["b", "a"],
-            includedPaths: ["~/Developer"]
+            includedPaths: ["~/Developer"],
          )
          #expect(a5.list.allTags == ["a", "b", "d3"])
          expectMatch(
             a5.message,
-            ListMessage.tagsAdded(["a", "b"], excluded: [], repos: [d3])
+            ListMessage.tagsAdded(["a", "b"], excluded: [], repos: [d3]),
          )
 
          let a6 = try cleanList.addingTags(
             ["d3"],
-            includedPaths: ["~/Developer"]
+            includedPaths: ["~/Developer"],
          )
          #expect(a6.list.allTags == ["d3"])
          expectMatch(
             a6.message,
-            ListMessage.tagsAdded([], excluded: ["d3"], repos: [])
+            ListMessage.tagsAdded([], excluded: ["d3"], repos: []),
          )
 
          let a7 = try [a, b, c].addingTags(["a"], includedPaths: [a.path])
@@ -172,7 +178,7 @@ extension `List Tests` {
          #expect(a7.list[2].tags == [])
          expectMatch(
             a7.message,
-            ListMessage.tagsAdded(["a"], excluded: [], repos: [a])
+            ListMessage.tagsAdded(["a"], excluded: [], repos: [a]),
          )
 
          let a8 = try [a, b, c].addingTags(["c"], includedPaths: [c.path])
@@ -181,7 +187,7 @@ extension `List Tests` {
          #expect(a8.list[2].tags == ["c"])
          expectMatch(
             a8.message,
-            ListMessage.tagsAdded(["c"], excluded: [], repos: [c])
+            ListMessage.tagsAdded(["c"], excluded: [], repos: [c]),
          )
       }
 
@@ -197,7 +203,7 @@ extension `List Tests` {
          #expect(a2.list[0].tags == ["a", "b", "d3"])
          expectMatch(
             a2.message,
-            ListMessage.tagsAdded(["a", "b"], excluded: [], repos: [d3])
+            ListMessage.tagsAdded(["a", "b"], excluded: [], repos: [d3]),
          )
 
          let a3 = try [a, b, c].addingTags(["c"], includedPaths: ["Cat"])
@@ -206,7 +212,7 @@ extension `List Tests` {
          #expect(a3.list[2].tags == ["c"])
          expectMatch(
             a3.message,
-            ListMessage.tagsAdded(["c"], excluded: [], repos: [c])
+            ListMessage.tagsAdded(["c"], excluded: [], repos: [c]),
          )
 
          let a4 = try [a, b, c].addingTags(["c"], includedPaths: ["~"])
@@ -215,7 +221,7 @@ extension `List Tests` {
          #expect(a4.list[2].tags == ["c"])
          expectMatch(
             a4.message,
-            ListMessage.tagsAdded(["c"], excluded: [], repos: [a, b, c])
+            ListMessage.tagsAdded(["c"], excluded: [], repos: [a, b, c]),
          )
       }
 
@@ -225,7 +231,7 @@ extension `List Tests` {
          let a1 = try emptyList.addingTags(
             [],
             includedPaths: [],
-            excludedPaths: ["Dev"]
+            excludedPaths: ["Dev"],
          )
          #expect(a1.list.allTags == [])
          expectMatch(a1.message, ListMessage.noReposWithPath)
@@ -233,7 +239,7 @@ extension `List Tests` {
          let a2 = try cleanList.addingTags(
             ["b", "a"],
             includedPaths: [],
-            excludedPaths: ["Dev"]
+            excludedPaths: ["Dev"],
          )
          #expect(a2.list.allTags == ["d3"])
          #expect(a2.list[0].tags == ["d3"])
@@ -246,7 +252,7 @@ extension `List Tests` {
          #expect(a3.list[2].tags == [])
          expectMatch(
             a3.message,
-            ListMessage.tagsAdded(["c"], excluded: [], repos: [a, b])
+            ListMessage.tagsAdded(["c"], excluded: [], repos: [a, b]),
          )
 
          let a4 = try [a, b, c]
@@ -274,7 +280,7 @@ extension `List Tests` {
 
          expectMatch(
             a2.message,
-            ListMessage.tagsAdded(["c"], excluded: [], repos: [c])
+            ListMessage.tagsAdded(["c"], excluded: [], repos: [c]),
          )
       }
    }

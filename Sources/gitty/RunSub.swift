@@ -25,7 +25,7 @@ struct RunSub: AsyncParsableCommand {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .Run.status,
-      completion: .list(Alias.StatusFilter.allValueStrings)
+      completion: .list(Alias.StatusFilter.allValueStrings),
    )
    var status: [String] = []
 
@@ -77,7 +77,7 @@ struct RunSub: AsyncParsableCommand {
          \(featuresUsage)
              gitty run 'pwd' --status 'added | !modified'
          """,
-      aliases: ["r"]
+      aliases: ["r"],
    )
 }
 
@@ -103,7 +103,7 @@ extension RunSub {
             tags: filters.tags,
             includedPaths: filters.include,
             excludedPaths: filters.exclude,
-            fixedString: filters.fixedString
+            fixedString: filters.fixedString,
          )
          .map(\.url)
 
@@ -121,7 +121,7 @@ extension RunSub {
 
             \(selectedCmd.args.joined(separator: " "))
 
-            """,
+            """
          )
          try yesConfirmation()
          print("")
@@ -131,7 +131,7 @@ extension RunSub {
          at: urls,
          in: parallel,
          delay: selectedCmd.delay,
-         sort: selectedCmd.sort
+         sort: selectedCmd.sort,
       ) {
          try await getCommandResult(
             running: selectedCmd.args,
@@ -172,7 +172,7 @@ extension RunSub {
                $0.flags,
                $0.status.map(\.rawValue),
                $0.delay,
-               $0.sort
+               $0.sort,
             )
          }
 
@@ -204,7 +204,7 @@ extension RunSub {
          flags: mergedFlags,
          status: mergedFilters,
          delay: mergedDelay,
-         sort: mergedSort
+         sort: mergedSort,
       )
    }
 }
@@ -215,7 +215,7 @@ private func runCommands(
    in parallel: Bool,
    delay: Int,
    sort: OutputSort,
-   action: @escaping @Sendable (URL) async throws -> String?
+   action: @escaping @Sendable (URL) async throws -> String?,
 ) async throws {
    guard !urls.isEmpty else { return }
 

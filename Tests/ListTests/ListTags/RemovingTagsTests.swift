@@ -23,14 +23,18 @@ extension `List Tests` {
          #expect(d3.list.allTags == cleanList.allTags)
          expectMatch(
             d3.message,
-            ListMessage.tagsRemoved([], excluded: [], repos: [])
+            ListMessage.tagsRemoved([], excluded: [], repos: []),
          )
 
          let d5 = try cleanList.removingTags(["d3"], includedPaths: [])
          #expect(d5.list.allTags == [])
          expectMatch(
             d5.message,
-            ListMessage.tagsRemoved(["d3"], excluded: [], repos: [ListTests.d3])
+            ListMessage.tagsRemoved(
+               ["d3"],
+               excluded: [],
+               repos: [ListTests.d3],
+            ),
          )
 
          let r1 = Repo("~", ["z", "d", "a", "b"])
@@ -38,7 +42,11 @@ extension `List Tests` {
          #expect(d6.list.allTags == ["a", "z"])
          expectMatch(
             d6.message,
-            ListMessage.tagsRemoved(["b", "d"], excluded: ["xyz"], repos: [r1])
+            ListMessage.tagsRemoved(
+               ["b", "d"],
+               excluded: ["xyz"],
+               repos: [r1],
+            ),
          )
 
          let r2 = Repo("~/abc", ["z", "g", "a", "b"])
@@ -53,8 +61,8 @@ extension `List Tests` {
             ListMessage.tagsRemoved(
                ["b", "d", "xyz"],
                excluded: [],
-               repos: [r1, r2, r3]
-            )
+               repos: [r1, r2, r3],
+            ),
          )
       }
 
@@ -65,7 +73,7 @@ extension `List Tests` {
          #expect(d1.list.allTags == [])
          expectMatch(
             d1.message,
-            ListMessage.tagsRemoved(["d3"], excluded: [], repos: [d3])
+            ListMessage.tagsRemoved(["d3"], excluded: [], repos: [d3]),
          )
       }
 
@@ -74,40 +82,47 @@ extension `List Tests` {
       func `removing tags from concrete repo`() throws {
          let d1 = try emptyList.removingTags(
             [],
-            includedPaths: ["~/CatPictures"]
+            includedPaths: ["~/CatPictures"],
          )
          #expect(d1.list.allTags == emptyList.allTags)
          expectMatch(d1.message, ListMessage.noReposWithPath)
 
          let d2 = try emptyList.removingTags(
             ["Abc"],
-            includedPaths: ["~/CatPictures"]
+            includedPaths: ["~/CatPictures"],
          )
          #expect(d2.list.allTags == emptyList.allTags)
          expectMatch(d2.message, ListMessage.noReposWithPath)
 
          let d3 = try cleanList.removingTags(
             [],
-            includedPaths: ["~/CatPictures"]
+            includedPaths: ["~/CatPictures"],
          )
          #expect(d3.list.allTags == cleanList.allTags)
          expectMatch(d3.message, ListMessage.noReposWithPath)
 
-         let d4 = try cleanList.removingTags([], includedPaths: ["~/Developer"])
+         let d4 = try cleanList.removingTags(
+            [],
+            includedPaths: ["~/Developer"],
+         )
          #expect(d4.list.allTags == cleanList.allTags)
          expectMatch(
             d4.message,
-            ListMessage.tagsRemoved([], excluded: [], repos: [])
+            ListMessage.tagsRemoved([], excluded: [], repos: []),
          )
 
          let d5 = try cleanList.removingTags(
             ["d3"],
-            includedPaths: ["~/Developer"]
+            includedPaths: ["~/Developer"],
          )
          #expect(d5.list.allTags == [])
          expectMatch(
             d5.message,
-            ListMessage.tagsRemoved(["d3"], excluded: [], repos: [ListTests.d3])
+            ListMessage.tagsRemoved(
+               ["d3"],
+               excluded: [],
+               repos: [ListTests.d3],
+            ),
          )
 
          let repoWithTags = Repo("~", ["z", "d", "a", "b"])
@@ -119,8 +134,8 @@ extension `List Tests` {
             ListMessage.tagsRemoved(
                ["b", "d"],
                excluded: ["xyz"],
-               repos: [repoWithTags]
-            )
+               repos: [repoWithTags],
+            ),
          )
       }
 
@@ -137,7 +152,7 @@ extension `List Tests` {
          #expect(d1.list[2].tags == [])
          expectMatch(
             d1.message,
-            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1, r2])
+            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1, r2]),
          )
 
          let d2 = try [r1, r2, r3].removingTags(["b"], includedPaths: ["po2"])
@@ -146,7 +161,7 @@ extension `List Tests` {
          #expect(d2.list[2].tags == [])
          expectMatch(
             d2.message,
-            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r2])
+            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r2]),
          )
 
          let d3 = try [r1, r2, r3]
@@ -159,8 +174,8 @@ extension `List Tests` {
             ListMessage.tagsRemoved(
                ["a", "b"],
                excluded: ["c"],
-               repos: [r1, r2]
-            )
+               repos: [r1, r2],
+            ),
          )
       }
 
@@ -185,21 +200,21 @@ extension `List Tests` {
          #expect(d2.list[2].tags == [])
          expectMatch(
             d2.message,
-            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1])
+            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1]),
          )
 
          let d3 = try [r1, r2, r3]
             .removingTags(
                ["a", "b", "c"],
                includedPaths: [],
-               excludedPaths: ["repo1"]
+               excludedPaths: ["repo1"],
             )
          #expect(d3.list[0].tags == ["a", "b"])
          #expect(d3.list[1].tags == [])
          #expect(d3.list[2].tags == [])
          expectMatch(
             d3.message,
-            ListMessage.tagsRemoved(["b"], excluded: ["a", "c"], repos: [r2])
+            ListMessage.tagsRemoved(["b"], excluded: ["a", "c"], repos: [r2]),
          )
       }
 
@@ -221,7 +236,7 @@ extension `List Tests` {
          #expect(d2.list[2].tags == [])
          expectMatch(
             d2.message,
-            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1, r2])
+            ListMessage.tagsRemoved(["b"], excluded: [], repos: [r1, r2]),
          )
       }
    }

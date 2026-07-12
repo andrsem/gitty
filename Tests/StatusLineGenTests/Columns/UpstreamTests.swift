@@ -17,7 +17,7 @@ struct `Upstream tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.upstream()]),
-            status: status()
+            status: status(),
          )
 
       let expected = ("origin/main", "~upst:origin/main")
@@ -31,7 +31,7 @@ struct `Upstream tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.upstream(width: 15)]),
-            status: status()
+            status: status(),
          )
 
       let expected =
@@ -51,7 +51,7 @@ struct `Upstream tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.upstream(width: 6)]),
-            status: status()
+            status: status(),
          )
 
       let expected = ("origi…", "~upst:origin/main")
@@ -68,9 +68,9 @@ struct `Upstream tests` {
             for: URL(filePath: "myRepo"),
             layout: layout(
                outputStyle,
-               components: [.upstream(width: 6, truncationMode: .head)]
+               components: [.upstream(width: 6, truncationMode: .head)],
             ),
-            status: status()
+            status: status(),
          )
 
       let expected = ("…/main", "~upst:origin/main")
@@ -87,9 +87,9 @@ struct `Upstream tests` {
             for: URL(filePath: "myRepo"),
             layout: layout(
                outputStyle,
-               components: [.upstream(width: 6, truncationMode: .middle)]
+               components: [.upstream(width: 6, truncationMode: .middle)],
             ),
-            status: status()
+            status: status(),
          )
 
       let expected = ("ori…in", "~upst:origin/main")
@@ -103,7 +103,7 @@ struct `Upstream tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.upstream(width: 0)]),
-            status: status()
+            status: status(),
          )
 
       let expected = ("…", "~upst:origin/main")

@@ -12,7 +12,7 @@ struct `List Sub Other E2E`: E2EConfigurable {
    func `broken list`() async throws {
       let list = debugConfigBase.appending(
          components: Self.testDir,
-         "list.json"
+         "list.json",
       )
       try Data().write(to: list)
 
@@ -47,10 +47,10 @@ func expectListIsEmpty(
    let result = try await gitty(command)
    #expect(
       result.contains("The list is empty."),
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
    #expect(
       result.contains("Add Git repos to the list:"),
-      sourceLocation: sourceLocation
+      sourceLocation: sourceLocation,
    )
 }

@@ -20,7 +20,7 @@ struct `Status Line Gen Tests` {
       let result = generateStatusLine(
          for: URL(filePath: "myPath"),
          layout: layout(outputStyle),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       expectMatch((line: "", sortID: ""), result)

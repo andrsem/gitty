@@ -38,7 +38,7 @@ struct `Run Sub Alias E2E`: E2EConfigurable {
          Delay:     0 ms
          Sort:      az
          """,
-         try await gitty("r --aliases")
+         try await gitty("r --aliases"),
       )
    }
 
@@ -58,7 +58,7 @@ struct `Run Sub Alias E2E`: E2EConfigurable {
          Name: push
          Args: git push
          """,
-         try await gitty("r --aliases --compact")
+         try await gitty("r --aliases --compact"),
       )
    }
 }

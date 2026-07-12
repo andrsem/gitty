@@ -15,7 +15,7 @@ struct `Deleted tests` {
 
    @Test(
       arguments: OutputStyle.allCases,
-      xyChangeInAllPositions(xyChange)
+      xyChangeInAllPositions(xyChange),
    )
    func `deleted tests`(outputStyle: OutputStyle, change: TrackedEntryChange) {
       testXYChanges(
@@ -23,7 +23,7 @@ struct `Deleted tests` {
          symbol: symbol,
          outputStyle: outputStyle,
          change: change,
-         sortComponent: sortComponent
+         sortComponent: sortComponent,
       )
    }
 }

@@ -14,7 +14,7 @@ package struct Layout {
       sortOrder: [SortComponent],
       truncationMode: TruncationMode,
       symbols: Symbols,
-      components: [StatusComponent]
+      components: [StatusComponent],
    ) {
       self.outputStyle = outputStyle
       self.countMode = countMode

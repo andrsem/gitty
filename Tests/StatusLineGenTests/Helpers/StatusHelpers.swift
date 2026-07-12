@@ -25,7 +25,7 @@ let allComponents: [StatusComponent] = [
          .commit(),
          .modified(),
          .untracked(),
-      ],
+      ]
    ),
    .typeChange(),
    .unmerged(),
@@ -66,7 +66,7 @@ func symbols(
    typeChange: String = "T",
    truncator: String = "…",
    unmerged: String = "U",
-   untracked: String = "?"
+   untracked: String = "?",
 ) -> Symbols {
    Symbols(
       added: added,
@@ -89,7 +89,7 @@ func symbols(
       typeChange: typeChange,
       truncator: truncator,
       unmerged: unmerged,
-      untracked: untracked
+      untracked: untracked,
    )
 }
 
@@ -138,7 +138,7 @@ func status(
       pushCount: pushCount,
       stashCount: stashCount,
       isLocked: isLocked,
-      changedEntries: changedEntries
+      changedEntries: changedEntries,
    )
 }
 

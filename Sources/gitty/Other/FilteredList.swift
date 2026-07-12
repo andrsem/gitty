@@ -15,14 +15,16 @@ extension List {
       let byPath = try filterReposByPath(
          includedPaths,
          excludedPaths: excludedPaths,
-         fixedString: fixedString
+         fixedString: fixedString,
       )
 
       guard !byPath.isEmpty else {
          throw CleanExit.message(FilterListError.noMatchingPath.description)
       }
 
-      let tagsExp = try tags.map { try parseExpression($0, parseValue: \.self) }
+      let tagsExp = try tags.map {
+         try parseExpression($0, parseValue: \.self)
+      }
       let exp = tagsExp.isEmpty ? nil : Expression.or(tagsExp)
       var nonExisting: [String] = []
       var allTags: [String] = []

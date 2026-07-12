@@ -39,7 +39,7 @@ extension StatusLineGen {
             fg: countStyle.fg,
             bg: countStyle.bg,
             isVisible: isColumnVisible,
-            emptyStr: emptyStr
+            emptyStr: emptyStr,
          )
 
       let symbolWithCount =
@@ -55,14 +55,14 @@ extension StatusLineGen {
             fg: fg,
             bg: bg,
             isVisible: isColumnVisible,
-            emptyStr: emptyStr
+            emptyStr: emptyStr,
          )
 
       let sort = Self.generateSortID(
          for: sortID,
          with: symbol,
          isAZ: (count != .zero) |> layout.selectSortDirection,
-         sortOrder: layout.sortOrder
+         sortOrder: layout.sortOrder,
       )
 
       return (result, sort)

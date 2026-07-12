@@ -17,7 +17,7 @@ struct StatusSub: AsyncParsableCommand {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .Status.scan,
-      completion: .directory
+      completion: .directory,
    )
    var scan: [String] = []
 
@@ -49,7 +49,7 @@ struct StatusSub: AsyncParsableCommand {
          gitty status [--scan <path>...] [--depth <integer>] [--layout <name>]
          """,
       discussion: featuresUsage,
-      aliases: ["s"]
+      aliases: ["s"],
    )
 }
 
@@ -65,7 +65,7 @@ extension StatusSub {
             tags: filters.tags,
             includedPaths: filters.include,
             excludedPaths: filters.exclude,
-            fixedString: filters.fixedString
+            fixedString: filters.fixedString,
          )
          .map(\.url)
 
@@ -191,7 +191,7 @@ private func getCustomOutputs(
          try await run(
             cmd.command,
             repoDir,
-            cmd.statusAsInput ? input : ""
+            cmd.statusAsInput ? input : "",
          )
       )
    }

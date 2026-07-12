@@ -22,7 +22,7 @@ struct `Parsing raw branch status` {
          at: fakeURL,
          ignored: true,
          lockFileExists: { _ in false },
-         run: { _, _ in (raw, error) }
+         run: { _, _ in (raw, error) },
       )
       .status
    }
@@ -81,8 +81,8 @@ struct `Parsing raw branch status` {
                pushCount: 6,
                stashCount: 2,
                isLocked: false,
-               changedEntries: []
-            )
+               changedEntries: [],
+            ),
          ),
          (
             """
@@ -99,8 +99,8 @@ struct `Parsing raw branch status` {
                pushCount: 6,
                stashCount: 0,
                isLocked: false,
-               changedEntries: []
-            )
+               changedEntries: [],
+            ),
          ),
          (
             """
@@ -116,8 +116,8 @@ struct `Parsing raw branch status` {
                pushCount: 0,
                stashCount: 0,
                isLocked: false,
-               changedEntries: []
-            )
+               changedEntries: [],
+            ),
          ),
          (
             """
@@ -132,8 +132,8 @@ struct `Parsing raw branch status` {
                pushCount: 0,
                stashCount: 0,
                isLocked: false,
-               changedEntries: []
-            )
+               changedEntries: [],
+            ),
          ),
          (
             """
@@ -168,8 +168,8 @@ struct `Parsing raw branch status` {
                      xy: .init(index: .renamed, workingTree: .unmodified),
                      sub: .notSubmodule,
                   ),
-               ]
-            )
+               ],
+            ),
          ),
       ]
    )
@@ -191,7 +191,7 @@ struct `Parsing raw branch status` {
          # branch.head main   
          # branch.oid (initial)
          """,
-      ]
+      ],
    )
    func initialCommit(raw: String) async throws {
       let status = try await parse(raw)

@@ -6,7 +6,7 @@ extension Array where Element: Hashable {
    ///
    /// - Complexity: O(*n*), where *n* is the length of the sequence.
    func uniqued<E: Error>(
-      _ isIncluded: (Element, _ seen: Set<Element>) throws(E) -> Bool,
+      _ isIncluded: (Element, _ seen: Set<Element>) throws(E) -> Bool
    ) throws(E) -> (unique: Self, excluded: Self) {
       guard !isEmpty else { return ([], []) }
 

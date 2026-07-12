@@ -20,7 +20,7 @@ struct `Untracked tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.untracked()]),
-            status: status()
+            status: status(),
          )
 
       let expected =
@@ -38,7 +38,7 @@ struct `Untracked tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.untracked()]),
          status: status(changedEntries: [.untracked]
-         )
+         ),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -55,10 +55,10 @@ struct `Untracked tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.untracked()]
+            components: [.untracked()],
          ),
          status: status(changedEntries: [.untracked]
-         )
+         ),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

@@ -17,9 +17,9 @@ struct `Separator tests` {
             for: URL(filePath: "myRepo"),
             layout: layout(
                outputStyle,
-               components: [.separator(symbol: symbol)]
+               components: [.separator(symbol: symbol)],
             ),
-            status: status()
+            status: status(),
          )
 
       let expected = (symbol ?? " ", "")
@@ -30,7 +30,7 @@ struct `Separator tests` {
    @Test(arguments: OutputStyle.allCases, ["&", "-", "||", "<*>", nil])
    func `separator remove consecutive`(
       outputStyle: OutputStyle,
-      symbol: String?
+      symbol: String?,
    ) {
       let statusLine =
          generateStatusLine(
@@ -41,9 +41,9 @@ struct `Separator tests` {
                   .separator(symbol: symbol),
                   .separator(symbol: symbol),
                   .separator(symbol: symbol),
-               ]
+               ],
             ),
-            status: status()
+            status: status(),
          )
       let symbol = symbol ?? " "
 

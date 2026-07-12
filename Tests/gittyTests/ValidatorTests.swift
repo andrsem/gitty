@@ -79,7 +79,10 @@ struct `Validator tests` {
          """
       )
       #expect(throws: error.self) {
-         try Validator.checkPaths([notGitRepo, invalidPath], wherePath: .isGit)
+         try Validator.checkPaths(
+            [notGitRepo, invalidPath],
+            wherePath: .isGit,
+         )
       }
    }
 

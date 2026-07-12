@@ -7,7 +7,7 @@ import SW40
 extension Collection where Element: Sendable {
    package func unorderedCompactPMap<T: Sendable>(
       maxTasks: Int? = nil,
-      _ transform: @Sendable @escaping (Element) async throws -> T?
+      _ transform: @Sendable @escaping (Element) async throws -> T?,
    ) async rethrows -> [T] {
       guard !isEmpty else { return [] }
 

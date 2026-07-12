@@ -14,7 +14,7 @@ package struct Status {
       pushCount: Int,
       stashCount: Int,
       isLocked: Bool,
-      changedEntries: Set<TrackedEntryChange>
+      changedEntries: Set<TrackedEntryChange>,
    ) {
       self.oid = oid
       self.head = head
@@ -68,7 +68,7 @@ package struct Status {
          pushCount: components.pushCount,
          stashCount: components.stashCount,
          isLocked: isRepoLocked(repoDir, lockFileExists),
-         changedEntries: components.changedEntries
+         changedEntries: components.changedEntries,
       )
 
       return (status, error, raw)

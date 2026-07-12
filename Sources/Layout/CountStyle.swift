@@ -5,7 +5,7 @@ package struct CountStyle: Decodable, Equatable, Sendable {
    package init(
       fg: TextColor? = nil,
       bg: TextColor? = nil,
-      styles: [TextStyle]? = nil
+      styles: [TextStyle]? = nil,
    ) {
       self.fg = fg
       self.bg = bg

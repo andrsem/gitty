@@ -30,7 +30,7 @@ struct `Tracked entry change tests` {
       )
       let expected = TrackedEntryChange.orcuChange(
          xy: XY(index: .renamed, workingTree: .unmodified),
-         sub: .notSubmodule
+         sub: .notSubmodule,
       )
       expectMatch(expected, change)
    }
@@ -45,7 +45,7 @@ struct `Tracked entry change tests` {
       let expected =
          TrackedEntryChange.orcuChange(
             xy: XY(index: .added, workingTree: .modified),
-            sub: .notSubmodule
+            sub: .notSubmodule,
          )
       expectMatch(expected, change)
    }
@@ -61,7 +61,7 @@ struct `Tracked entry change tests` {
 
       let expected = TrackedEntryChange.orcuChange(
          xy: XY(index: .unmerged, workingTree: .unmerged),
-         sub: Sub.notSubmodule
+         sub: Sub.notSubmodule,
       )
       expectMatch(expected, change)
    }

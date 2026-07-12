@@ -24,7 +24,7 @@ struct AliasesTests {
             flags: [.parallel, .quiet],
             status: [],
             delay: .zero,
-            sort: .az
+            sort: .az,
          ),
          try! Alias(
             "pull",
@@ -33,7 +33,7 @@ struct AliasesTests {
             flags: [.parallel, .quiet],
             status: [.needsPull],
             delay: .zero,
-            sort: .az
+            sort: .az,
          ),
       ]
 

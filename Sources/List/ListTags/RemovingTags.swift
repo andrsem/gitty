@@ -51,8 +51,8 @@ extension List {
          .tagsRemoved(
             removedTags,
             excluded: excluded,
-            repos: reposWithRemovedTags
-         )
+            repos: reposWithRemovedTags,
+         ),
       )
    }
 }

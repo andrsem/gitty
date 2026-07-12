@@ -19,7 +19,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          from: \("absentCat".styles(.bold))
            to: \("newcat".styles(.bold))
          """,
-         try await gitty("l --retag absentCat newcat")
+         try await gitty("l --retag absentCat newcat"),
       )
 
       expectMatch(
@@ -27,7 +27,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -41,7 +41,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          Tags should not contain illegal characters like: whitespace, '|', '&', '!', '(', ')'
          '\("new\(illegalChar)cat".styles(.bold))'
          """,
-         try await gitty("l --retag cat 'new\(illegalChar)cat'")
+         try await gitty("l --retag cat 'new\(illegalChar)cat'"),
       )
 
       expectMatch(
@@ -49,7 +49,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -65,7 +65,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
            to: \("none".styles(.bold))
          'none' is a reserved tag name to represent untagged repos.
          """,
-         try await gitty("l --retag cat none")
+         try await gitty("l --retag cat none"),
       )
 
       expectMatch(
@@ -73,7 +73,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -99,7 +99,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("newcat".styles(.bold))
          • repoL2  \("newcat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -124,7 +124,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -141,7 +141,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
 
          At: repoL1
          """,
-         try await gitty("l --retag cat newcat")
+         try await gitty("l --retag cat newcat"),
       )
 
       expectMatch(
@@ -149,7 +149,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1  \("newcat".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -166,7 +166,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
 
          At: repoL2
          """,
-         try await gitty("l --retag cat newcat")
+         try await gitty("l --retag cat newcat"),
       )
 
       expectMatch(
@@ -174,7 +174,7 @@ struct `List Sub Update Tag E2E`: E2EConfigurable {
          • repoL1
          • repoL2  \("newcat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 }

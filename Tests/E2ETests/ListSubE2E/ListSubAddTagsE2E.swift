@@ -17,7 +17,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tag added: \("cat".styles(.bold))
          At: repoL1
          """,
-         try await gitty("l --add-tags cat -i repoL1")
+         try await gitty("l --add-tags cat -i repoL1"),
       )
 
       expectMatch(
@@ -25,7 +25,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -37,7 +37,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tag added: \("cat".styles(.bold))
          At: repoL2
          """,
-         try await gitty("l --add-tags cat -e repoL1")
+         try await gitty("l --add-tags cat -e repoL1"),
       )
 
       expectMatch(
@@ -45,7 +45,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -57,7 +57,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tag added: \("cat".styles(.bold))
          At: \(l1.appending(path: "repoL1").path())/
          """,
-         try await gitty("l --add-tags cat -i repoL1 --verbose")
+         try await gitty("l --add-tags cat -i repoL1 --verbose"),
       )
    }
 
@@ -78,7 +78,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold))
          • repoL2  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -90,7 +90,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tag not added: \("none".styles(.bold))
          'none' is a reserved tag name to represent untagged repos.
          """,
-         try await gitty("l --add-tags none -i repoL1")
+         try await gitty("l --add-tags none -i repoL1"),
       )
 
       expectMatch(
@@ -98,7 +98,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -110,7 +110,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tags added: \("cat".styles(.bold)) \("meow".styles(.bold))
          At: repoL1
          """,
-         try await gitty("l --add-tags cat meow -i repoL1")
+         try await gitty("l --add-tags cat meow -i repoL1"),
       )
 
       expectMatch(
@@ -118,7 +118,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1  \("cat".styles(.bold)) \("meow".styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -138,7 +138,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2  \("cat".styles(.bold)) \("meow".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -149,7 +149,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
    ) async throws {
       expectMatch(
          "No repos matching the path.",
-         try await gitty("l --add-tags tag1 tag2 -i \(pathArgs)")
+         try await gitty("l --add-tags tag1 tag2 -i \(pathArgs)"),
       )
 
       expectMatch(
@@ -157,7 +157,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -170,12 +170,12 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tag added: \(tag.styles(.bold))
          At: repoL1
          """,
-         try await gitty("l --add-tags \(tag) -i repoL1")
+         try await gitty("l --add-tags \(tag) -i repoL1"),
       )
 
       expectMatch(
          "Tag not added: \(tag.styles(.bold))",
-         try await gitty("l --add-tags \(tag) -i repoL1")
+         try await gitty("l --add-tags \(tag) -i repoL1"),
       )
 
       expectMatch(
@@ -183,7 +183,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1  \(tag.styles(.bold))
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -195,7 +195,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          Tags should not contain illegal characters like: whitespace, '|', '&', '!', '(', ')'
          '\("new\(illegalChar)cat".styles(.bold))'
          """,
-         try await gitty("l --add-tags 'new\(illegalChar)cat' -i repoL1")
+         try await gitty("l --add-tags 'new\(illegalChar)cat' -i repoL1"),
       )
 
       expectMatch(
@@ -203,7 +203,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -217,7 +217,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          """,
          try await gitty(
             "l --add-tags validCat 'new\(illegalChar)cat' -i repoL1"
-         )
+         ),
       )
 
       expectMatch(
@@ -225,7 +225,7 @@ struct `List Sub Add Tags E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 }

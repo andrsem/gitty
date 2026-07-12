@@ -17,10 +17,10 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.custom(command: "pwd", sortID: "pwdSort")]
+            components: [.custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "")]
+         custom: [("pwd", "")],
       )
 
       let expected = ("", "")
@@ -35,10 +35,10 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.custom(command: "pwd", sortID: "pwdSort")]
+            components: [.custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("~/Developer", "~cust:~/Developer")
@@ -55,10 +55,10 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.custom(command: "pwd", sortID: "pwdSort", width: 5)]
+            components: [.custom(command: "pwd", sortID: "pwdSort", width: 5)],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("~/De…", "~cust:~/Developer")
@@ -80,12 +80,12 @@ struct `Custom Tests` {
                   command: "pwd",
                   sortID: "pwdSort",
                   width: 5,
-                  truncationMode: .middle
+                  truncationMode: .middle,
                )
-            ]
+            ],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("~/…er", "~cust:~/Developer")
@@ -107,12 +107,12 @@ struct `Custom Tests` {
                   command: "pwd",
                   sortID: "pwdSort",
                   width: 5,
-                  truncationMode: .head
+                  truncationMode: .head,
                )
-            ]
+            ],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("…oper", "~cust:~/Developer")
@@ -127,10 +127,12 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.custom(command: "pwd", sortID: "pwdSort", width: 20)]
+            components: [
+               .custom(command: "pwd", sortID: "pwdSort", width: 20)
+            ],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let sortID = "~cust:~/Developer"
@@ -150,10 +152,10 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.custom(command: "pwd", sortID: "pwdSort", width: 0)]
+            components: [.custom(command: "pwd", sortID: "pwdSort", width: 0)],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("…", "~cust:~/Developer")
@@ -167,10 +169,10 @@ struct `Custom Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")]
+            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let sortID = "~head:main~cust:~/Developer"
@@ -187,10 +189,10 @@ struct `Custom Tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.custom("pwdSort")],
-            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")]
+            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let sortID = "0Acust:~/Developer~head:main"
@@ -207,10 +209,10 @@ struct `Custom Tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.custom("pwdSort")],
-            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")]
+            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("main~/Developer", "0Acust:~/Developer~head:main")
@@ -226,10 +228,10 @@ struct `Custom Tests` {
             outputStyle,
             aZSort: false,
             sortOrder: [.head, .custom("pwdSort")],
-            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")]
+            components: [.head(), .custom(command: "pwd", sortID: "pwdSort")],
          ),
          status: status(),
-         custom: [("pwd", "~/Developer")]
+         custom: [("pwd", "~/Developer")],
       )
 
       let expected = ("main~/Developer", "0Zhead:main1Zcust:~/Developer")

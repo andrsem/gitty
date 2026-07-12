@@ -14,7 +14,7 @@ struct `UnorderedCompactPMap tests` {
          [],
          ["abc", "xyz"],
       ],
-      [-1, 0, 1, 5, nil]
+      [-1, 0, 1, 5, nil],
    )
    func `unorderedCompactPMap test`(array: [String], tasks: Int?) async throws {
       #expect(

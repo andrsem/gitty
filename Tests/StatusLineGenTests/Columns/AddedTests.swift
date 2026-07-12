@@ -15,7 +15,7 @@ struct `Added tests` {
 
    @Test(
       arguments: OutputStyle.allCases,
-      xyChangeInAllPositions(xyChange)
+      xyChangeInAllPositions(xyChange),
    )
    func `added tests`(outputStyle: OutputStyle, change: TrackedEntryChange) {
       testXYChanges(
@@ -23,7 +23,7 @@ struct `Added tests` {
          symbol: symbol,
          outputStyle: outputStyle,
          change: change,
-         sortComponent: sortComponent
+         sortComponent: sortComponent,
       )
    }
 }

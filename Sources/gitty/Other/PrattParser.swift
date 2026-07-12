@@ -4,7 +4,7 @@
 
 func parseExpression<Value>(
    _ input: String,
-   parseValue: @escaping (String) throws -> Value
+   parseValue: @escaping (String) throws -> Value,
 ) throws -> Expression<Value> {
    var parser = PrattParser(input, parseValue: parseValue)
    return try parser.parse()
@@ -14,7 +14,7 @@ func parseExpression<Value>(
 
 func evaluate<Value>(
    _ expression: Expression<Value>,
-   contains: (Value) throws -> Bool
+   contains: (Value) throws -> Bool,
 ) rethrows -> Bool {
    switch expression {
    case let .value(v): try contains(v)
@@ -38,7 +38,7 @@ indirect enum Expression<Value: Equatable>: Equatable {
    fileprivate static func combine(
       _ lhs: Self,
       with op: Token,
-      _ rhs: Self
+      _ rhs: Self,
    ) -> Self {
       switch op {
       case .or: .or(lhs.flattenedAsOr + rhs.flattenedAsOr)
@@ -139,7 +139,7 @@ private struct PrattParser<Value: Equatable> {
 
    init(
       _ input: String,
-      parseValue: @escaping (String) throws -> Value
+      parseValue: @escaping (String) throws -> Value,
    ) {
       self.tokens = tokenize(input)
       self.parseValue = parseValue

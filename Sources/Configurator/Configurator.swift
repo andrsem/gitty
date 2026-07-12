@@ -27,7 +27,9 @@ package enum Configurator {
       let layouts =
          IO.fileExists(at: layoutsDir.path())
          ? [(Layout.initialBase, baseLayout)]
-         : [(Layout.initialBase, baseLayout), (Layout.initialMini, miniLayout)]
+         : [
+            (Layout.initialBase, baseLayout), (Layout.initialMini, miniLayout),
+         ]
 
       let configs = [
          (List.initial, listConfig), (Aliases.initial, aliasesConfig),
@@ -54,7 +56,7 @@ package enum Configurator {
 
 
    package static func validatePaths(
-      _ paths: [String?],
+      _ paths: [String?]
    ) -> (invalid: [String], notGit: [String]) {
       paths.reduce(into: ([], [])) {
          guard let path = $1 else { return }
@@ -86,7 +88,7 @@ package enum Configurator {
             return
                URL.homeDirectory.appending(
                   component: ".config",
-                  directoryHint: .isDirectory
+                  directoryHint: .isDirectory,
                )
          }
          return URL(filePath: configDir, directoryHint: .isDirectory)
@@ -102,7 +104,7 @@ package enum Configurator {
 package let debugConfigBase = URL.temporaryDirectory
    .appending(
       component: "00_gitty_debug_config_dir",
-      directoryHint: .isDirectory
+      directoryHint: .isDirectory,
    )
 
 
@@ -125,7 +127,7 @@ private let debugConfig: URL? =
          print(
             "Debug config path:",
             config.path(percentEncoded: false),
-            separator: "\n"
+            separator: "\n",
          )
       }
 
@@ -187,7 +189,7 @@ extension Configurator {
    package static func readList() throws(ListError) -> List {
       try List.read(
          from: { try IO.readFile(at: listConfig) },
-         isRepoValid: isGitRepo
+         isRepoValid: isGitRepo,
       )
    }
 

@@ -8,7 +8,7 @@ import Shared
 
 extension Aliases {
    package static func read(
-      from data: () throws -> Data,
+      from data: () throws -> Data
    ) throws(AliasesError) -> Self {
       do {
          return try JSONDecoder.json5

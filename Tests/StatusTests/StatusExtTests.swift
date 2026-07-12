@@ -98,23 +98,23 @@ struct `Status Ext Tests` {
 
    static let ordinary = TrackedEntryChange.orcuChange(
       xy: .init(index: .added, workingTree: .deleted),
-      sub: .notSubmodule
+      sub: .notSubmodule,
    )
    static let ordinarySub = TrackedEntryChange.orcuChange(
       xy: .init(index: .added, workingTree: .deleted),
       sub: .isSubmodule(
          isCommitChanged: true,
          hasTrackedChanges: false,
-         hasUntrackedChanges: false
-      )
+         hasUntrackedChanges: false,
+      ),
    )
    static let ordinarySubNoChange = TrackedEntryChange.orcuChange(
       xy: .init(index: .added, workingTree: .deleted),
       sub: .isSubmodule(
          isCommitChanged: false,
          hasTrackedChanges: false,
-         hasUntrackedChanges: false
-      )
+         hasUntrackedChanges: false,
+      ),
    )
 
    static let unmerged = TrackedEntryChange.orcuChange(
@@ -122,7 +122,7 @@ struct `Status Ext Tests` {
       sub: .isSubmodule(
          isCommitChanged: false,
          hasTrackedChanges: true,
-         hasUntrackedChanges: false
+         hasUntrackedChanges: false,
       ),
    )
    static let renamed = TrackedEntryChange.orcuChange(
@@ -130,12 +130,12 @@ struct `Status Ext Tests` {
       sub: .isSubmodule(
          isCommitChanged: false,
          hasTrackedChanges: false,
-         hasUntrackedChanges: true
+         hasUntrackedChanges: true,
       ),
    )
    static let renamed2 = TrackedEntryChange.orcuChange(
       xy: .init(index: .unmodified, workingTree: .unmerged),
-      sub: .notSubmodule
+      sub: .notSubmodule,
    )
 
    let ignored = TrackedEntryChange.ignored

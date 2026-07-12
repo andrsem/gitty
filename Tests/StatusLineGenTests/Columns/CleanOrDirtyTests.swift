@@ -24,7 +24,7 @@ struct `Clean or Dirty status tests` {
             outputStyle,
             components: [.cleanOrDirty(showDirty: true)],
          ),
-         status: cleanStatus
+         status: cleanStatus,
       )
 
       expectMatch(cleanSymbol, cleanResult.line)
@@ -40,7 +40,7 @@ struct `Clean or Dirty status tests` {
             outputStyle,
             components: [.cleanOrDirty(showDirty: true)],
          ),
-         status: dirtyStatus
+         status: dirtyStatus,
       )
 
       expectMatch(dirtySymbol, dirtyResultWith.line)
@@ -62,7 +62,7 @@ struct `Clean or Dirty status tests` {
             outputStyle,
             components: [.cleanOrDirty(showDirty: false)],
          ),
-         status: dirtyStatus
+         status: dirtyStatus,
       )
 
       expectMatch(expectedDirty, dirtyResult.line)
@@ -111,7 +111,7 @@ struct `Clean or Dirty status tests` {
                   .modified(),
                ],
             ),
-            status: $0
+            status: $0,
          )
       }
       let expectedDirty =
@@ -134,7 +134,7 @@ struct `Clean or Dirty status tests` {
          changedEntries: [
             .orcuChange(
                xy: .init(index: .modified, workingTree: .unmodified),
-               sub: .notSubmodule
+               sub: .notSubmodule,
             )
          ]
       )

@@ -101,14 +101,14 @@ struct `List Tests` {
 
    @Test
    func `cleaning repos`() {
-      #expect(emptyList.cleaning { _ in false } == emptyList, )
-      #expect(cleanList.cleaning { _ in true } == cleanList, )
-      #expect(cleanList.cleaning { _ in false } == emptyList, )
-      #expect(dirtyList.cleaning { _ in true } == [c, d], )
+      #expect(emptyList.cleaning { _ in false } == emptyList )
+      #expect(cleanList.cleaning { _ in true } == cleanList )
+      #expect(cleanList.cleaning { _ in false } == emptyList )
+      #expect(dirtyList.cleaning { _ in true } == [c, d] )
 
       #expect(
          [slashed, notSlashed].cleaning { _ in true } == [slashed],
-         "With or without trailing slash duplicate should be cleaned"
+         "With or without trailing slash duplicate should be cleaned",
       )
 
       let listWithTagDups = [Repo("a", ["abc", "g", "abc", "y"])]
@@ -206,7 +206,7 @@ struct `List Tests` {
       let r3 = try list.filterReposByPath(
          [],
          excludedPaths: [path],
-         fixedString: true
+         fixedString: true,
       )
       #expect([b, c] == r3)
    }

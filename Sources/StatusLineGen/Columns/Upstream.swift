@@ -31,7 +31,7 @@ extension StatusLineGen {
                   fg: fg,
                   bg: bg,
                   isVisible: !e,
-                  emptyStr: emptyStr
+                  emptyStr: emptyStr,
                )
          }
 

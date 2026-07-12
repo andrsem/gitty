@@ -17,7 +17,7 @@ struct ListSub: AsyncParsableCommand {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .List.scan,
-      completion: .directory
+      completion: .directory,
    )
    var scan: [String] = []
 
@@ -25,7 +25,7 @@ struct ListSub: AsyncParsableCommand {
       name: [.long, .customShort("A")],
       parsing: .upToNextOption,
       help: .List.scanAdd,
-      completion: .directory
+      completion: .directory,
    )
    var scanAdd: [String] = []
 
@@ -36,7 +36,7 @@ struct ListSub: AsyncParsableCommand {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .List.add,
-      completion: .directory
+      completion: .directory,
    )
    var add: [String] = []
 
@@ -44,25 +44,25 @@ struct ListSub: AsyncParsableCommand {
       name: .shortAndLong,
       parsing: .upToNextOption,
       help: .List.remove,
-      completion: .directory
+      completion: .directory,
    )
    var remove: [String] = []
 
    @Option(
       parsing: .upToNextOption,
-      help: .List.addTags
+      help: .List.addTags,
    )
    var addTags: Tags = []
 
    @Option(
       parsing: .upToNextOption,
-      help: .List.removeTags
+      help: .List.removeTags,
    )
    var removeTags: Tags = []
 
    @Option(
       parsing: .upToNextOption,
-      help: .List.retag
+      help: .List.retag,
    )
    var retag: Tags = []
 
@@ -108,7 +108,7 @@ struct ListSub: AsyncParsableCommand {
          gitty list [--retag <old> <new>] [--include <pattern>...] [--exclude <pattern>...] [--fixed-string] [--verbose]
          """,
       discussion: featuresUsage,
-      aliases: ["l"]
+      aliases: ["l"],
    )
 }
 
@@ -130,7 +130,7 @@ extension ListSub {
             tags: tags,
             includedPaths: path,
             excludedPaths: excludedPaths,
-            fixedString: filters.fixedString
+            fixedString: filters.fixedString,
          )
          .description(verbose)
 
@@ -215,7 +215,7 @@ extension ListSub {
          return try $0.addingTags(
             addTags,
             includedPaths: path,
-            excludedPaths: excludedPaths
+            excludedPaths: excludedPaths,
          )
       }
    }
@@ -227,7 +227,7 @@ extension ListSub {
          return try $0.removingTags(
             removeTags,
             includedPaths: path,
-            excludedPaths: excludedPaths
+            excludedPaths: excludedPaths,
          )
       }
    }
@@ -239,7 +239,7 @@ extension ListSub {
          return try $0.updatingTags(
             retag,
             includedPaths: path,
-            excludedPaths: excludedPaths
+            excludedPaths: excludedPaths,
          )
       }
    }

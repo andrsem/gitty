@@ -85,7 +85,7 @@ struct `Alias Tests` {
          flags: [.quiet],
          status: [.untracked],
          delay: 1,
-         sort: .za
+         sort: .za,
       )
 
       let b = try Alias(
@@ -95,7 +95,7 @@ struct `Alias Tests` {
          flags: [.parallel],
          status: [.copied],
          delay: 2,
-         sort: .unsorted
+         sort: .unsorted,
       )
 
       let z = try Alias(
@@ -105,7 +105,7 @@ struct `Alias Tests` {
          flags: [.compact],
          status: [.added],
          delay: 0,
-         sort: .az
+         sort: .az,
       )
 
       let sorted = [b, z, a].sorted()

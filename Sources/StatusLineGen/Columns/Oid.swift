@@ -19,7 +19,7 @@ extension StatusLineGen {
             for: .oid,
             with: "oid:" + oid,
             isAZ: layout.aZSort,
-            sortOrder: layout.sortOrder
+            sortOrder: layout.sortOrder,
          )
 
       return fitToWidth(oid, width: length)

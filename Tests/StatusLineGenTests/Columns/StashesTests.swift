@@ -17,7 +17,7 @@ struct `Stashes tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.stashes()]),
-            status: status()
+            status: status(),
          )
 
       let expected =
@@ -36,7 +36,7 @@ struct `Stashes tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.stashes()]),
-            status: status(stashCount: 1)
+            status: status(stashCount: 1),
          )
 
       let expected =
@@ -55,7 +55,7 @@ struct `Stashes tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, maxCount: 9, components: [.stashes()]),
-            status: status(stashCount: 10)
+            status: status(stashCount: 10),
          )
 
       let expected = ("#9", "~#")
@@ -70,9 +70,9 @@ struct `Stashes tests` {
             for: URL(filePath: "myRepo"),
             layout: layout(
                outputStyle,
-               components: [.stashes(hideCount: true)]
+               components: [.stashes(hideCount: true)],
             ),
-            status: status(stashCount: 10)
+            status: status(stashCount: 10),
          )
 
       let expected = ("#", "~#")

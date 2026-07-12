@@ -82,7 +82,7 @@ extension List {
 
 
    package func validateTags(
-      in tags: Tags,
+      in tags: Tags
    ) -> (nonExisting: Tags, allTags: Tags) {
       let allTags = flatMap(\.tags) |> Set.init
       let tags = Set(tags).filter { $0 != Tags.reservedTag }
@@ -104,7 +104,7 @@ extension List {
    ///   - path with or without a trailing slash `/`
    ///   - the tilde `~` is expanded or not
    func cleaning(
-      isPathValid: (_ path: String) -> Bool,
+      isPathValid: (_ path: String) -> Bool
    ) -> Self {
       uniqued()
          .reduce(into: Self()) {

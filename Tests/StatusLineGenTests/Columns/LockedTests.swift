@@ -17,7 +17,7 @@ struct `Locked tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.locked()]),
-         status: status(isLocked: true)
+         status: status(isLocked: true),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -34,9 +34,9 @@ struct `Locked tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.locked()]
+            components: [.locked()],
          ),
-         status: status(isLocked: true)
+         status: status(isLocked: true),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

@@ -24,7 +24,7 @@ func `validate initial aliases`() throws {
          flags: [.parallel, .quiet],
          status: [],
          delay: .zero,
-         sort: .az
+         sort: .az,
       ),
       try! Alias(
          "pull",
@@ -33,7 +33,7 @@ func `validate initial aliases`() throws {
          flags: [.parallel, .quiet],
          status: [.needsPull],
          delay: .zero,
-         sort: .az
+         sort: .az,
       ),
       try! Alias(
          "push",
@@ -42,7 +42,7 @@ func `validate initial aliases`() throws {
          flags: [.parallel, .quiet],
          status: [.needsPush],
          delay: .zero,
-         sort: .az
+         sort: .az,
       ),
    ]
 

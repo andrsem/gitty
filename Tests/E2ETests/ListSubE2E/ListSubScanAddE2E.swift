@@ -17,7 +17,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -A \(l1.path())")
+         try await gitty("l -A \(l1.path())"),
       )
 
       expectMatch(
@@ -25,7 +25,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -40,7 +40,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          The following repo was added:
          • repoL1
          """,
-         try await gitty("l -d \(depth) -A \(l1.path())")
+         try await gitty("l -d \(depth) -A \(l1.path())"),
       )
 
       try await removeAllRepos()
@@ -49,7 +49,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          The following repo was added:
          • repoL2
          """,
-         try await gitty("l -d \(depth) -A \(l2.path())")
+         try await gitty("l -d \(depth) -A \(l2.path())"),
       )
 
       try await removeAllRepos()
@@ -59,7 +59,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l -d \(depth) -A \(l1.path()) \(l2.path())")
+         try await gitty("l -d \(depth) -A \(l1.path()) \(l2.path())"),
       )
 
       expectMatch(
@@ -67,7 +67,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -84,7 +84,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          \("Repo: ".styles(.faint))\(l1.appending(component: "repoL1").path())/
          \("No tags.".styles(.faint))
          """,
-         try await gitty("l -A \(l1.path()) -v")
+         try await gitty("l -A \(l1.path()) -v"),
       )
 
       expectMatch(
@@ -92,7 +92,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL1
          • repoL2
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -101,7 +101,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
    func `scan add where are no repos`() async throws {
       expectMatch(
          "No repos were added.",
-         try await gitty("l -d 1 -A \(l1.path())")
+         try await gitty("l -d 1 -A \(l1.path())"),
       )
    }
 
@@ -111,7 +111,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
       let path = l1.appending(path: "gobbledygook").path()
       expectMatch(
          "Path does not exist: \(path)",
-         try await gitty("l -d 1 -A \(path)")
+         try await gitty("l -d 1 -A \(path)"),
       )
    }
 
@@ -126,7 +126,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l -d 5 -A \(l1.path())")
+         try await gitty("l -d 5 -A \(l1.path())"),
       )
 
       expectMatch(
@@ -135,7 +135,7 @@ struct `List Sub Scan-Add E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 }

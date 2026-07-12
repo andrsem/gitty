@@ -17,14 +17,19 @@ extension StatusLineGen {
          for: sortID,
          with: String(symbol.prefix(3)),
          isAZ: hasChanges |> layout.selectSortDirection,
-         sortOrder: layout.sortOrder
+         sortOrder: layout.sortOrder,
       )
 
       let line =
          switch layout.outputStyle {
          case .linear:
             hasChanges
-               ? symbol.styledStatus(styles, fg: fg, bg: bg, emptyStr: emptyStr)
+               ? symbol.styledStatus(
+                  styles,
+                  fg: fg,
+                  bg: bg,
+                  emptyStr: emptyStr,
+               )
                : emptySpace(length: symbol.count)
 
          case .columnar:
@@ -33,7 +38,7 @@ extension StatusLineGen {
                fg: fg,
                bg: bg,
                isVisible: hasChanges,
-               emptyStr: emptyStr
+               emptyStr: emptyStr,
             )
          }
 

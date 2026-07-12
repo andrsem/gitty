@@ -68,7 +68,7 @@ extension ListMessage {
    private func msg(
       _ action: String,
       _ list: List,
-      _ verbose: Bool
+      _ verbose: Bool,
    ) -> String {
       switch list.count {
       case 0:

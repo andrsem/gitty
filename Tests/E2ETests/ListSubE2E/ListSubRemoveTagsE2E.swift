@@ -20,7 +20,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          Tag removed: \("cat".styles(.bold))
          At: repoL1
          """,
-         try await gitty("l --remove-tags cat -i repoL1")
+         try await gitty("l --remove-tags cat -i repoL1"),
       )
 
       expectMatch(
@@ -29,7 +29,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2  \("cat".styles(.bold))
          • repoOtherL4  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -44,7 +44,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          Tag removed: \("cat".styles(.bold))
          At: \(l1.appending(path: "repoL1").path())/
          """,
-         try await gitty("l --remove-tags cat -i repoL1 -v")
+         try await gitty("l --remove-tags cat -i repoL1 -v"),
       )
 
       expectMatch(
@@ -53,7 +53,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2  \("cat".styles(.bold))
          • repoOtherL4  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -66,7 +66,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
 
       expectMatch(
          "No repos matching the path.",
-         try await gitty("l --remove-tags cat -i gobbledygook")
+         try await gitty("l --remove-tags cat -i gobbledygook"),
       )
 
       expectMatch(
@@ -75,7 +75,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2  \("cat".styles(.bold))
          • repoOtherL4  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -100,7 +100,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4  \("cat".styles(.bold))
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -124,7 +124,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2  \("cat".styles(.bold))
          • repoOtherL4
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -150,7 +150,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -176,7 +176,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -188,7 +188,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
 
       expectMatch(
          "Tag not removed: \("hello".styles(.bold))",
-         try await gitty("l --remove-tags hello")
+         try await gitty("l --remove-tags hello"),
       )
 
       expectMatch(
@@ -197,7 +197,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l")
+         try await gitty("l"),
       )
    }
 
@@ -214,7 +214,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          Tags should not contain illegal characters like: whitespace, '|', '&', '!', '(', ')'
          '\("hello\(illegalChar)there".styles(.bold))'
          """,
-         try await gitty("l --remove-tags 'hello\(illegalChar)there' cat bye")
+         try await gitty("l --remove-tags 'hello\(illegalChar)there' cat bye"),
       )
 
       expectMatch(
@@ -223,7 +223,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l").trimmedEscapeCodes
+         try await gitty("l").trimmedEscapeCodes,
       )
    }
 
@@ -238,7 +238,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          Tag not removed: \("none".styles(.bold))
          'none' is a reserved tag name to represent untagged repos.
          """,
-         try await gitty("l --remove-tags none")
+         try await gitty("l --remove-tags none"),
       )
 
       expectMatch(
@@ -247,7 +247,7 @@ struct `List Sub Remove Tags E2E`: E2EConfigurable {
          • repoL2
          • repoOtherL4
          """,
-         try await gitty("l").trimmedEscapeCodes
+         try await gitty("l").trimmedEscapeCodes,
       )
    }
 }

@@ -6,7 +6,7 @@ extension RangeReplaceableCollection {
    ///
    /// - Complexity: O(*n*), where *n* is the length of the collection.
    package func removedAll<E: Error>(
-      where shouldBeRemoved: (Element) throws(E) -> Bool,
+      where shouldBeRemoved: (Element) throws(E) -> Bool
    ) throws(E) -> (kept: Self, removed: Self) {
       guard !isEmpty else { return (Self(), Self()) }
 

@@ -15,7 +15,7 @@ struct `Status Sub Scan E2E`: E2EConfigurable {
            [38;5;214mA[39m  [31m?[39m repoL1                   [35m⇞[39m[1mmain      [22m    
               [31m?[39m repoL2                   [35m⇞[39m[1mmain      [22m    
          """,
-         try await gitty("s -s \(l1.path())").trimmedEscapeCodes
+         try await gitty("s -s \(l1.path())").trimmedEscapeCodes,
       )
    }
 
@@ -68,7 +68,7 @@ struct `Status Sub Scan E2E`: E2EConfigurable {
          No repos found at depth: 1 starting at path:
          \(path)
          """,
-         try await gitty("s -d 1 -s \(path)").trimmedEscapeCodes
+         try await gitty("s -d 1 -s \(path)").trimmedEscapeCodes,
       )
    }
 
@@ -81,7 +81,7 @@ struct `Status Sub Scan E2E`: E2EConfigurable {
          [31m*[39m repoL2 [35m⇞[39m 
          [31m*[39m repoOtherL4 [35m⇞[39m 
          """,
-         try await gitty("s -l mini -d 5 -s \(l1.path())").trimmedEscapeCodes
+         try await gitty("s -l mini -d 5 -s \(l1.path())").trimmedEscapeCodes,
       )
    }
 }

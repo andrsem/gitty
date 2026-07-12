@@ -18,7 +18,7 @@ struct `Submodules tests` {
          generateStatusLine(
             for: URL(filePath: "myRepo"),
             layout: layout(outputStyle, components: [.submodules()]),
-            status: status()
+            status: status(),
          )
 
       let expected =
@@ -45,11 +45,11 @@ struct `Submodules tests` {
                      sub: .isSubmodule(
                         isCommitChanged: true,
                         hasTrackedChanges: false,
-                        hasUntrackedChanges: true
-                     )
+                        hasUntrackedChanges: true,
+                     ),
                   )
                ]
-            )
+            ),
          )
 
       let expected = ("<>", "~sub:")
@@ -72,9 +72,9 @@ struct `Submodules tests` {
                         .untracked(),
                      ]
                   )
-               ]
+               ],
             ),
-            status: status()
+            status: status(),
          )
 
       let expected =
@@ -101,7 +101,7 @@ struct `Submodules tests` {
                         .untracked(),
                      ]
                   )
-               ]
+               ],
             ),
             status: status(
                changedEntries: [
@@ -110,11 +110,11 @@ struct `Submodules tests` {
                      sub: .isSubmodule(
                         isCommitChanged: true,
                         hasTrackedChanges: false,
-                        hasUntrackedChanges: true
-                     )
+                        hasUntrackedChanges: true,
+                     ),
                   )
                ]
-            )
+            ),
          )
 
       let expected =
@@ -142,7 +142,7 @@ struct `Submodules tests` {
                         .untracked(),
                      ]
                   )
-               ]
+               ],
             ),
             status: status(
                changedEntries: [
@@ -151,11 +151,11 @@ struct `Submodules tests` {
                      sub: .isSubmodule(
                         isCommitChanged: false,
                         hasTrackedChanges: true,
-                        hasUntrackedChanges: false
-                     )
+                        hasUntrackedChanges: false,
+                     ),
                   )
                ]
-            )
+            ),
          )
 
       let expected =

@@ -9,7 +9,7 @@ extension StatusLineGen {
    func fitToWidth(
       _ status: String,
       width: Int,
-      mode: TruncationMode? = nil
+      mode: TruncationMode? = nil,
    ) -> String {
       switch (layout.outputStyle, status.count > width) {
       case (.linear, false): status
@@ -19,7 +19,7 @@ extension StatusLineGen {
             .truncated(
                mode ?? layout.truncationMode,
                to: width,
-               with: layout.symbols.truncator
+               with: layout.symbols.truncator,
             )
       }
    }

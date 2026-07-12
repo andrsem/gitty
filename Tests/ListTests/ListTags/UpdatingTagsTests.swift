@@ -12,15 +12,21 @@ extension `List Tests` {
    struct `Updating tags` {
       @Test
       func `updating tag in all repos`() throws {
-         let u1 = try emptyList.updatingTags(["old", "new"], includedPaths: [])
+         let u1 = try emptyList.updatingTags(
+            ["old", "new"],
+            includedPaths: [],
+         )
          #expect(u1.list.allTags == [])
          expectMatch(u1.message, ListMessage.noReposWithPath)
 
-         let u2 = try cleanList.updatingTags(["old", "new"], includedPaths: [])
+         let u2 = try cleanList.updatingTags(
+            ["old", "new"],
+            includedPaths: [],
+         )
          #expect(u2.list.allTags == ["d3"])
          expectMatch(
             u2.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u3 = try cleanList.updatingTags(["d3", "new"], includedPaths: [])
@@ -30,8 +36,8 @@ extension `List Tests` {
             ListMessage.tagsUpdated(
                old: "d3",
                new: "new",
-               repos: [ListTests.d3]
-            )
+               repos: [ListTests.d3],
+            ),
          )
 
          let u4 = try cleanList.updatingTags(["old"], includedPaths: [])
@@ -49,7 +55,7 @@ extension `List Tests` {
          #expect(u5.list[2].tags == ["new"])
          expectMatch(
             u5.message,
-            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3])
+            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3]),
          )
       }
 
@@ -58,7 +64,7 @@ extension `List Tests` {
       func `updating tag with tag with edge whitespace`() throws {
          let u3 = try cleanList.updatingTags(
             ["d3", " new "],
-            includedPaths: []
+            includedPaths: [],
          )
          #expect(u3.list.allTags == ["new"])
          expectMatch(
@@ -66,8 +72,8 @@ extension `List Tests` {
             ListMessage.tagsUpdated(
                old: "d3",
                new: "new",
-               repos: [ListTests.d3]
-            )
+               repos: [ListTests.d3],
+            ),
          )
       }
 
@@ -85,7 +91,7 @@ extension `List Tests` {
          #expect(u1.list[2].tags == ["c"])
          expectMatch(
             u1.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u2 = try [r1, r2, r3]
@@ -95,7 +101,7 @@ extension `List Tests` {
          #expect(u2.list[2].tags == ["c"])
          expectMatch(
             u2.message,
-            ListMessage.tagsNotUpdated(old: "xyz", new: "new")
+            ListMessage.tagsNotUpdated(old: "xyz", new: "new"),
          )
 
          let u3 = try [r1, r2, r3]
@@ -105,7 +111,7 @@ extension `List Tests` {
          #expect(u3.list[2].tags == ["new"])
          expectMatch(
             u3.message,
-            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3])
+            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3]),
          )
 
          let u4 = try [r1, r2, r3]
@@ -127,70 +133,70 @@ extension `List Tests` {
             .updatingTags(
                ["old", "new"],
                includedPaths: [],
-               excludedPaths: ["repo1"]
+               excludedPaths: ["repo1"],
             )
          #expect(u1.list[0].tags == ["a", "new"])
          #expect(u1.list[1].tags == ["a", "b"])
          #expect(u1.list[2].tags == ["c"])
          expectMatch(
             u1.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u2 = try [r1, r2, r3]
             .updatingTags(
                ["xyz", "new"],
                includedPaths: [],
-               excludedPaths: ["repo2"]
+               excludedPaths: ["repo2"],
             )
          #expect(u2.list[0].tags == ["a", "new"])
          #expect(u2.list[1].tags == ["a", "b"])
          #expect(u2.list[2].tags == ["c"])
          expectMatch(
             u2.message,
-            ListMessage.tagsNotUpdated(old: "xyz", new: "new")
+            ListMessage.tagsNotUpdated(old: "xyz", new: "new"),
          )
 
          let u3 = try [r1, r2, r3]
             .updatingTags(
                ["c", "new"],
                includedPaths: [],
-               excludedPaths: ["repo3"]
+               excludedPaths: ["repo3"],
             )
          #expect(u3.list[0].tags == ["a", "new"])
          #expect(u3.list[1].tags == ["a", "b"])
          #expect(u3.list[2].tags == ["c"])
          expectMatch(
             u3.message,
-            ListMessage.tagsNotUpdated(old: "c", new: "new")
+            ListMessage.tagsNotUpdated(old: "c", new: "new"),
          )
 
          let u4 = try [r1, r2, r3]
             .updatingTags(
                ["old", "new"],
                includedPaths: [],
-               excludedPaths: ["abc"]
+               excludedPaths: ["abc"],
             )
          #expect(u4.list[0].tags == ["a", "new"])
          #expect(u4.list[1].tags == ["a", "b"])
          #expect(u4.list[2].tags == ["c"])
          expectMatch(
             u4.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u5 = try [r1, r2, r3]
             .updatingTags(
                ["a", "aa"],
                includedPaths: [],
-               excludedPaths: ["repo1"]
+               excludedPaths: ["repo1"],
             )
          #expect(u5.list[0].tags == ["a", "new"])
          #expect(u5.list[1].tags == ["aa", "b"])
          #expect(u5.list[2].tags == ["c"])
          expectMatch(
             u5.message,
-            ListMessage.tagsUpdated(old: "a", new: "aa", repos: [r2])
+            ListMessage.tagsUpdated(old: "a", new: "aa", repos: [r2]),
          )
       }
 
@@ -199,12 +205,13 @@ extension `List Tests` {
       func `updating tag with invalid tag`(newTag: String) throws {
          let r1 = Repo("~/repo1", ["a"])
 
-         let u1 = try [r1].updatingTags(["a", newTag], includedPaths: ["repo"])
+         let u1 = try [r1]
+            .updatingTags(["a", newTag], includedPaths: ["repo"])
          #expect(u1.list[0].tags == ["a"])
 
          let expectedMessage = ListMessage.tagsNotUpdated(
             old: "a",
-            new: newTag.trimmedWN
+            new: newTag.trimmedWN,
          )
          #expect(u1.message == expectedMessage)
       }
@@ -223,7 +230,7 @@ extension `List Tests` {
          #expect(u1.list[2].tags == ["c"])
          expectMatch(
             u1.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u2 = try [r1, r2, r3]
@@ -233,7 +240,7 @@ extension `List Tests` {
          #expect(u2.list[2].tags == ["c"])
          expectMatch(
             u2.message,
-            ListMessage.tagsNotUpdated(old: "xyz", new: "new")
+            ListMessage.tagsNotUpdated(old: "xyz", new: "new"),
          )
 
          let u3 = try [r1, r2, r3]
@@ -243,7 +250,7 @@ extension `List Tests` {
          #expect(u3.list[2].tags == ["new"])
          expectMatch(
             u3.message,
-            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3])
+            ListMessage.tagsUpdated(old: "c", new: "new", repos: [r3]),
          )
 
          let u4 = try [r1, r2, r3]
@@ -268,7 +275,7 @@ extension `List Tests` {
          #expect(u1.list[2].tags == ["c"])
          expectMatch(
             u1.message,
-            ListMessage.tagsNotUpdated(old: "old", new: "new")
+            ListMessage.tagsNotUpdated(old: "old", new: "new"),
          )
 
          let u2 = try [r1, r2, r3]
@@ -278,7 +285,7 @@ extension `List Tests` {
          #expect(u2.list[2].tags == ["c"])
          expectMatch(
             u2.message,
-            ListMessage.tagsNotUpdated(old: "xyz", new: "new")
+            ListMessage.tagsNotUpdated(old: "xyz", new: "new"),
          )
 
          let u4 = try [r1, r2, r3]

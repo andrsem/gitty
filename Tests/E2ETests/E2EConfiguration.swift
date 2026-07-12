@@ -76,7 +76,7 @@ extension E2EConfigurable {
 private func gittyRun(
    _ args: String,
    _ testDir: String,
-   input: String = ""
+   input: String = "",
 ) async throws -> String {
    let gittyBin =
       processName == "xctest"
@@ -141,7 +141,7 @@ private func createGitRepos(at urls: [URL]) async throws {
       let repoDir = url.appending(component: repo + url.lastPathComponent)
       try FileManager.default.createDirectory(
          at: repoDir,
-         withIntermediateDirectories: true
+         withIntermediateDirectories: true,
       )
 
       ["file", "otherFile"]
@@ -150,7 +150,7 @@ private func createGitRepos(at urls: [URL]) async throws {
             _ = FileManager.default
                .createFile(
                   atPath: repoDir.appending(component: $0).path(),
-                  contents: Data()
+                  contents: Data(),
                )
          }
 
@@ -180,7 +180,7 @@ func binFromDerivedData() throws -> String? {
    try FileManager.default
       .contentsOfDirectory(
          at: URL(filePath: "~/Library/Developer/Xcode/DerivedData"),
-         includingPropertiesForKeys: [.contentModificationDateKey]
+         includingPropertiesForKeys: [.contentModificationDateKey],
       )
       .lazy
       .compactMap(getModifiedDate)

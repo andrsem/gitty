@@ -87,7 +87,12 @@ extension StatusLineGen {
          case (.linear, true):
             prefix.styledStatus(styles, fg: fg, bg: bg, emptyStr: emptyStr)
                + styledComps
-               + suffix.styledStatus(styles, fg: fg, bg: bg, emptyStr: emptyStr)
+               + suffix.styledStatus(
+                  styles,
+                  fg: fg,
+                  bg: bg,
+                  emptyStr: emptyStr,
+               )
 
          case (.linear, false):
             emptySpace(length: prefix.count + compLength + suffix.count)
@@ -101,7 +106,7 @@ extension StatusLineGen {
                   fg: fg,
                   bg: bg,
                   isVisible: hasSubChanges,
-                  emptyStr: emptyStr
+                  emptyStr: emptyStr,
                )
          }
 
@@ -109,7 +114,7 @@ extension StatusLineGen {
          for: .submodules,
          with: "sub:",
          isAZ: hasSubChanges |> layout.selectSortDirection,
-         sortOrder: layout.sortOrder
+         sortOrder: layout.sortOrder,
       )
 
       return (result, sortID)

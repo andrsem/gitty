@@ -30,7 +30,7 @@ extension StatusLineGen {
                for: .custom(sortID),
                with: "cust:" + out,
                isAZ: layout.aZSort,
-               sortOrder: layout.sortOrder
+               sortOrder: layout.sortOrder,
             )
 
          return (styled, sortID)

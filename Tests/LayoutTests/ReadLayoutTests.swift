@@ -124,7 +124,7 @@ struct `Read Layout Tests` {
             .head(width: 10, styles: [.bold]),
             .separator(),
             .stashes(styles: [.bold]),
-         ]
+         ],
       )
 
       expectMatch(expected, layout)

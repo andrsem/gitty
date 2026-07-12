@@ -29,7 +29,7 @@ extension StatusLineGen {
                   cleanS,
                   fg: cleanFg,
                   bg: cleanBg,
-                  emptyStr: emptyStr
+                  emptyStr: emptyStr,
                )
          case (false, true):
             fitToWidth(layout.symbols.dirty, width: width)
@@ -37,7 +37,7 @@ extension StatusLineGen {
                   dirtyS,
                   fg: dirtyFg,
                   bg: dirtyBg,
-                  emptyStr: emptyStr
+                  emptyStr: emptyStr,
                )
          case (false, false):
             emptySpace(length: width)
@@ -47,7 +47,7 @@ extension StatusLineGen {
          for: .clean,
          with: "c&d:",
          isAZ: status.isClean |> layout.selectSortDirection,
-         sortOrder: layout.sortOrder
+         sortOrder: layout.sortOrder,
       )
 
       return (result, sortID)

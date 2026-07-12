@@ -22,7 +22,7 @@ struct `Filtered List Tests` {
             tags: [],
             includedPaths: [],
             excludedPaths: [],
-            fixedString: false
+            fixedString: false,
          )
       }
    }
@@ -34,7 +34,7 @@ struct `Filtered List Tests` {
          tags: [],
          includedPaths: [],
          excludedPaths: [],
-         fixedString: false
+         fixedString: false,
       )
       #expect(r == list)
    }
@@ -46,7 +46,7 @@ struct `Filtered List Tests` {
          tags: [],
          includedPaths: [path],
          excludedPaths: [],
-         fixedString: false
+         fixedString: false,
       )
       let e = [Repo("~/abc")]
       #expect(r == e)
@@ -59,7 +59,7 @@ struct `Filtered List Tests` {
          tags: [],
          includedPaths: [path],
          excludedPaths: [],
-         fixedString: true
+         fixedString: true,
       )
       let e = [Repo("~/abc")]
       #expect(r == e)
@@ -72,7 +72,7 @@ struct `Filtered List Tests` {
          tags: [],
          includedPaths: [],
          excludedPaths: ["abc"],
-         fixedString: false
+         fixedString: false,
       )
       let e = [Repo("~/xyz")]
       #expect(r == e)
@@ -85,7 +85,7 @@ struct `Filtered List Tests` {
          tags: [],
          includedPaths: [],
          excludedPaths: [path],
-         fixedString: true
+         fixedString: true,
       )
       let e = [Repo("~/xyz")]
       #expect(r == e)
@@ -99,7 +99,7 @@ struct `Filtered List Tests` {
             tags: [],
             includedPaths: [],
             excludedPaths: ["(abc"],
-            fixedString: false
+            fixedString: false,
          )
       }
    }
@@ -114,7 +114,7 @@ struct `Filtered List Tests` {
             tags: [],
             includedPaths: ["hello"],
             excludedPaths: [],
-            fixedString: false
+            fixedString: false,
          )
       }
    }
@@ -133,7 +133,7 @@ struct `Filtered List Tests` {
             tags: ["hello"],
             includedPaths: [],
             excludedPaths: [],
-            fixedString: false
+            fixedString: false,
          )
       }
    }
@@ -149,7 +149,7 @@ struct `Filtered List Tests` {
             tags: ["none"],
             includedPaths: [],
             excludedPaths: [],
-            fixedString: false
+            fixedString: false,
          )
       }
    }
@@ -161,7 +161,7 @@ struct `Filtered List Tests` {
          tags: ["tag1"],
          includedPaths: [],
          excludedPaths: [],
-         fixedString: false
+         fixedString: false,
       )
       let e = [Repo("~/abc")]
       #expect(r == e)
@@ -174,7 +174,7 @@ struct `Filtered List Tests` {
          tags: ["!tag1"],
          includedPaths: [],
          excludedPaths: [],
-         fixedString: false
+         fixedString: false,
       )
       let e = [Repo("~/xyz")]
       #expect(r == e)
@@ -186,7 +186,7 @@ struct `Filtered List Tests` {
 extension CleanExit: @retroactive Equatable {
    static func == (
       lhs: ArgumentParser.CleanExit,
-      rhs: ArgumentParser.CleanExit
+      rhs: ArgumentParser.CleanExit,
    ) -> Bool {
       lhs.description == rhs.description
    }

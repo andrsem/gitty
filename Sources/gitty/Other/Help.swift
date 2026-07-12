@@ -37,12 +37,12 @@ extension ArgumentHelp {
    enum Status {
       static let layout = ArgumentHelp(
          "Select status layout. (values: \(Configurator.allLayouts().sorted().joined(separator: ", ")))",
-         valueName: "name"
+         valueName: "name",
       )
 
       static let scan = ArgumentHelp(
          "Find and show status for repos starting at paths.",
-         valueName: "path"
+         valueName: "path",
       )
    }
 
@@ -50,7 +50,7 @@ extension ArgumentHelp {
    enum Run {
       static let command = ArgumentHelp(
          "The alias name or shell command to execute.",
-         valueName: "alias>|<command"
+         valueName: "alias>|<command",
       )
 
       static let parallel = ArgumentHelp("Execute commands in parallel.")
@@ -59,7 +59,7 @@ extension ArgumentHelp {
 
       static let delay = ArgumentHelp(
          "Delay between sequential commands in milliseconds.",
-         valueName: "ms"
+         valueName: "ms",
       )
 
       static let sort = ArgumentHelp(
@@ -70,7 +70,7 @@ extension ArgumentHelp {
       static let aliases = ArgumentHelp("Print available aliases.")
       static let status = ArgumentHelp(
          "Filter repos by status using logical expressions. (values: \(Alias.StatusFilter.allValueStrings.joined(separator: ", ")))",
-         valueName: "expr"
+         valueName: "expr",
       )
    }
 
@@ -78,39 +78,39 @@ extension ArgumentHelp {
    enum List {
       static let add = ArgumentHelp(
          "Add new Git repos to the list.",
-         valueName: "path"
+         valueName: "path",
       )
 
       static let scan = ArgumentHelp(
          "Find and print Git repo paths starting at paths.",
-         valueName: "path"
+         valueName: "path",
       )
 
       static let scanAdd = ArgumentHelp(
          "Find and add Git repos to the list starting at paths.",
-         valueName: "path"
+         valueName: "path",
       )
 
       static let remove = ArgumentHelp(
          "Remove repos from the list matching the path regexes.",
-         valueName: "pattern"
+         valueName: "pattern",
       )
 
       static let verbose = ArgumentHelp("Print the list verbosely.")
 
       static let addTags = ArgumentHelp(
          "Add one or more new tags.",
-         valueName: "tags"
+         valueName: "tags",
       )
 
       static let removeTags = ArgumentHelp(
          "Remove one or more tags.",
-         valueName: "tags"
+         valueName: "tags",
       )
 
       static let retag = ArgumentHelp(
          "Rename tag from <old> to <new>.",
-         valueName: "old> <new"
+         valueName: "old> <new",
       )
    }
 
@@ -118,22 +118,22 @@ extension ArgumentHelp {
    enum Shared {
       static let depth = ArgumentHelp(
          "Scan depth: 0 = infinity, 1+ = n levels.",
-         valueName: "integer"
+         valueName: "integer",
       )
 
       static let include = ArgumentHelp(
          "Filter repos by including paths matching regexes.",
-         valueName: "pattern"
+         valueName: "pattern",
       )
 
       static let exclude = ArgumentHelp(
          "Filter repos by excluding paths matching regexes.",
-         valueName: "pattern"
+         valueName: "pattern",
       )
 
       static let tags = ArgumentHelp(
          "Filter repos by tags using logical expressions. Use '\(Tags.reservedTag)' for untagged repos.",
-         valueName: "expr"
+         valueName: "expr",
       )
 
       static let fixedString = ArgumentHelp(

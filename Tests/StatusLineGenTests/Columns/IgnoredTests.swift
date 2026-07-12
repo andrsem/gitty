@@ -19,7 +19,7 @@ struct `Ignored Tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.ignored()]),
          status: status(changedEntries: [.ignored]
-         )
+         ),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -36,10 +36,10 @@ struct `Ignored Tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.ignored()]
+            components: [.ignored()],
          ),
          status: status(changedEntries: [.ignored]
-         )
+         ),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

@@ -24,7 +24,7 @@ extension StatusLineGen {
          for: .repo,
          with: "repo:" + repo.lastPathComponent,
          isAZ: layout.aZSort,
-         sortOrder: layout.sortOrder
+         sortOrder: layout.sortOrder,
       )
 
       return (result, sortID)

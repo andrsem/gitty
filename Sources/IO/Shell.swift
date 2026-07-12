@@ -16,7 +16,7 @@ package enum Shell {
       _ args: [String],
       at workingDirectory: URL = URL.homeDirectory,
       environment: [String: String]? = nil,
-      input: String = ""
+      input: String = "",
    ) async throws -> (output: String, error: String) {
       let envKey = Environment.Key.init(stringLiteral:)
       let environment =

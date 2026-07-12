@@ -23,7 +23,7 @@ struct `Run Sub E2E`: E2EConfigurable {
          # gitty.repo repoL1
          # gitty.repo repoL2
          """,
-         try await gitty("r 'fetch' --sort az")
+         try await gitty("r 'fetch' --sort az"),
       )
    }
 
@@ -35,7 +35,7 @@ struct `Run Sub E2E`: E2EConfigurable {
          # gitty.repo repoL2
          # gitty.repo repoL1
          """,
-         try await gitty("r 'fetch' --sort za")
+         try await gitty("r 'fetch' --sort za"),
       )
    }
 
@@ -96,7 +96,7 @@ struct `Run Sub E2E`: E2EConfigurable {
          otherFileL2
 
          """,
-         try await gitty("r ls --sort az --quiet", input: "y")
+         try await gitty("r ls --sort az --quiet", input: "y"),
       )
    }
 
@@ -162,7 +162,7 @@ struct `Run Sub E2E`: E2EConfigurable {
          """,
          try await gitty(
             #"r "printf '\n\nabc\n\n'" --quiet --compact --sort \#(sort)"#,
-            input: "y"
+            input: "y",
          ),
          trimLineEnds: false,
       )

@@ -23,7 +23,7 @@ package struct Repo {
    package var url: URL {
       URL(
          filePath: path.removingPercentEncoding ?? "",
-         directoryHint: .isDirectory
+         directoryHint: .isDirectory,
       )
    }
 

@@ -17,7 +17,7 @@ struct `Detached tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.detached()]),
-         status: status(head: "(detached)")
+         status: status(head: "(detached)"),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -34,9 +34,9 @@ struct `Detached tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.detached()]
+            components: [.detached()],
          ),
-         status: status(head: "(detached)")
+         status: status(head: "(detached)"),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

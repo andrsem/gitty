@@ -16,7 +16,7 @@ package func generateStatusLine(
    for repo: URL,
    layout: Layout,
    status: Status,
-   custom: [CustomOutput] = []
+   custom: [CustomOutput] = [],
 ) -> StatusLine {
    StatusLineGen(repo: repo, layout: layout, status: status, custom: custom)
       .run()
@@ -45,7 +45,7 @@ struct StatusLineGen {
 
             let status = componentStatus(
                for: $1,
-               isSeparatorHidden: isConsecutiveSeparatorHidden
+               isSeparatorHidden: isConsecutiveSeparatorHidden,
             )
 
             guard !status.value.isEmpty else { return }

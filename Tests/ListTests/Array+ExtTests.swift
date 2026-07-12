@@ -39,10 +39,14 @@ struct ArrayTests {
          let value: Int
       }
 
-      let initialX = [X("A", 5), X("B", 14), X("A", 1), X("B", 14), X("A", 3)]
+      let initialX = [
+         X("A", 5), X("B", 14), X("A", 1), X("B", 14), X("A", 3),
+      ]
 
       let onlyDifferent = initialX.uniqued { _, _ in true }
-      let onlyDifferentExpected = [X("A", 5), X("B", 14), X("A", 1), X("A", 3)]
+      let onlyDifferentExpected = [
+         X("A", 5), X("B", 14), X("A", 1), X("A", 3),
+      ]
       #expect(onlyDifferent.unique == onlyDifferentExpected)
 
       #expect(onlyDifferent.excluded == [X("B", 14)])
@@ -55,6 +59,8 @@ struct ArrayTests {
          initialX.uniqued { e, seen in !seen.contains { $0.name == e.name } }
 
       #expect(onlyUniqueNames.unique == [X("A", 5), X("B", 14)])
-      #expect(onlyUniqueNames.excluded == [X("A", 1), X("B", 14), X("A", 3)])
+      #expect(
+         onlyUniqueNames.excluded == [X("A", 1), X("B", 14), X("A", 3)]
+      )
    }
 }

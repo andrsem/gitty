@@ -17,7 +17,7 @@ struct `Clean all components tests` {
       let line = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: layout(.linear, components: allComponents),
-         status: cleanStatus
+         status: cleanStatus,
       )
       .line
 
@@ -31,7 +31,7 @@ struct `Clean all components tests` {
       let line = generateStatusLine(
          for: URL(filePath: "myURL"),
          layout: layout(.columnar, components: allComponents),
-         status: cleanStatus
+         status: cleanStatus,
       )
       .line
 

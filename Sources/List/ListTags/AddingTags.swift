@@ -47,7 +47,7 @@ extension List {
 
       return (
          Self(updatedRepos),
-         .tagsAdded(added, excluded: excluded, repos: reposWithAddedTags)
+         .tagsAdded(added, excluded: excluded, repos: reposWithAddedTags),
       )
    }
 

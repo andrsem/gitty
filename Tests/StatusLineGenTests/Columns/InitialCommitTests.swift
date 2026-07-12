@@ -19,9 +19,9 @@ struct `InitialCommit tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.initialCommit()]
+            components: [.initialCommit()],
          ),
-         status: status(oid: "(initial)")
+         status: status(oid: "(initial)"),
       )
 
       let expected = (symbol, "~\(symbol)")
@@ -39,9 +39,9 @@ struct `InitialCommit tests` {
          layout: layout(
             outputStyle,
             sortOrder: [sortComponent],
-            components: [.initialCommit()]
+            components: [.initialCommit()],
          ),
-         status: status(oid: "(initial)")
+         status: status(oid: "(initial)"),
       )
 
       let expected = (symbol, "0\(sortID)\(symbol)")

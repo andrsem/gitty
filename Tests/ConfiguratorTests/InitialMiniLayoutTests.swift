@@ -14,7 +14,7 @@ import Testing
 func `validate mini layout`() throws {
    let layout = try JSONDecoder.json5.decode(
       Layout.self,
-      from: Layout.initialMini
+      from: Layout.initialMini,
    )
    expectMatch(layout, defaultMini)
 }
@@ -63,7 +63,7 @@ private let defaultMini = Layout(
          showDirty: true,
          cleanFg: .green,
          cleanStyles: [.bold],
-         dirtyFg: .red
+         dirtyFg: .red,
       ),
       .separator(),
       .repo(),
@@ -74,5 +74,5 @@ private let defaultMini = Layout(
       .separator(),
       .stashes(),
       .submodules(fg: .red, styles: [.italic]),
-   ]
+   ],
 )

@@ -51,7 +51,11 @@ struct `Layout Tests` {
             untracked: "?",
          ),
          components: [
-            .cleanOrDirty(cleanFg: .green, cleanStyles: [.bold], dirtyFg: .red),
+            .cleanOrDirty(
+               cleanFg: .green,
+               cleanStyles: [.bold],
+               dirtyFg: .red,
+            ),
             .custom(
                command: "xyz",
                sortID: nil,
@@ -59,7 +63,7 @@ struct `Layout Tests` {
                width: nil,
                fg: nil,
                bg: nil,
-               styles: nil
+               styles: nil,
             ),
             .modified(fg: .red),
             .added(fg: .ext(214)),
@@ -71,9 +75,9 @@ struct `Layout Tests` {
                width: nil,
                fg: nil,
                bg: nil,
-               styles: nil
+               styles: nil,
             ),
-         ]
+         ],
       )
 
 
@@ -82,7 +86,7 @@ struct `Layout Tests` {
          [
             ("xyz", false),
             ("ls", true),
-         ]
+         ],
       )
    }
 }

@@ -16,7 +16,7 @@ struct `Repo tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.repo()]),
-         status: status()
+         status: status(),
       )
 
       let expected = ("myRepo", "~repo:myRepo")
@@ -30,7 +30,7 @@ struct `Repo tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.repo(width: 18)]),
-         status: status()
+         status: status(),
       )
 
       let expected =
@@ -49,7 +49,7 @@ struct `Repo tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.repo(width: 4)]),
-         status: status()
+         status: status(),
       )
 
       let expected = ("myR…", "~repo:myRepo")
@@ -64,9 +64,9 @@ struct `Repo tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.repo(width: 4, truncationMode: .head)]
+            components: [.repo(width: 4, truncationMode: .head)],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected = ("…epo", "~repo:myRepo")
@@ -82,9 +82,9 @@ struct `Repo tests` {
          for: URL(filePath: "myRepo"),
          layout: layout(
             outputStyle,
-            components: [.repo(width: 4, truncationMode: .middle)]
+            components: [.repo(width: 4, truncationMode: .middle)],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected = ("my…o", "~repo:myRepo")
@@ -97,7 +97,7 @@ struct `Repo tests` {
       let statusLine = generateStatusLine(
          for: URL(filePath: "myRepo"),
          layout: layout(outputStyle, components: [.repo(width: 0)]),
-         status: status()
+         status: status(),
       )
 
       let expected = ("…", "~repo:myRepo")
@@ -111,7 +111,7 @@ struct `Repo tests` {
       let statusLine = generateStatusLine(
          for: url,
          layout: layout(outputStyle, components: [.repo(fullPath: true)]),
-         status: status()
+         status: status(),
       )
 
       let expected = (url.path(), "~repo:myRepo")
@@ -126,9 +126,9 @@ struct `Repo tests` {
          layout: layout(
             outputStyle,
             sortOrder: [.repo],
-            components: [.repo(width: 4)]
+            components: [.repo(width: 4)],
          ),
-         status: status()
+         status: status(),
       )
 
       let expected = ("myR…", "0Arepo:myRepo")
