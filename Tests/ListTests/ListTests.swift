@@ -101,10 +101,10 @@ struct `List Tests` {
 
    @Test
    func `cleaning repos`() {
-      #expect(emptyList.cleaning { _ in false } == emptyList )
-      #expect(cleanList.cleaning { _ in true } == cleanList )
-      #expect(cleanList.cleaning { _ in false } == emptyList )
-      #expect(dirtyList.cleaning { _ in true } == [c, d] )
+      #expect(emptyList.cleaning { _ in false } == emptyList)
+      #expect(cleanList.cleaning { _ in true } == cleanList)
+      #expect(cleanList.cleaning { _ in false } == emptyList)
+      #expect(dirtyList.cleaning { _ in true } == [c, d])
 
       #expect(
          [slashed, notSlashed].cleaning { _ in true } == [slashed],

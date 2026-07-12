@@ -2,12 +2,12 @@
 .\"     Title: gitty
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.26
-.\"      Date: 2026-05-19
+.\"      Date: 2026-07-12
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "GITTY" "1" "2026-05-19" "\ \&" "\ \&"
+.TH "GITTY" "1" "2026-07-12" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -592,7 +592,7 @@ The alias name or shell command to execute.
 .RE
 .SS "ALIAS SYNTAX"
 .sp
-Aliases are defined in \f(CRaliases.json\fP. You can pass additional arguments to an alias at runtime.
+Aliases are defined in \f(CRaliases.json5\fP. You can pass additional arguments to an alias at runtime.
 .sp
 \fBgitty run\fP \*(Aq\fI<alias>\fP [\fI<args>\fP.\|.\|.]\*(Aq [\fIoptions\fP.\|.\|.]
 .RS 4
@@ -848,7 +848,7 @@ The configuration documentation can be found in \fBgitty\-config(5)\fP.
 List of Git repos.
 .RE
 .sp
-\fB$XDG_CONFIG_HOME/gitty/aliases.json\fP
+\fB$XDG_CONFIG_HOME/gitty/aliases.json5\fP
 .RS 4
 Aliases configuration file.
 .RE
@@ -858,7 +858,7 @@ Aliases configuration file.
 Directory containing gitty layouts.
 .RE
 .sp
-\fB$XDG_CONFIG_HOME/gitty/layouts/base.json\fP
+\fB$XDG_CONFIG_HOME/gitty/layouts/base.json5\fP
 .RS 4
 Base layout. Required, will be regenerated when deleted.
 .RE

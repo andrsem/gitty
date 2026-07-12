@@ -7,14 +7,14 @@ import Layout
 import List
 
 extension Aliases {
-   static let initial = Data(PackageResources.aliasesInitial_json)
+   static let initial = Data(PackageResources.aliasesInitial_json5)
 }
 
 
 
 extension Layout {
-   static let initialBase = Data(PackageResources.layoutIBaseInitial_json)
-   static let initialMini = Data(PackageResources.layoutMiniInitial_json)
+   static let initialBase = Data(PackageResources.layoutIBaseInitial_json5)
+   static let initialMini = Data(PackageResources.layoutMiniInitial_json5)
 }
 
 

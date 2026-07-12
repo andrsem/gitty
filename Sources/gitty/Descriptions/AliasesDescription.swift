@@ -22,7 +22,7 @@ extension Aliases {
          ? """
          No available aliases.
 
-         To add a new alias use 'open $(gitty --config-path)/aliases.json' to open and modify the aliases file.
+         To add a new alias use 'open $(gitty --config-path)/aliases.json5' to open and modify the aliases file.
          """
          : """
          ALIASES:

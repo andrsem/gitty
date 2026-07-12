@@ -9,8 +9,8 @@ import Testing
 @Suite
 struct AliasesTests {
    @Test(arguments: [
-      Data(PackageResources.validAliases_json),
-      Data(PackageResources.validAliasesWithDupsUnsorted_json),
+      Data(PackageResources.validAliases_json5),
+      Data(PackageResources.validAliasesWithDupsUnsorted_json5),
    ])
    func `read valid aliases json clean and unsorted with dups`(
       data: Data
@@ -46,7 +46,7 @@ struct AliasesTests {
       #expect(
          throws: AliasesError.invalidFormat(AliasError.invalidName.description)
       ) {
-         try Aliases.read { Data(PackageResources.invalidAliasesName_json) }
+         try Aliases.read { Data(PackageResources.invalidAliasesName_json5) }
       }
    }
 
@@ -58,7 +58,7 @@ struct AliasesTests {
             AliasesError
             .invalidFormat(AliasError.invalidCommand.description)
       ) {
-         try Aliases.read { Data(PackageResources.invalidAliasesCommand_json) }
+         try Aliases.read { Data(PackageResources.invalidAliasesCommand_json5) }
       }
    }
 
@@ -66,7 +66,7 @@ struct AliasesTests {
    @Test
    func `read aliases with invalid formatting`() {
       #expect(throws: (any Error).self) {
-         try Aliases.read { Data(PackageResources.invalidAliasesJSON_json) }
+         try Aliases.read { Data(PackageResources.invalidAliasesJSON_json5) }
       }
    }
 }

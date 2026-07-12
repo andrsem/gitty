@@ -307,7 +307,7 @@ The alias name or shell command to execute.
 
 
 ==== ALIAS SYNTAX
-Aliases are defined in `aliases.json`. You can pass additional arguments to an alias at runtime.
+Aliases are defined in `aliases.json5`. You can pass additional arguments to an alias at runtime.
 
 *gitty run* '_<alias>_ [_<args>_...]' [_options_...]:::
 +
@@ -451,13 +451,13 @@ The configuration documentation can be found in *{see-gitty-config}*.
 *$XDG_CONFIG_HOME/gitty/list.json*::
 List of Git repos.
 
-*$XDG_CONFIG_HOME/gitty/aliases.json*::
+*$XDG_CONFIG_HOME/gitty/aliases.json5*::
 Aliases configuration file.
 
 *$XDG_CONFIG_HOME/gitty/layouts/*::
 Directory containing gitty layouts.
 
-*$XDG_CONFIG_HOME/gitty/layouts/base.json*::
+*$XDG_CONFIG_HOME/gitty/layouts/base.json5*::
 Base layout. Required, will be regenerated when deleted.
 
 

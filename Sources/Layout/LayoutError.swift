@@ -13,7 +13,7 @@ extension LayoutError: CustomStringConvertible {
       case let .doesNotExist(layout):
          "'\(layout)' layout doesn't exist."
       case let .failedToDecode(error):
-         "Failed to read layout JSON file. \(error)"
+         "Failed to read layout JSON5 file. \(error)"
       }
    }
 }

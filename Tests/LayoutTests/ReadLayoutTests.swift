@@ -48,7 +48,7 @@ struct `Read Layout Tests` {
             )
       ) {
          try Layout.read(name: "base") {
-            Data(PackageResources.incorrectlyFormattedLayout_json)
+            Data(PackageResources.incorrectlyFormattedLayout_json5)
          }
       }
    }
@@ -67,7 +67,7 @@ struct `Read Layout Tests` {
    @Test
    func `read valid layout`() throws {
       let layout = try Layout.read(name: "validLayout") {
-         Data(PackageResources.validLayout_json)
+         Data(PackageResources.validLayout_json5)
       }
 
       let expected = Layout(

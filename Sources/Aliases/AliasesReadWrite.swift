@@ -38,7 +38,7 @@ extension AliasesError: CustomStringConvertible {
    package var description: String {
       switch self {
       case let .invalidFormat(error):
-         "Failed to read aliases JSON file. \(error)"
+         "Failed to read aliases JSON5 file. \(error)"
       }
    }
 }

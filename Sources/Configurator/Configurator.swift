@@ -42,7 +42,7 @@ package enum Configurator {
 
    package static func allLayouts() -> [String] {
       let layouts =
-         try? IO.filesWithExtension("json", at: layoutsDir)
+         try? IO.filesWithExtension("json5", at: layoutsDir)
          .compactMap { url in
             do {
                let name = url.deletingPathExtension().lastPathComponent
@@ -159,7 +159,7 @@ extension Configurator {
 
 
    private static let aliasesConfig =
-      configDir.appending(component: "aliases.json")
+      configDir.appending(component: "aliases.json5")
 }
 
 
@@ -171,14 +171,14 @@ extension Configurator {
       _ name: String
    ) throws(LayoutError) -> Layout {
       try Layout.read(name: name) {
-         try IO.readFile(at: layoutsDir.appending(component: name + ".json"))
+         try IO.readFile(at: layoutsDir.appending(component: name + ".json5"))
       }
    }
 
 
    private static let layoutsDir = configDir.appending(component: "layouts")
-   private static let baseLayout = layoutsDir.appending(component: "base.json")
-   private static let miniLayout = layoutsDir.appending(component: "mini.json")
+   private static let baseLayout = layoutsDir.appending(component: "base.json5")
+   private static let miniLayout = layoutsDir.appending(component: "mini.json5")
 }
 
 
