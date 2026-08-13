@@ -137,7 +137,7 @@ extension RunSub {
             running: selectedCmd.args,
             at: $0,
             compact: compact,
-            filters: selectedCmd.filters,
+            status: selectedCmd.status,
          )
       }
    }
@@ -148,7 +148,7 @@ extension RunSub {
          args: [String],
          type: CommandType,
          flags: [Alias.Flag],
-         filters: [String],
+         status: [String],
          delay: Int,
          sort: OutputSort
       )
@@ -188,8 +188,10 @@ extension RunSub {
 
       let mergedArgs = alias.args + command.dropFirst()
       let mergedFlags = Set(alias.flags + selectedFlags) |> Array.init
-      let filters = status.compactMap(Alias.StatusFilter.init(rawValue:))
-      let mergedFilters = Set(alias.status + filters) |> Array.init
+      let mergedStatus =
+         (alias.status + status.compactMap(Alias.StatusFilter.init))
+         |> Set.init
+         |> Array.init
 
       let args = CommandLine.arguments.dropFirst()
       let mergedSort =
@@ -202,7 +204,7 @@ extension RunSub {
          args: mergedArgs,
          details: alias.details,
          flags: mergedFlags,
-         status: mergedFilters,
+         status: mergedStatus,
          delay: mergedDelay,
          sort: mergedSort,
       )
@@ -268,9 +270,9 @@ private func getCommandResult(
    running command: [String],
    at url: URL,
    compact: Bool,
-   filters: [String],
+   status: [String],
 ) async throws -> String? {
-   guard try await satisfiesAny(filters, at: url) else {
+   guard try await satisfiesAny(status, at: url) else {
       return nil
    }
 
