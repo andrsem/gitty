@@ -33,8 +33,8 @@ struct `UnorderedCompactPMap tests` {
    ])
    func `unorderedCompactPMap clean nils`(array: [Int?]) async throws {
       #expect(
-         await array.unorderedCompactPMap(\.self).sorted()
-            == array.compactMap(\.self)
+         await array.unorderedCompactPMap { $0 }.sorted()
+            == array.compactMap { $0 }
       )
    }
 }
