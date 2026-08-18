@@ -145,14 +145,20 @@ extension ListSub {
    }
 
 
-   private func scanForRepos(at paths: [String]) async {
+   private func getURLs(from paths: [String]) async -> [URL] {
       var urls: [URL] = []
+      urls.reserveCapacity(paths.count)
       for path in paths {
          urls += await Configurator.findGitRepoURLs(at: path, depth: depth)
       }
+      return urls
+   }
 
+
+   private func scanForRepos(at paths: [String]) async {
       let message =
-         urls.map { Repo($0.path()).path }
+         await getURLs(from: paths)
+         .map { Repo($0.path()).path }
          .sorted(by: azCompare)
          .joined(separator: "\n")
          .ifEmpty(
@@ -167,13 +173,7 @@ extension ListSub {
 
 
    private func scanAddRepos(at paths: [String]) async throws {
-      var urls: [URL] = []
-      for path in paths {
-         urls += await Configurator.findGitRepoURLs(at: path, depth: depth)
-      }
-
-      let foundRepos = urls.map { Repo($0.path()) }
-
+      let foundRepos = await getURLs(from: paths).map { Repo($0.path()) }
       try saveResultOf(verbose: verbose) { $0.adding(foundRepos) }
    }
 

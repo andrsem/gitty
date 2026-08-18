@@ -253,12 +253,7 @@ private func runCommands(
       outputs
       .sorted {
          let isAZ = $0.azCompare($1)
-
-         return switch sort {
-         case .az: isAZ
-         case .za: !isAZ
-         case .unsorted: true
-         }
+         return sort == .az ? isAZ : !isAZ
       }
       .joined(separator: "\n")
 
@@ -276,12 +271,12 @@ private func getCommandResult(
       return nil
    }
 
-   let gittyRepoID = "# gitty.repo"
+   let repoHeader = "# gitty.repo " + url.lastPathComponent
    let (output, error) = try await Configurator.run(command, at: url)
    let err =
       error.isEmpty
       ? ""
-      : gittyRepoID + " " + url.lastPathComponent + " " + error
+      : repoHeader + " " + error
 
    let result =
       switch (output.isEmpty, error.isEmpty) {
@@ -291,10 +286,8 @@ private func getCommandResult(
       }
 
    return compact
-      ? (result.trimmingSuffix("\n") |> String.init)
-      : gittyRepoID + " " + url.lastPathComponent
-         + (result.isEmpty ? "" : "\n")
-         + result
+      ? result.trimmingSuffix("\n") |> String.init
+      : repoHeader + (result.isEmpty ? "" : "\n") + result
 }
 
 
@@ -324,9 +317,6 @@ private func satisfiesAny(
       }
    }
 
-   let combinedExp = expressions.isEmpty ? nil : Expression.or(expressions)
-   guard let exp = combinedExp else { return true }
-
    let needsIgnored = filters.contains(Alias.StatusFilter.ignored.rawValue)
    let status =
       try await Configurator
@@ -335,7 +325,7 @@ private func satisfiesAny(
    let changes = status.changedEntries
    let subChanges = changes.hasSubmoduleChanges()
 
-   return evaluate(exp) { filter in
+   return evaluate(Expression.or(expressions)) { filter in
       switch filter {
       case .added: changes.containsChange(.added)
       case .copied: changes.containsChange(.copied)

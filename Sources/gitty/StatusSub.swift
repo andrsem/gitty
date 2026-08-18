@@ -114,9 +114,8 @@ private func getStatus(
          try await getStatusLine(at: $0, with: layout)
       }
       .sorted(by: lineID)
-      .reduce(into: "") { $0.append($1.line + "\n") }
-      .dropLast()
-      |> String.init
+      .map(\.line)
+      .joined(separator: "\n")
 }
 
 
@@ -184,23 +183,16 @@ private func getCustomOutputs(
 ) async throws -> [CustomOutput] {
    guard !commands.isEmpty else { return [] }
 
-   var results: [(String, (output: String, error: String))] = []
-   results.reserveCapacity(commands.count)
+   var outputs: [CustomOutput] = []
+   outputs.reserveCapacity(commands.count)
    for cmd in commands {
-      results.append(
-         try await run(
-            cmd.command,
-            repoDir,
-            cmd.statusAsInput ? input : "",
-         )
-      )
+      let (command, result) =
+         try await run(cmd.command, repoDir, cmd.statusAsInput ? input : "")
+
+      outputs.append((command, result.output + result.error))
    }
 
-   var customOutput: [CustomOutput] = []
-   customOutput.reserveCapacity(commands.count)
-   return results.reduce(into: customOutput) {
-      $0.append(($1.0, $1.1.output + $1.1.error))
-   }
+   return outputs
 }
 
 
