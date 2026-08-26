@@ -403,17 +403,24 @@ struct `Run Sub E2E`: E2EConfigurable {
 
    // MARK: - gitty run <alias/command> [--status <expr>...]
 
-   @Test
-   func `run on repos matching invalid filter`() async throws {
+
+   @Test(arguments: ["fetch", "ls"])
+   func `run alias fetch or command on with invalid status filter`(
+      command: String
+   ) async throws {
       _ = try await gitty("l -A \(l1.path()) -d 6")
 
-      let r = try await gitty("r ls --status gobbledygook -q", input: "y")
-      let e =
+      expectMatch(
          """
-         The value 'gobbledygook' is invalid for '--status <expr>'. Please provide one of 'added', 'clean', 'copied', 'deleted', 'detached', 'ignored', 'initial-commit', 'locked', 'modified', 'needs-pull', 'needs-push', 'needs-upstream', 'renamed', 'submodule', 'sub-commit-change', 'sub-modified', 'sub-untracked', 'type-change', 'unmerged', 'untracked'.
+         The value 'abc' is invalid for '--status <expr>'. Please provide one of 'added', 'clean', 'copied', 'deleted', 'detached', 'ignored', 'initial-commit', 'locked', 'modified', 'needs-pull', 'needs-push', 'needs-upstream', 'renamed', 'submodule', 'sub-commit-change', 'sub-modified', 'sub-untracked', 'type-change', 'unmerged', 'untracked'.
+
          Help:  --status <expr>  Filter repos by status using logical expressions.
-         """
-      #expect(r.contains(e))
+         Usage: gitty run [--aliases] [--compact]
+                gitty run <alias>|<command> [--include <pattern>...] [--exclude <pattern>...] [--fixed-string] [--tags <expr>...] [--status <expr>...] [--delay <ms>] [--sort <direction>] [--compact] [--parallel] [--quiet]
+           See 'gitty run --help' for more information.
+         """,
+         try await gitty("r \(command) --status abc -q", input: "y"),
+      )
    }
 
 
@@ -434,7 +441,21 @@ struct `Run Sub E2E`: E2EConfigurable {
          otherFileL1
 
          """,
-         try await gitty("r ls --sort az --status added", input: "y"),
+         try await gitty("r ls --status added", input: "y"),
+         trimLineEnds: true,
+      )
+   }
+
+
+   @Test
+   func `run alias on repos matching valid filter`() async throws {
+      _ = try await gitty("l -A \(l1.path()) -d 6")
+
+      expectMatch(
+         """
+         # gitty.repo repoL1
+         """,
+         try await gitty("r 'fetch' --status added", input: "y"),
          trimLineEnds: true,
       )
    }

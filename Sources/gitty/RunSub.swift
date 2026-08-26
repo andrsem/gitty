@@ -189,7 +189,7 @@ extension RunSub {
       let mergedArgs = alias.args + command.dropFirst()
       let mergedFlags = Set(alias.flags + selectedFlags) |> Array.init
       let mergedStatus =
-         (alias.status + status.compactMap(Alias.StatusFilter.init))
+         try (alias.status + status.map(statusFilter))
          |> Set.init
          |> Array.init
 
@@ -299,22 +299,7 @@ private func satisfiesAny(
    guard !filters.isEmpty else { return true }
 
    let expressions = try filters.map { str in
-      try parseExpression(str) { rawValue in
-         guard let filter = Alias.StatusFilter(rawValue: rawValue) else {
-            throw
-               CleanExit
-               .message(
-                  """
-                  The value '\(rawValue)' is invalid for '--status <expr>'. Please provide one of \(Alias.StatusFilter.allCases.map{ "'" + $0.rawValue + "'"}.joined(separator: ", ")).
-                  Help:  --status <expr>  Filter repos by status using logical expressions.
-                  Usage: \(RunSub.usageString().split(separator: "\n").joined(separator: "\n       "))
-                    See 'gitty run --help' for more information.
-                  """
-
-               )
-         }
-         return filter
-      }
+      try parseExpression(str, parseValue: statusFilter)
    }
 
    let needsIgnored = filters.contains(Alias.StatusFilter.ignored.rawValue)
@@ -349,4 +334,24 @@ private func satisfiesAny(
       case .untracked: changes.containsUntracked()
       }
    }
+}
+
+
+
+private func statusFilter(from raw: String) throws -> Alias.StatusFilter {
+   let invalidFilterMessage = {
+      """
+      The value '\(raw)' is invalid for '--status <expr>'. Please provide one of \(Alias.StatusFilter.allCases.map{ "'" + $0.rawValue + "'"}.joined(separator: ", ")).
+
+      Help:  --status <expr>  Filter repos by status using logical expressions.
+      Usage: \(RunSub.usageString().split(separator: "\n").joined(separator: "\n       "))
+        See 'gitty \(RunSub._commandName) --help' for more information.
+      """
+   }
+
+   guard let filter = Alias.StatusFilter(rawValue: raw) else {
+      throw CleanExit.message(invalidFilterMessage())
+   }
+
+   return filter
 }
