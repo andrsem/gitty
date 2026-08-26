@@ -62,7 +62,7 @@ struct `Status Sub E2E`: E2EConfigurable {
    }
 
 
-   // MARK: - gitty status [--tags <expr>...] [--exclude]
+   // MARK: - gitty status [--tags <expr>...]
 
    @Test
    func `status for repos filtered by tags`() async throws {

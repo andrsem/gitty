@@ -107,7 +107,7 @@ struct `List Sub E2E`: E2EConfigurable {
    }
 
 
-   // MARK: - gitty list [--tags <expr>...] [--exclude] [--verbose]
+   // MARK: - gitty list [--tags <expr>...] [--verbose]
 
    @Test
    func `filter list by tags`() async throws {

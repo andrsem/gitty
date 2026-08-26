@@ -215,7 +215,7 @@ struct `Run Sub E2E`: E2EConfigurable {
    }
 
 
-   // MARK: - gitty run <alias/command> [--tags <expr>...] [--exclude]
+   // MARK: - gitty run <alias/command> [--tags <expr>...]
 
    @Test
    func `run on repos with tags`() async throws {
