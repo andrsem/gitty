@@ -14,5 +14,5 @@ extension StringProtocol {
 
 /// Compares two strings as sorted by the Finder in ascending order.
 public func azCompare<T: StringProtocol>(_ lhs: T, _ rhs: T) -> Bool {
-   lhs.localizedStandardCompare(rhs) != .orderedDescending
+   lhs.localizedStandardCompare(rhs) == .orderedAscending
 }
