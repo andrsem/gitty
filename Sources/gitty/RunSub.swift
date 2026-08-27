@@ -22,12 +22,12 @@ struct RunSub: AsyncParsableCommand {
    var filters: Filters
 
    @Option(
-      name: .shortAndLong,
+      name: [.short, .customLong("status")],
       parsing: .upToNextOption,
       help: .Run.status,
       completion: .list(Alias.StatusFilter.allValueStrings),
    )
-   var status: [String] = []
+   var statusFilters: [String] = []
 
    @Option(name: .shortAndLong, help: .Run.delay)
    var delay = 0
@@ -137,7 +137,7 @@ extension RunSub {
             running: selectedCmd.args,
             at: $0,
             compact: compact,
-            status: selectedCmd.status,
+            statusFilters: selectedCmd.statusFilters,
          )
       }
    }
@@ -148,7 +148,7 @@ extension RunSub {
          args: [String],
          type: CommandType,
          flags: [Alias.Flag],
-         status: [String],
+         statusFilters: [String],
          delay: Int,
          sort: OutputSort
       )
@@ -158,7 +158,9 @@ extension RunSub {
 
 
    private func selectCommand() throws -> SelectedCmd {
-      let cmd: SelectedCmd = (command, .command, [], status, delay, sort)
+      let cmd: SelectedCmd = (
+         command, .command, [], statusFilters, delay, sort,
+      )
 
       let alias: SelectedCmd? =
          try Configurator
@@ -188,8 +190,8 @@ extension RunSub {
 
       let mergedArgs = alias.args + command.dropFirst()
       let mergedFlags = Set(alias.flags + selectedFlags) |> Array.init
-      let mergedStatus =
-         try (alias.status + status.map(statusFilter))
+      let mergedStatusFilters =
+         try (alias.status + statusFilters.map(statusFilter))
          |> Set.init
          |> Array.init
 
@@ -204,7 +206,7 @@ extension RunSub {
          args: mergedArgs,
          details: alias.details,
          flags: mergedFlags,
-         status: mergedStatus,
+         status: mergedStatusFilters,
          delay: mergedDelay,
          sort: mergedSort,
       )
@@ -265,9 +267,9 @@ private func getCommandResult(
    running command: [String],
    at url: URL,
    compact: Bool,
-   status: [String],
+   statusFilters: [String],
 ) async throws -> String? {
-   guard try await satisfiesAny(status, at: url) else {
+   guard try await satisfiesAny(statusFilters, at: url) else {
       return nil
    }
 
@@ -293,16 +295,18 @@ private func getCommandResult(
 
 
 private func satisfiesAny(
-   _ filters: [String],
+   _ statusFilters: [String],
    at url: URL,
 ) async throws -> Bool {
-   guard !filters.isEmpty else { return true }
+   guard !statusFilters.isEmpty else { return true }
 
-   let expressions = try filters.map { str in
+   let expressions = try statusFilters.map { str in
       try parseExpression(str, parseValue: statusFilter)
    }
 
-   let needsIgnored = filters.contains(Alias.StatusFilter.ignored.rawValue)
+   let needsIgnored = statusFilters.contains(
+      Alias.StatusFilter.ignored.rawValue
+   )
    let status =
       try await Configurator
       .getStatus(for: url, ignored: needsIgnored)
