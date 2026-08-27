@@ -195,11 +195,16 @@ extension RunSub {
          |> Set.init
          |> Array.init
 
-      let args = CommandLine.arguments.dropFirst()
-      let mergedSort =
-         args.contains("-S") || args.contains("--sort") ? sort : alias.sort
-      let mergedDelay =
-         args.contains("-d") || args.contains("--delay") ? delay : alias.delay
+      func hasArgs(_ short: String, _ long: String) -> Bool {
+         let args = CommandLine.arguments.dropFirst()
+         return args.contains(short)
+            || args.contains(long)
+            || args.contains { $0.hasPrefix("\(short)=") }
+            || args.contains { $0.hasPrefix("\(long)=") }
+      }
+
+      let mergedSort = hasArgs("-S", "--sort") ? sort : alias.sort
+      let mergedDelay = hasArgs("-d", "--delay") ? delay : alias.delay
 
       return try Alias(
          alias.name,
