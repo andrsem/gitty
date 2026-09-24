@@ -36,7 +36,7 @@ package enum Shell {
          error: .string(limit: errorSize),
       )
 
-      return (result.standardOutput ?? "", result.standardError ?? "")
+      return (result.standardOutput, result.standardError)
    }
 
 
@@ -52,7 +52,7 @@ package enum Shell {
          error: .string(limit: errorSize),
       )
 
-      return (result.standardOutput ?? "", result.standardError ?? "")
+      return (result.standardOutput, result.standardError)
    }
 }
 

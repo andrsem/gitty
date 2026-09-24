@@ -71,7 +71,7 @@ let package = Package(
       ),
       .package(
          url: "https://github.com/swiftlang/swift-subprocess.git",
-         exact: "0.5.0",
+         exact: "1.0.0",
       ),
       .package(
          url: "https://github.com/andrsem/sw40",
