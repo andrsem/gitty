@@ -59,7 +59,8 @@ package enum Configurator {
       _ paths: [String?]
    ) -> (invalid: [String], notGit: [String]) {
       paths.reduce(into: ([], [])) {
-         guard let path = $1 else { return }
+         guard let _path = $1 else { return }
+         let path = NSString(string: _path).expandingTildeInPath
          guard IO.fileExists(at: path) else {
             $0.0.append(path)
             return

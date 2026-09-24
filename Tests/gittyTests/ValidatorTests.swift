@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import ArgumentParser
+import Foundation
 import SW40
 import Testing
 
@@ -49,7 +50,11 @@ struct `Validator tests` {
 
    @Test(arguments: validPaths)
    func `valid paths but not a git repo`(paths: [String]) throws {
-      let message = paths.map { "Path is not a Git repo: \($0)" }
+      let message =
+         paths.map {
+            let path = NSString(string: $0).expandingTildeInPath
+            return "Path is not a Git repo: \(path)"
+         }
          .joined(separator: "\n")
       let error = CleanExit.message(message)
       #expect(throws: error.self) {

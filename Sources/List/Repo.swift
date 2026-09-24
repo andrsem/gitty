@@ -11,7 +11,10 @@ package struct Repo {
 
    package init(_ path: String, _ tags: Tags = []) {
       let normalizedPath =
-         URL(filePath: path.trimmedWN, directoryHint: .isDirectory)
+         URL(
+            filePath: NSString(string: path.trimmedWN).expandingTildeInPath,
+            directoryHint: .isDirectory,
+         )
          .standardizedFileURL
          .path(percentEncoded: false)
 
